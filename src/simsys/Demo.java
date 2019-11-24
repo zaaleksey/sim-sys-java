@@ -2,7 +2,7 @@ package simsys;
 
 import simsys.engine.SimulationEngine;
 
-public class DemoClass {
+public class Demo {
 
     public static void main(String[] args) {
 
