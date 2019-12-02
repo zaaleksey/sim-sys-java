@@ -1,7 +1,7 @@
-package simsys.demo;
+package simsys.implementation.containers;
 
-import simsys.containers.EventContainer;
-import simsys.events.Event;
+import simsys.api.containers.EventContainer;
+import simsys.api.events.Event;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,17 +16,13 @@ public class DemoEventContainer implements EventContainer {
     }
 
     @Override
-    public boolean addEvent(Object o) {
-        if (o instanceof Event){
-            Event event = (Event) o;
-            container.add(event);
-            return true;
-        }
-        return false;
+    public boolean addEvent(Event event) {
+        container.add(event);
+        return true;
     }
 
     @Override
-    public boolean deleteEvent() {
+    public boolean deleteUpcomingEvent() {
         if (countEvents() == 0)
             return false;
         container.remove(0);
@@ -44,9 +40,9 @@ public class DemoEventContainer implements EventContainer {
     }
 
     @Override
-    public Event getAndDeleteFirstEvent() {
+    public Event getAndDeleteUpcomingEvent() {
         Event event = getFirstEvent();
-        deleteEvent();
+        deleteUpcomingEvent();
         return event;
     }
 }

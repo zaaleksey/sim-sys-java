@@ -1,4 +1,4 @@
-package simsys.events;
+package simsys.api.events;
 
 import java.util.Comparator;
 

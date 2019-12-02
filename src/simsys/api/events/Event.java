@@ -1,4 +1,4 @@
-package simsys.events;
+package simsys.api.events;
 
 public abstract class Event implements Comparable<Event>{
 
@@ -11,6 +11,7 @@ public abstract class Event implements Comparable<Event>{
         return actionEventTime;
     }
 
+    @Override
     public int compareTo(Event event) {
         return Double.compare(getActionEventTime(), event.getActionEventTime());
     }

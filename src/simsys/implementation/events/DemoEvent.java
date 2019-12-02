@@ -1,7 +1,7 @@
-package simsys.demo;
+package simsys.implementation.events;
 
-import simsys.environment.Environment;
-import simsys.events.Event;
+import simsys.implementation.environment.Environment;
+import simsys.api.events.Event;
 
 import java.util.Random;
 

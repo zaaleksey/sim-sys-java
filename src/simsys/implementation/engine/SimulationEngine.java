@@ -1,16 +1,13 @@
-package simsys.engine;
+package simsys.implementation.engine;
 
-import simsys.environment.Environment;
-import simsys.demo.DemoEvent;
-import simsys.events.Event;
+import simsys.implementation.environment.Environment;
+import simsys.implementation.events.DemoEvent;
+import simsys.api.events.Event;
 
 public class SimulationEngine {
 
     private Environment environment;
 
-    public SimulationEngine() {
-        this(new Environment());
-    }
     public SimulationEngine(Environment environment) {
         this.environment = environment;
     }
@@ -21,7 +18,7 @@ public class SimulationEngine {
         environment.getEventContainer().addEvent(new DemoEvent(environment, 1));
 
         while (maxSimulationTime > currentTime) {
-            Event event = (Event) environment.getEventContainer().getAndDeleteFirstEvent();
+            Event event = environment.getEventContainer().getAndDeleteUpcomingEvent();
             event.actionEvent();
             System.out.println("Current Time " + currentTime);
             currentTime = event.getActionEventTime();
