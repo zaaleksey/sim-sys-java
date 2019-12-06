@@ -2,5 +2,5 @@ package simsys.api.engine;
 
 public interface Engine {
 
-    void run();
+    void run(double simulationTime);
 }

@@ -8,6 +8,6 @@ public interface EventContainer {
     boolean addEvent(Event event);
     boolean deleteUpcomingEvent();
     boolean isEmpty();
-    Event getFirstEvent();
+    Event getUpcomingEvent();
     Event getAndDeleteUpcomingEvent();
 }

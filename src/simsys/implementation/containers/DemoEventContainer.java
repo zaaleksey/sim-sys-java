@@ -35,13 +35,13 @@ public class DemoEventContainer implements EventContainer {
     }
 
     @Override
-    public Event getFirstEvent() {
+    public Event getUpcomingEvent() {
         return container.get(0);
     }
 
     @Override
     public Event getAndDeleteUpcomingEvent() {
-        Event event = getFirstEvent();
+        Event event = getUpcomingEvent();
         deleteUpcomingEvent();
         return event;
     }
