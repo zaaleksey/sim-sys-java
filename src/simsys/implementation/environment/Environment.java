@@ -1,15 +1,14 @@
 package simsys.implementation.environment;
 
-import simsys.implementation.containers.DemoEventContainer;
 import simsys.api.containers.EventContainer;
+import simsys.mm1.InfoMM1;
 
 public class Environment {
 
-    private double currentTime;
+    private InfoMM1 info = InfoMM1.INFO;
     private EventContainer eventContainer;
 
-    private Environment(double currentTime, EventContainer eventContainer) {
-        this.currentTime = currentTime;
+    private Environment(EventContainer eventContainer) {
         this.eventContainer = eventContainer;
     }
 
@@ -17,19 +16,7 @@ public class Environment {
         return eventContainer;
     }
 
-    public double getCurrentTime() {
-        return currentTime;
-    }
-
-    public void setCurrentTime(double currentTime) {
-        this.currentTime = currentTime;
-    }
-
-    public static Environment createEnvironmetn(double currentTime, EventContainer eventContainer) {
-        return new Environment(currentTime, eventContainer);
-    }
-
     public static Environment createEnvironmetn(EventContainer eventContainer) {
-        return new Environment(0, eventContainer);
+        return new Environment(eventContainer);
     }
 }
