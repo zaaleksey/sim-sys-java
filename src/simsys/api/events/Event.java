@@ -1,6 +1,6 @@
 package simsys.api.events;
 
-import java.util.Comparator;
+import java.util.List;
 
 public abstract class Event implements Comparable<Event>{
 
@@ -8,7 +8,7 @@ public abstract class Event implements Comparable<Event>{
     protected double actionEventTime;
 
     /** Event activation */
-    public abstract void actionEvent();
+    public abstract List<Event> actionEvent();
 
     public double getActionEventTime() {
         return actionEventTime;
@@ -27,12 +27,4 @@ public abstract class Event implements Comparable<Event>{
     public int compareTo(Event event) {
         return Double.compare(actionEventTime, event.actionEventTime);
     }
-
-    public static Comparator<Event> actionTimeComparator = new Comparator<Event>() {
-
-        @Override
-        public int compare(Event event1, Event event2) {
-            return event1.compareTo(event2);
-        }
-    };
 }

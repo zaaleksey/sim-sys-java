@@ -1,22 +1,20 @@
 package simsys.implementation.environment;
 
-import simsys.api.containers.EventContainer;
-import simsys.mm1.InfoMM1;
+import simsys.api.containers.EventManager;
 
 public class Environment {
 
-    private InfoMM1 info = InfoMM1.INFO;
-    private EventContainer eventContainer;
+    private EventManager eventManager;
 
-    private Environment(EventContainer eventContainer) {
-        this.eventContainer = eventContainer;
+    private Environment(EventManager eventManager) {
+        this.eventManager = eventManager;
     }
 
-    public EventContainer getEventContainer() {
-        return eventContainer;
+    public EventManager getEventManager() {
+        return eventManager;
     }
 
-    public static Environment createEnvironmetn(EventContainer eventContainer) {
-        return new Environment(eventContainer);
+    public static Environment createEnvironmetn(EventManager eventManager) {
+        return new Environment(eventManager);
     }
 }

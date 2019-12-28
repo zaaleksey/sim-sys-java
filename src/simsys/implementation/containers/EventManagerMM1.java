@@ -1,16 +1,17 @@
 package simsys.implementation.containers;
 
-import simsys.api.containers.EventContainer;
+import simsys.api.containers.EventManager;
 import simsys.api.events.Event;
 
 import java.util.Comparator;
+import java.util.List;
 import java.util.TreeSet;
 
-public class EventContainerMM1 implements EventContainer {
+public class EventManagerMM1 implements EventManager {
 
     private TreeSet<Event> container;
 
-    public EventContainerMM1(Comparator<Event> comparator) {
+    public EventManagerMM1(Comparator<Event> comparator) {
         container = new TreeSet<>(comparator);
     }
 
@@ -22,6 +23,11 @@ public class EventContainerMM1 implements EventContainer {
     @Override
     public boolean addEvent(Event event) {
         return container.add(event);
+    }
+
+    @Override
+    public boolean addListEvent(List<Event> events) {
+        return container.addAll(events);
     }
 
     @Override

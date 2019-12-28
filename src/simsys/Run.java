@@ -1,14 +1,16 @@
 package simsys;
 
-import simsys.api.containers.EventContainer;
+import org.apache.log4j.BasicConfigurator;
+import simsys.api.containers.EventManager;
 import simsys.api.engine.Engine;
 import simsys.api.events.Event;
 import simsys.api.random.RandomVariable;
-import simsys.implementation.containers.EventContainerMM1;
+import simsys.implementation.containers.EventManagerMM1;
 import simsys.implementation.engine.EngineMM1;
 import simsys.implementation.environment.Environment;
-import simsys.mm1.InfoMM1;
+import simsys.implementation.events.comparators.ActionTimeAndPriorityComp;
 import simsys.implementation.random.ExponentialRandom;
+import simsys.mm1.StatisticsMM1;
 
 import java.util.Comparator;
 import java.util.Random;
@@ -17,24 +19,24 @@ public class Run {
 
     public static void main(String[] args) {
 
-        double lambda = 1.0;
-        double mu = 2.0;
+        BasicConfigurator.configure();
 
-        RandomVariable arrival = new ExponentialRandom(new Random(), lambda);
-        RandomVariable care = new ExponentialRandom(new Random(), mu);
+        double lambda = 0.5;
+        double mu = 1.0;
 
-        InfoMM1 infoMM1 = InfoMM1.INFO;
-        infoMM1.setArrivalRandom(arrival);
-        infoMM1.setCareRandom(care);
+        Random random = new Random();
+        RandomVariable arrival = new ExponentialRandom(random, lambda);
+        RandomVariable care = new ExponentialRandom(random, mu);
 
-        Comparator<Event> comparator = Event.actionTimeComparator;
-        EventContainer container = new EventContainerMM1(comparator);
+        Comparator<Event> comparator = new ActionTimeAndPriorityComp();
+        EventManager container = new EventManagerMM1(comparator);
 
         Environment environment = Environment.createEnvironmetn(container);
-        Engine engine = new EngineMM1(environment, infoMM1);
+        Engine engine = new EngineMM1(environment, arrival, care);
 
-        System.out.println("Start Simulation M/M/1");
-        double simulationTime = 100000;
+        double simulationTime = 1000000;
         engine.run(simulationTime);
+
+        System.out.println(StatisticsMM1.getStatistics());
     }
 }

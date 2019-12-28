@@ -1,37 +1,47 @@
 package simsys.implementation.events;
 
+import org.apache.log4j.Logger;
 import simsys.api.events.Event;
-import simsys.implementation.environment.Environment;
-import simsys.mm1.InfoMM1;
-import simsys.mm1.Demand;
-import simsys.mm1.Queue;
+import simsys.api.random.RandomVariable;
+import simsys.mm1.DemandMM1;
+import simsys.mm1.QueueMM1;
+import simsys.mm1.StatisticsMM1;
 
-import java.util.logging.Logger;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CareDemandsEvent extends Event {
 
-    private Logger logger = Logger.getLogger(CareDemandsEvent.class.getName());
+    Logger logger = Logger.getLogger("");
 
-    private Environment environment;
-    private Queue queue;
-    private InfoMM1 infoMM1;
+    private RandomVariable arrival;
+    private RandomVariable care;
 
-    public CareDemandsEvent(double actionEventTime, Environment environment, Queue queue,
-                            InfoMM1 infoMM1) {
+    public CareDemandsEvent(double actionEventTime,
+                            RandomVariable arrival, RandomVariable care) {
         this.actionEventTime = actionEventTime;
-        this.environment = environment;
-        this.queue = queue;
-        this.infoMM1 = infoMM1;
+        this.arrival = arrival;
+        this.care = care;
     }
 
     @Override
-    public void actionEvent() {
+    public List<Event> actionEvent() {
 
-        Demand demand = queue.pop();
-        logger.info("Demand ID: "+ demand.ID + " care! Time : " + actionEventTime);
+        List<Event> createEvent = new ArrayList<>();
 
-        // статистика M/M/1
-        infoMM1.setAveregeResponseTime(infoMM1.getAveregeResponseTime() + (infoMM1.getCurrentTime() - demand.getArrivingTime()));
-        infoMM1.increment();
+        DemandMM1 demand = QueueMM1.pop();
+
+        if (!QueueMM1.isEmpty()) {
+            createEvent.add(new ServicedDemandEvent(actionEventTime, arrival,care));
+        }
+
+        StatisticsMM1.increment();
+        StatisticsMM1.setAveregeResponseTime(actionEventTime -
+                demand.getArrivingTime());
+
+        logger.debug("Demand ID: " + demand.ID + " care");
+        logger.info("|Time: " + actionEventTime + "|");
+
+        return createEvent;
     }
 }

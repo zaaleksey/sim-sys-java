@@ -1,6 +1,6 @@
 package simsys.mm1;
 
-public class Demand {
+public class DemandMM1 {
 
     private static long count = 0;
 
@@ -9,12 +9,14 @@ public class Demand {
     private double serviceStartTime;
     private double serviceCompletionTime;
 
-    public Demand(double arrivingTime) {
+    public DemandMM1(double arrivingTime) {
         ID = ++count;
         this.arrivingTime = arrivingTime;
+        this.serviceStartTime = Double.POSITIVE_INFINITY;
+        this.serviceCompletionTime =Double.POSITIVE_INFINITY;
     }
 
-    public Demand(double arrivingTime, double serviceStartTime, double serviceCompletionTime) {
+    public DemandMM1(double arrivingTime, double serviceStartTime, double serviceCompletionTime) {
         ID = ++count;
         this.arrivingTime = arrivingTime;
         this.serviceStartTime = serviceStartTime;

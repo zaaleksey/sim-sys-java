@@ -1,57 +1,50 @@
 package simsys.implementation.events;
 
+import org.apache.log4j.Logger;
 import simsys.api.events.Event;
-import simsys.implementation.environment.Environment;
-import simsys.mm1.InfoMM1;
-import simsys.mm1.Demand;
-import simsys.mm1.Queue;
+import simsys.api.random.RandomVariable;
+import simsys.mm1.DemandMM1;
+import simsys.mm1.QueueMM1;
+import simsys.mm1.SourceMM1;
 
-import java.util.logging.Logger;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ArrivalDemandsEvent extends Event {
 
-    private Logger logger = Logger.getLogger(ArrivalDemandsEvent.class.getName());
+    Logger logger = Logger.getLogger("");
 
-    private Environment environment;
-    private Queue queue;
-    private InfoMM1 infoMM1;
+    private RandomVariable arrival;
+    private RandomVariable care;
 
-    public ArrivalDemandsEvent(
-            double actionEventTime, Environment environment, Queue queue,
-            InfoMM1 info) {
+    public ArrivalDemandsEvent(double actionEventTime,
+                               RandomVariable arrival, RandomVariable care) {
         this.actionEventTime = actionEventTime;
-        this.environment = environment;
-        this.queue = queue;
-        this.infoMM1 = info;
+        this.arrival = arrival;
+        this.care = care;
     }
 
     @Override
-    public void actionEvent() {
+    public List<Event> actionEvent() {
 
-        Demand demand = new Demand(actionEventTime);
-        logger.info("Demand ID: " + demand.ID + " arrival. Time: " + actionEventTime);
+        List<Event> createEvent = new ArrayList<>();
 
-        if (queue.isEmpty()) {
-            // планируем событие обслуживания на тоже время что и приход требования
-            servicePlanning(actionEventTime, demand);
-        } else {
-            // планируем событие обслуживания на время окончания обслуживания последнего
-            // требования в очереде требований
-            double time = queue.getLast().getServiceCompletionTime();
-            servicePlanning(time, demand);
+        // планируем новое событие прихода
+        createEvent.add(new ArrivalDemandsEvent(actionEventTime +
+                arrival.nextValue(), arrival, care));
+
+        // поступление требования
+        DemandMM1 demand = SourceMM1.createDemand(actionEventTime);
+        if (QueueMM1.isEmpty()) {
+            createEvent.add(new ServicedDemandEvent(
+                    demand.getArrivingTime(), arrival, care));
         }
-        queue.push(demand);
-    }
 
-    private void servicePlanning(double actionTime, Demand demand) {
-        // устанавливаем начало обслуживания требования
-        demand.setServiceStartTime(actionTime);
-        // расчитываем окончание обслуживания требования
-        demand.setServiceCompletionTime(
-                demand.getServiceStartTime() + infoMM1.getNextCareVariable());
-        // создаем и заносим событие в упорядоченный контейнер
-        Event serviceEvent = new ServicedDemandEvent(
-                demand.getServiceStartTime(), environment, queue, infoMM1);
-        environment.getEventContainer().addEvent(serviceEvent);
+        QueueMM1.push(demand);
+
+        logger.debug("Demand ID: " + demand.ID + " arrival");
+        logger.info("|Time: " + actionEventTime + "|");
+
+        return createEvent;
     }
 }
