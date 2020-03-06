@@ -3,7 +3,6 @@ package simsys.mm1;
 import java.util.ArrayDeque;
 
 public class QueueMM1 {
-
     private static ArrayDeque<DemandMM1> queue = new ArrayDeque<>();
 
     public static int size() {

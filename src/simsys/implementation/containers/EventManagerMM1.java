@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.TreeSet;
 
 public class EventManagerMM1 implements EventManager {
-
     private TreeSet<Event> container;
 
     public EventManagerMM1(Comparator<Event> comparator) {

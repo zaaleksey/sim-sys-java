@@ -31,10 +31,10 @@ public class Run {
         Comparator<Event> comparator = new ActionTimeAndPriorityComp();
         EventManager container = new EventManagerMM1(comparator);
 
-        Environment environment = Environment.createEnvironmetn(container);
-        Engine engine = new EngineMM1(environment, arrival, care);
+        Environment environment = Environment.createEnvironment(container);
+        Engine engine = new EngineMM1(environment);
 
-        double simulationTime = 1000000;
+        double simulationTime = 1000;
         engine.run(simulationTime);
 
         System.out.println(StatisticsMM1.getStatistics());
