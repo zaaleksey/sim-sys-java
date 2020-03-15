@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ServicedDemandEvent extends Event {
-
     Logger logger = Logger.getLogger("");
 
     RandomVariable arrival;

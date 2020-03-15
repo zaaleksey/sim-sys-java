@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CareDemandsEvent extends Event {
-
     Logger logger = Logger.getLogger("");
 
     private RandomVariable arrival;
@@ -36,7 +35,7 @@ public class CareDemandsEvent extends Event {
         }
 
         StatisticsMM1.increment();
-        StatisticsMM1.setAveregeResponseTime(actionEventTime -
+        StatisticsMM1.setAverageResponseTime(actionEventTime -
                 demand.getArrivingTime());
 
         logger.debug("Demand ID: " + demand.ID + " care");

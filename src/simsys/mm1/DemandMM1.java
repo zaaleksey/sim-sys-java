@@ -1,7 +1,6 @@
 package simsys.mm1;
 
 public class DemandMM1 {
-
     private static long count = 0;
 
     public long ID;

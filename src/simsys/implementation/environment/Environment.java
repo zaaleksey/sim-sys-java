@@ -3,7 +3,6 @@ package simsys.implementation.environment;
 import simsys.api.containers.EventManager;
 
 public class Environment {
-
     private EventManager eventManager;
 
     private Environment(EventManager eventManager) {
@@ -14,7 +13,7 @@ public class Environment {
         return eventManager;
     }
 
-    public static Environment createEnvironmetn(EventManager eventManager) {
+    public static Environment createEnvironment(EventManager eventManager) {
         return new Environment(eventManager);
     }
 }

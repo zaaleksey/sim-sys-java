@@ -5,7 +5,6 @@ import simsys.api.random.RandomVariable;
 import java.util.Random;
 
 public class ExponentialRandom implements RandomVariable {
-
     private Random random;
     public double rate;
 

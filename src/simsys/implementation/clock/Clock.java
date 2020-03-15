@@ -1,7 +1,6 @@
 package simsys.implementation.clock;
 
 public class Clock {
-
     private static double currentTime = 0;
 
     public static double getCurrentTime() {

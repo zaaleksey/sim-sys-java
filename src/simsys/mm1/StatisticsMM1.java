@@ -1,16 +1,15 @@
 package simsys.mm1;
 
 public class StatisticsMM1 {
-
-    private static double averegeResponseTime = 0;
+    private static double averageResponseTime = 0;
     private static int countOfDemands = 0;
 
-    public static double getAveregeResponseTime() {
-        return averegeResponseTime;
+    public static double getAverageResponseTime() {
+        return averageResponseTime;
     }
 
-    public static void setAveregeResponseTime(double time) {
-        averegeResponseTime += time;
+    public static void setAverageResponseTime(double time) {
+        averageResponseTime += time;
     }
 
     public static int getCountOfDemands() {
@@ -22,6 +21,6 @@ public class StatisticsMM1 {
     }
 
     public static double getStatistics() {
-        return averegeResponseTime / countOfDemands;
+        return averageResponseTime / countOfDemands;
     }
 }
