@@ -1,11 +1,11 @@
-package simsys.implementation.events;
+package old.implementation.events;
 
 import org.apache.log4j.Logger;
-import simsys.api.events.Event;
-import simsys.api.random.RandomVariable;
-import simsys.mm1.DemandMM1;
-import simsys.mm1.QueueMM1;
-import simsys.mm1.SourceMM1;
+import old.api.events.Event;
+import simsys.random.api.RandomVariable;
+import old.mm1.DemandMM1;
+import old.mm1.QueueMM1;
+import old.mm1.SourceMM1;
 
 import java.util.ArrayList;
 import java.util.List;
