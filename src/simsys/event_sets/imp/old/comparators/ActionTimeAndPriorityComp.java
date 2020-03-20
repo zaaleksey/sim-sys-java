@@ -1,7 +1,7 @@
-package simsys.implementation.events.comparators;
+package old.implementation.events.comparators;
 
-import simsys.api.events.Event;
-import simsys.implementation.events.CareDemandsEvent;
+import old.api.events.Event;
+import old.implementation.events.CareDemandsEvent;
 
 import java.util.Comparator;
 

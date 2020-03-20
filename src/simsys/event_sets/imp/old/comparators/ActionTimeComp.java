@@ -1,7 +1,6 @@
-package simsys.implementation.events.comparators;
+package old.implementation.events.comparators;
 
-import simsys.api.events.Event;
-
+import old.api.events.Event;
 import java.util.Comparator;
 
 public class ActionTimeComp implements Comparator<Event> {

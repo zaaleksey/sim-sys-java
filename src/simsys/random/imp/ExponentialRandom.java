@@ -1,6 +1,6 @@
-package simsys.implementation.random;
+package old.implementation.random;
 
-import simsys.api.random.RandomVariable;
+import old.api.random.RandomVariable;
 
 import java.util.Random;
 
