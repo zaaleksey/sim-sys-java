@@ -1,7 +1,8 @@
-package old.implementation.events;
+package simsys.event_sets.imp.old.events;
 
 import org.apache.log4j.Logger;
 import old.api.events.Event;
+import simsys.event_sets.imp.old.events.CareDemandsEvent;
 import simsys.random.api.RandomVariable;
 import old.mm1.DemandMM1;
 import old.mm1.QueueMM1;
