@@ -1,14 +1,17 @@
-package simsys.system_components.api;
+package simsys.system_components.api.demand;
 
 public abstract class Demand {
-    private static long COUNT = 0;
+    private static long COUNTER = 0;
 
-    private long ID;
-    private double arrivalTime;
-    private double serviceStartTime;
-    private double leavingTime;
+    private long id;
+    protected double arrivalTime;
+    protected double serviceStartTime;
+    protected double leavingTime;
 
-
+    public Demand() {
+        COUNTER++;
+        id = COUNTER;
+    }
 
     public double getArrivalTime() {
         return arrivalTime;
@@ -19,7 +22,7 @@ public abstract class Demand {
     }
 
     public long getID() {
-        return ID;
+        return id;
     }
 
     public double getServiceStartTime() {

@@ -1,11 +1,11 @@
 package simsys.event_sets.imp.old.events;
 
-import org.apache.log4j.Logger;
-import old.api.events.Event;
-import simsys.random.api.RandomVariable;
 import old.mm1.DemandMM1;
 import old.mm1.QueueMM1;
 import old.mm1.SourceMM1;
+import org.apache.log4j.Logger;
+import simsys.event_sets.api.Event;
+import simsys.random.api.RandomVariable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +18,7 @@ public class ArrivalDemandsEvent extends Event {
 
     public ArrivalDemandsEvent(double actionEventTime,
                                RandomVariable arrival, RandomVariable care) {
-        this.actionEventTime = actionEventTime;
+        this.actionTime = actionEventTime;
         this.arrival = arrival;
         this.care = care;
     }
@@ -29,20 +29,20 @@ public class ArrivalDemandsEvent extends Event {
         List<Event> createEvent = new ArrayList<>();
 
         // планируем новое событие прихода
-        createEvent.add(new ArrivalDemandsEvent(actionEventTime +
+        createEvent.add(new ArrivalDemandsEvent(actionTime +
                 arrival.nextValue(), arrival, care));
 
         // поступление требования
-        DemandMM1 demand = SourceMM1.createDemand(actionEventTime);
-        if (QueueMM1.isEmpty()) {
+        Demand demand = Source.createDemand(actionTime);
+        if (Queue.isEmpty()) {
             createEvent.add(new ServicedDemandEvent(
                     demand.getArrivingTime(), arrival, care));
         }
 
-        QueueMM1.push(demand);
+        Queue.push(demand);
 
         logger.debug("Demand ID: " + demand.ID + " arrival");
-        logger.info("|Time: " + actionEventTime + "|");
+        logger.info("|Time: " + actionTime + "|");
 
         return createEvent;
     }

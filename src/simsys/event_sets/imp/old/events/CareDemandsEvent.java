@@ -1,11 +1,11 @@
 package simsys.event_sets.imp.old.events;
 
-import org.apache.log4j.Logger;
-import old.api.events.Event;
-import simsys.random.api.RandomVariable;
 import old.mm1.DemandMM1;
 import old.mm1.QueueMM1;
 import old.mm1.StatisticsMM1;
+import org.apache.log4j.Logger;
+import simsys.event_sets.api.Event;
+import simsys.random.api.RandomVariable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +18,7 @@ public class CareDemandsEvent extends Event {
 
     public CareDemandsEvent(double actionEventTime,
                             RandomVariable arrival, RandomVariable care) {
-        this.actionEventTime = actionEventTime;
+        this.actionTime = actionEventTime;
         this.arrival = arrival;
         this.care = care;
     }
@@ -28,18 +28,18 @@ public class CareDemandsEvent extends Event {
 
         List<Event> createEvent = new ArrayList<>();
 
-        DemandMM1 demand = QueueMM1.pop();
+        Demand demand = Queue.pop();
 
-        if (!QueueMM1.isEmpty()) {
-            createEvent.add(new ServicedDemandEvent(actionEventTime, arrival,care));
+        if (!Queue.isEmpty()) {
+            createEvent.add(new ServicedDemandEvent(actionTime, arrival,care));
         }
 
-        StatisticsMM1.increment();
-        StatisticsMM1.setAverageResponseTime(actionEventTime -
+        Statistics.increment();
+        Statistics.setAverageResponseTime(actionTime -
                 demand.getArrivingTime());
 
         logger.debug("Demand ID: " + demand.ID + " care");
-        logger.info("|Time: " + actionEventTime + "|");
+        logger.info("|Time: " + actionTime + "|");
 
         return createEvent;
     }

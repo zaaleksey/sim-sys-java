@@ -26,4 +26,9 @@ public final class ClockImp implements Clock {
     public void setCurrentTime(double currentTime) {
         this.currentTime = currentTime;
     }
+
+    @Override
+    public void resetTime() {
+        instance = null;
+    }
 }
