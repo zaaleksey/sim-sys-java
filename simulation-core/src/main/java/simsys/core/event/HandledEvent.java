@@ -16,6 +16,7 @@ public class HandledEvent implements Event {
         this.activateTime = activateTime;
     }
 
+    @Override
     public void activate() {
         eventHandler.handle(this);
     }
