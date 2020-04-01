@@ -21,6 +21,5 @@ public abstract class AbstractSimulationModel implements SimulationModel {
         while (stopCondition.test(context)) {
             step();
         }
-
     }
 }

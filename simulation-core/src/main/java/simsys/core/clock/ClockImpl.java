@@ -2,9 +2,17 @@ package simsys.core.clock;
 
 public final class ClockImpl implements Clock {
     private double currentTime;
+    private static ClockImpl instance = null;
 
     private ClockImpl() {
         this.currentTime = 0;
+    }
+
+    public static ClockImpl getInstance() {
+        if(instance == null) {
+            instance = new ClockImpl();
+        }
+        return instance;
     }
 
     @Override
