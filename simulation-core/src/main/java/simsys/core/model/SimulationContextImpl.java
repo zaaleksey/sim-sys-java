@@ -11,8 +11,10 @@ public class SimulationContextImpl implements SimulationContext {
     protected EventProvider eventProvider;
 
 
-    public SimulationContextImpl() {
-
+    public SimulationContextImpl(Environment environment, Clock clock, EventProvider eventProvider) {
+        this.environment = environment;
+        this.clock = clock;
+        this.eventProvider = eventProvider;
     }
 
     @Override

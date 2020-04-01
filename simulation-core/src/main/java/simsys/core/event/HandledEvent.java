@@ -29,7 +29,6 @@ public class HandledEvent implements Event {
         }
     }
 
-
     @Override
     public int compareTo(Event event) {
         return Double.compare(this.activateTime, event.getActivateTime());
