@@ -10,7 +10,6 @@ public class SimulationContextImpl implements SimulationContext {
     protected Clock clock;
     protected EventProvider eventProvider;
 
-
     public SimulationContextImpl(Environment environment, Clock clock, EventProvider eventProvider) {
         this.environment = environment;
         this.clock = clock;

@@ -6,9 +6,8 @@ import java.util.function.Predicate;
 
 public abstract class AbstractSimulationModel implements SimulationModel {
     protected SimulationContext simulationContext;
-    private Predicate<SimulationContext> stopCondition;
+    private Predicate<SimulationContext> stopCondition = x -> x.getEventProvider().count() > 0;
     private SimulationContext context;
-
 
     @Override
     public void step() {
@@ -18,7 +17,7 @@ public abstract class AbstractSimulationModel implements SimulationModel {
 
     @Override
     public void run() {
-        while (stopCondition.test(context)) {
+        while (stopCondition.test(simulationContext)) {
             step();
         }
     }

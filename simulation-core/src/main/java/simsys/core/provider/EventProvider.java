@@ -16,7 +16,7 @@ public interface EventProvider {
 
     Event getNext();
 
-    Event remove();
+    boolean remove(Event event);
 
     default boolean isEmpty() {
         return count() == 0;

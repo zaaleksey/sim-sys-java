@@ -34,13 +34,13 @@ public class EventProviderImpl implements EventProvider {
 
     @Override
     public Event getNext() {
-        Event event = peek();
-        events.remove(event);
-        return event;
+        Event nextEvent = peek();
+        remove(nextEvent);
+        return nextEvent;
     }
 
     @Override
-    public Event remove() {
-        return getNext();
+    public boolean remove(Event event) {
+        return events.remove(event instanceof HandledEvent);
     }
 }
