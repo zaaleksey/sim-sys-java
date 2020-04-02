@@ -1,16 +1,15 @@
 package simsys.core.provider;
 
 import simsys.core.event.Event;
-import simsys.core.event.HandledEvent;
 
 import java.util.Collection;
 
 public interface EventProvider {
     int count();
 
-    void add(HandledEvent event);
+    void add(Event event);
 
-    void addAll(Collection<HandledEvent> events);
+    void addAll(Collection<Event> events);
 
     Event peek();
 

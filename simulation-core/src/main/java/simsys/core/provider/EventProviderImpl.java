@@ -1,15 +1,17 @@
 package simsys.core.provider;
 
+import edu.emory.mathcs.backport.java.util.Collections;
 import simsys.core.event.Event;
-import simsys.core.event.HandledEvent;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 public class EventProviderImpl implements EventProvider {
-    Collection<HandledEvent> events;
+    ArrayList<Event> events;
 
-    public EventProviderImpl(Collection<HandledEvent> events) {
-        this.events = events;
+    public EventProviderImpl(Collection<? extends Event> events) {
+        this.events = new ArrayList<>();
+        this.events.addAll(events);
     }
 
     @Override
@@ -18,18 +20,20 @@ public class EventProviderImpl implements EventProvider {
     }
 
     @Override
-    public void add(HandledEvent event) {
+    public void add(Event event) {
         events.add(event);
     }
 
     @Override
-    public void addAll(Collection<HandledEvent> events) {
+    public void addAll(Collection<Event> events) {
         this.events.addAll(events);
     }
 
     @Override
     public Event peek() {
-        return events.iterator().next();
+        //Мы же берем ближайшее событие
+        //Поиск ближайшего события в коллекции каждый раз дело хлопотное, но пусть пока так
+        return (Event) Collections.min(events);
     }
 
     @Override
@@ -41,6 +45,6 @@ public class EventProviderImpl implements EventProvider {
 
     @Override
     public boolean remove(Event event) {
-        return events.remove(event instanceof HandledEvent);
+        return events.remove(event);
     }
 }

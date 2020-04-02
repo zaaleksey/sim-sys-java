@@ -13,8 +13,7 @@ import simsys.core.model.SimulationModelImpl;
 import simsys.core.provider.EventProvider;
 import simsys.core.provider.EventProviderImpl;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.Collections;
 
 public class TimerEventSimulation {
 
@@ -30,13 +29,19 @@ public class TimerEventSimulation {
 
         HandledEvent event = new HandledEvent();
         event.setActivateTime(0);
-        event.addHandler(new TimerEventHandler());
-        List<HandledEvent> eventList = Arrays.asList(event);
-        EventProvider eventProvider = new EventProviderImpl(eventList);
+        EventProvider eventProvider = new EventProviderImpl(Collections.singleton(event));
+
 
         SimulationContext simulationContext = new SimulationContextImpl(environment, clock, eventProvider);
+        event.addHandler(new TimerEventHandler(simulationContext));
+
         SimulationModelImpl timer = new SimulationModelImpl(simulationContext);
 
-        timer.run();
+
+        //А текущее время не изменяется .... бесконечный цикл
+        // в методе step надо продвинуть модельное время,
+        // перед запуском текущего события
+        double maxTime = 1000;
+        timer.runWithStopCondition(simulationCtx -> simulationCtx.getCurrentTime() > maxTime);
     }
 }
