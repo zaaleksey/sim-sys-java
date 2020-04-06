@@ -6,6 +6,16 @@ public class HandledEvent implements Event {
     protected double activateTime;
     protected EventHandler<HandledEvent> eventHandler;
 
+    protected HandledEvent() {}
+
+    public void addHandler(EventHandler<HandledEvent> eventHandler) {
+        if (this.eventHandler == null) {
+            this.eventHandler = eventHandler;
+        } else {
+            eventHandler.addNext(eventHandler);
+        }
+    }
+
     @Override
     public double getActivateTime() {
         return this.activateTime;
@@ -17,20 +27,7 @@ public class HandledEvent implements Event {
     }
 
     @Override
-    public void activate() {
+    public final void activate() {
         eventHandler.handle(this);
-    }
-
-    public void addHandler(EventHandler eventHandler) {
-        if (this.eventHandler == null) {
-            this.eventHandler = eventHandler;
-        } else {
-            eventHandler.addNext(eventHandler);
-        }
-    }
-
-    @Override
-    public int compareTo(Event event) {
-        return Double.compare(this.activateTime, event.getActivateTime());
     }
 }

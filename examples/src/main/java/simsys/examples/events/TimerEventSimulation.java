@@ -3,45 +3,45 @@ package simsys.examples.events;
 
 import simsys.core.clock.Clock;
 import simsys.core.clock.ClockImpl;
+import simsys.core.condition.TimeStopCondition;
 import simsys.core.environment.Environment;
 import simsys.core.environment.EnvironmentImpl;
 import simsys.core.event.HandledEvent;
+import simsys.core.event.PeriodicEvent;
+import simsys.core.event.handler.EventHandler;
 import simsys.core.event.handler.TimerEventHandler;
-import simsys.core.model.SimulationContext;
-import simsys.core.model.SimulationContextImpl;
-import simsys.core.model.SimulationModelImpl;
+import simsys.core.model.*;
 import simsys.core.provider.EventProvider;
 import simsys.core.provider.EventProviderImpl;
 
 import java.util.Collections;
+import java.util.Random;
 
 public class TimerEventSimulation {
 
-
     public static void main(String[] args) {
+        double maxTime = 2000;
+        startTimer(maxTime);
+    }
 
+    public static void startTimer(double maxTime) {
         System.out.println("Timer simulation");
+        getTimer(maxTime).run();
+    }
 
-        //Написать таймер: единственное повторяемое событие обработчик которого выводит на экран текущее время
-        //условие останова - достижение некоторого момента времени
-        Environment environment = new EnvironmentImpl();
+    public static SimulationModel getTimer(double maxTime) {
+        HandledEvent event = new PeriodicEvent(0);
+        SimulationContext simulationContext = getContextWithOnlyOneEvent(event);
+        return new TimerSimulationModel(simulationContext, new TimeStopCondition(maxTime));
+    }
+
+    public static SimulationContext getContextWithOnlyOneEvent(HandledEvent event) {
+        Environment<?> environment = new EnvironmentImpl();
         Clock clock = ClockImpl.getInstance();
-
-        HandledEvent event = new HandledEvent();
-        event.setActivateTime(0);
         EventProvider eventProvider = new EventProviderImpl(Collections.singleton(event));
-
-
         SimulationContext simulationContext = new SimulationContextImpl(environment, clock, eventProvider);
-        event.addHandler(new TimerEventHandler(simulationContext));
-
-        SimulationModelImpl timer = new SimulationModelImpl(simulationContext);
-
-
-        //А текущее время не изменяется .... бесконечный цикл
-        // в методе step надо продвинуть модельное время,
-        // перед запуском текущего события
-        double maxTime = 1000;
-        timer.runWithStopCondition(simulationCtx -> simulationCtx.getCurrentTime() > maxTime);
+        EventHandler eventHandler = new TimerEventHandler(new Random(), 3, simulationContext);
+        event.addHandler(eventHandler);
+        return simulationContext;
     }
 }

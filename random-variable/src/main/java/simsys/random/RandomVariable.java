@@ -1,4 +1,4 @@
-package simsys.core.random;
+package simsys.random;
 
 public interface RandomVariable {
     double nextValue();

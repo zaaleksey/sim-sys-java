@@ -1,9 +1,9 @@
 package simsys.core.environment;
 
-public interface Environment {
-    void addEntity(Object entity, String id);
+import simsys.entity.Entity;
 
-    Object getEntity(String id);
+public interface Environment<T extends Entity > {
+    void addEntity(T entity, String id);
 
-
+    T getEntity(String id);
 }

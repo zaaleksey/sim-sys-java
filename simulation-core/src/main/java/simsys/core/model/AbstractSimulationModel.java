@@ -6,10 +6,7 @@ import java.util.function.Predicate;
 
 public abstract class AbstractSimulationModel implements SimulationModel {
     protected SimulationContext simulationContext;
-    //перенести классические stopConditions в отдельные класссы
-    private Predicate<SimulationContext> stopCondition = ctx -> ctx.getEventProvider().isEmpty();
-
-
+    protected Predicate<SimulationContext> stopCondition;
 
     @Override
     public void step() {
@@ -22,13 +19,6 @@ public abstract class AbstractSimulationModel implements SimulationModel {
 
     @Override
     public void run() {
-        while (!stopCondition.test(simulationContext)) {
-            step();
-        }
-    }
-
-    //возможно, что нужно куда-то перенести
-    public void runWithStopCondition(Predicate<SimulationContext> stopCondition) {
         while (!stopCondition.test(simulationContext)) {
             step();
         }

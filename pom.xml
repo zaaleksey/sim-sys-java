@@ -13,12 +13,12 @@
         <module>simulation-core</module>
         <module>queueing-component-library</module>
         <module>examples</module>
+        <module>random-variable</module>
     </modules>
 
 
     <build>
         <plugins>
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>

@@ -1,13 +1,16 @@
 package simsys.core.environment;
 
+import simsys.entity.Entity;
+
 public class EnvironmentImpl implements Environment {
+
     @Override
-    public void addEntity(Object entity, String id) {
+    public void addEntity(Entity entity, String id) {
 
     }
 
     @Override
-    public Object getEntity(String id) {
+    public Entity getEntity(String id) {
         return null;
     }
 }

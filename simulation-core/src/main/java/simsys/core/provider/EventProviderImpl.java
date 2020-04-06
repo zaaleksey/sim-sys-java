@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 public class EventProviderImpl implements EventProvider {
-    ArrayList<Event> events;
+    private ArrayList<Event> events;
 
     public EventProviderImpl(Collection<? extends Event> events) {
         this.events = new ArrayList<>();
@@ -31,8 +31,6 @@ public class EventProviderImpl implements EventProvider {
 
     @Override
     public Event peek() {
-        //Мы же берем ближайшее событие
-        //Поиск ближайшего события в коллекции каждый раз дело хлопотное, но пусть пока так
         return (Event) Collections.min(events);
     }
 

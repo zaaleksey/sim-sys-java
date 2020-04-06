@@ -1,4 +1,4 @@
-package simsys.core.random;
+package simsys.random;
 
 import java.util.Random;
 
