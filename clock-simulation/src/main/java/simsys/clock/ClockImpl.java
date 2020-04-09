@@ -1,4 +1,4 @@
-package simsys.core.clock;
+package simsys.clock;
 
 public final class ClockImpl implements Clock {
     private double currentTime;
