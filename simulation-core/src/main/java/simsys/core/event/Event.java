@@ -1,8 +1,8 @@
 package simsys.core.event;
 
-import java.util.Comparator;
+import org.jetbrains.annotations.NotNull;
 
-public interface Event extends Comparator<Event> {
+public interface Event extends Comparable<Event> {
 
     double getActivateTime();
 
@@ -17,10 +17,10 @@ public interface Event extends Comparator<Event> {
         return getActivateTime();
     }
 
-    void activate();
-
     @Override
-    default int compare(Event event1, Event event2) {
-        return Double.compare(event1.getActivateTime(), event2.getActivateTime());
+    default int compareTo(@NotNull Event event) {
+        return Double.compare(this.getActivateTime(), event.getActivateTime());
     }
+
+    void activate();
 }

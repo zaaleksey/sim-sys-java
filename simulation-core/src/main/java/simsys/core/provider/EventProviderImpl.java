@@ -1,10 +1,10 @@
 package simsys.core.provider;
 
-import edu.emory.mathcs.backport.java.util.Collections;
 import simsys.core.event.Event;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 
 public class EventProviderImpl implements EventProvider {
     private ArrayList<Event> events;

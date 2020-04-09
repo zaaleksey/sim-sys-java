@@ -5,6 +5,7 @@ import simsys.entity.Entity;
 public abstract class Demand implements Entity {
     private static long COUNTER = 0;
 
+    //А если у нас будет сеть обслуживания, то как будем хранить время прохождения через всю сеть?
     protected long id;
     protected double arrivalTime;
     protected double serviceStartTime;
