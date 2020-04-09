@@ -1,8 +1,8 @@
 package simsys.examples.events;
 
 
-import simsys.core.clock.Clock;
-import simsys.core.clock.ClockImpl;
+import simsys.clock.Clock;
+import simsys.clock.ClockImpl;
 import simsys.core.condition.TimeStopCondition;
 import simsys.core.environment.Environment;
 import simsys.core.environment.EnvironmentImpl;
@@ -10,7 +10,10 @@ import simsys.core.event.HandledEvent;
 import simsys.core.event.PeriodicEvent;
 import simsys.core.event.handler.EventHandler;
 import simsys.core.event.handler.TimerEventHandler;
-import simsys.core.model.*;
+import simsys.core.model.SimulationContext;
+import simsys.core.model.SimulationContextImpl;
+import simsys.core.model.SimulationModel;
+import simsys.core.model.TimerSimulationModel;
 import simsys.core.provider.EventProvider;
 import simsys.core.provider.EventProviderImpl;
 
