@@ -2,8 +2,8 @@ package simsys.examples.events;
 
 
 import com.google.common.base.Strings;
-import simsys.core.clock.Clock;
-import simsys.core.clock.ClockImpl;
+import simsys.clock.Clock;
+import simsys.clock.ClockImpl;
 import simsys.core.condition.TimeStopCondition;
 import simsys.core.environment.Environment;
 import simsys.core.environment.EnvironmentImpl;
