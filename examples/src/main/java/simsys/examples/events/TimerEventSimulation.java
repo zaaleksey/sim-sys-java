@@ -47,7 +47,7 @@ public class TimerEventSimulation {
 
         periodic.addHandler(timeout);
         eventProvider.add(periodic);
-        model.setStopCondition(new TimeStopCondition(100));
+        model.setStopCondition(new TimeStopCondition(10));
         model.run();
     }
 
@@ -77,12 +77,10 @@ public class TimerEventSimulation {
     }
 
     public static void main(String[] args) {
-        //simpleExample();
-
+        simpleExample();
 
         System.out.println(Strings.repeat("#", 50));
 
         builderExample();
-
     }
 }

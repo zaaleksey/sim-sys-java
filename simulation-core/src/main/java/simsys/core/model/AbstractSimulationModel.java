@@ -1,12 +1,16 @@
 package simsys.core.model;
 
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import simsys.core.event.Event;
 
 import java.util.function.Predicate;
 
 @Slf4j
 public abstract class AbstractSimulationModel implements SimulationModel {
+
+    static final Logger LOGGER = LoggerFactory.getLogger(AbstractSimulationModel.class);
 
     protected SimulationContext simulationContext;
     protected Predicate<SimulationContext> stopCondition;

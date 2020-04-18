@@ -6,7 +6,7 @@ import java.util.function.Predicate;
 
 public class TimeStopCondition implements Predicate<SimulationContext> {
 
-    private double simulationDuration;
+    private final double simulationDuration;
 
     public TimeStopCondition(double simulationDuration) {
         this.simulationDuration = simulationDuration;

@@ -4,7 +4,7 @@ import java.util.Random;
 
 public class ExponentialRandomVariable implements RandomVariable {
     public double rate;
-    private Random random;
+    private final Random random;
 
     public ExponentialRandomVariable(Random random, double rate) {
         this.random = random;
