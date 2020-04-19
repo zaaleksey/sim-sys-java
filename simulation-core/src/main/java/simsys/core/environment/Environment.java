@@ -1,9 +1,13 @@
 package simsys.core.environment;
 
-import simsys.entity.Entity;
+import simsys.core.SimulationComponent;
 
-public interface Environment<T extends Entity > {
-    void addEntity(T entity, String id);
+import java.util.Map;
 
-    T getEntity(String id);
+public interface Environment<T extends SimulationComponent> {
+    Map<String, SimulationComponent> getComponents();
+
+    void addComponent(String id, T entity);
+
+    T getComponent(String id);
 }

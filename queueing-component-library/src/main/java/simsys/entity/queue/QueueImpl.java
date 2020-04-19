@@ -1,11 +1,12 @@
 package simsys.entity.queue;
 
+import simsys.core.model.AbstractSimulationModel;
 import simsys.entity.demand.Demand;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class QueueImpl implements Queue {
+public class QueueImpl extends AbstractSimulationModel implements Queue {
     private ArrayList<Demand> demandQueue;
 
     public QueueImpl() {

@@ -1,11 +1,10 @@
 package simsys.entity.queue;
 
-import simsys.entity.Entity;
 import simsys.entity.demand.Demand;
 
 import java.util.Collection;
 
-public interface Queue extends Entity {
+public interface Queue {
     int size();
 
     void add(Demand demand);

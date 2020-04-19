@@ -54,7 +54,6 @@ public class HandledEvent extends AbstractEvent {
             handlers = new ArrayList<>();
             beforeHandlers = new ArrayList<>();
             afterHandlers = new ArrayList<>();
-
         }
 
         public HandledEventBuilder periodic(Timeout timeout) {

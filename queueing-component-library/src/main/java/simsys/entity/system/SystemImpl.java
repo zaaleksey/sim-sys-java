@@ -1,9 +1,10 @@
 package simsys.entity.system;
 
+import simsys.core.model.AbstractSimulationModel;
 import simsys.entity.demand.Demand;
 import simsys.random.RandomVariable;
 
-public class SystemImpl implements System {
+public class SystemImpl extends AbstractSimulationModel implements System {
 
     private RandomVariable randomVariable;
 
