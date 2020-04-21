@@ -3,6 +3,7 @@ package simsys.core.model;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import simsys.core.context.SimulationContext;
 import simsys.core.event.Event;
 
 import java.util.function.Predicate;

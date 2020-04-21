@@ -1,18 +1,18 @@
 package simsys.core.event.handler;
 
+import simsys.core.context.SimulationContext;
 import simsys.core.event.Event;
-import simsys.core.model.SimulationContext;
 import simsys.random.RandomVariable;
 
 import java.util.function.Supplier;
 
-public class Timeout implements EventHandler {
+public class TimeoutHandler implements EventHandler {
     protected SimulationContext simulationContext;
 
 
     private Supplier<Double> activateTimes;
 
-    public Timeout(double interval) {
+    public TimeoutHandler(double interval) {
         this.activateTimes = new Supplier<Double>() {
             double nextTime = 0;
 
@@ -24,7 +24,7 @@ public class Timeout implements EventHandler {
         };
     }
 
-    public Timeout(RandomVariable randomVariable) {
+    public TimeoutHandler(RandomVariable randomVariable) {
         this.activateTimes = new Supplier<Double>() {
             double nextTime = 0;
 
@@ -36,7 +36,7 @@ public class Timeout implements EventHandler {
         };
     }
 
-    public Timeout(Supplier<Double> activateTimes) {
+    public TimeoutHandler(Supplier<Double> activateTimes) {
         this.activateTimes = activateTimes;
     }
 

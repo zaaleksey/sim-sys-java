@@ -1,12 +1,12 @@
-package simsys.examples.system;
+package simsys.examples.queueing;
 
 import simsys.clock.Clock;
 import simsys.clock.ClockImpl;
 import simsys.core.SimulationComponent;
 import simsys.core.environment.EnvironmentImpl;
 import simsys.core.event.HandledEvent;
-import simsys.core.model.SimulationContext;
-import simsys.core.model.SimulationContextImpl;
+import simsys.core.context.SimulationContext;
+import simsys.core.context.SimpleSimulationContext;
 import simsys.core.model.SimulationModel;
 import simsys.core.model.SimulationModelImpl;
 import simsys.core.provider.EventProvider;
@@ -39,7 +39,7 @@ public class Network {
             env = new EnvironmentImpl();
             clock = new ClockImpl();
             eventProvider = new EventProviderImpl(Collections.emptyList());
-            simulationContext = new SimulationContextImpl(env, clock, eventProvider) ;
+            simulationContext = new SimpleSimulationContext(env, clock, eventProvider) ;
             model = new SimulationModelImpl(simulationContext);
         }
 
@@ -53,14 +53,14 @@ public class Network {
             return this;
         }
 
-        public NetworkBuilder addConnection(String out, String in) {
-            for(SimulationComponent component: env.getComponents().values()) {
-                if(component.getId().equals(out)) {
-                    component.getConnectedComponents().add(env.getComponents().get(in));
-                }
-            }
-            return this;
-        }
+//        public NetworkBuilder addConnection(String out, String in) {
+//            for(SimulationComponent component: env.getComponents().values()) {
+//                if(component.getId().equals(out)) {
+//                    component.getConnectedComponents().add(env.getComponents().get(in));
+//                }
+//            }
+//            return this;
+//        }
 
         public Network build() {
             HandledEvent expPeriodic = new HandledEvent.HandledEventBuilder(simulationContext)

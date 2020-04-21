@@ -8,9 +8,10 @@ import simsys.core.condition.TimeStopCondition;
 import simsys.core.environment.Environment;
 import simsys.core.environment.EnvironmentImpl;
 import simsys.core.event.HandledEvent;
-import simsys.core.event.handler.Timeout;
-import simsys.core.model.SimulationContext;
-import simsys.core.model.SimulationContextImpl;
+import simsys.core.event.HandledEventBuilderFactory;
+import simsys.core.event.handler.TimeoutHandler;
+import simsys.core.context.SimulationContext;
+import simsys.core.context.SimpleSimulationContext;
 import simsys.core.model.SimulationModelImpl;
 import simsys.core.provider.EventProvider;
 import simsys.core.provider.EventProviderImpl;
@@ -26,7 +27,7 @@ public class TimerEventSimulation {
         Environment env = new EnvironmentImpl();
         Clock clock = new ClockImpl();
         EventProvider eventProvider = new EventProviderImpl(Collections.emptyList());
-        SimulationContext simulationContext = new SimulationContextImpl(env, clock, eventProvider);
+        SimulationContext simulationContext = new SimpleSimulationContext(env, clock, eventProvider);
 
         //После того как создан контекст мы можем создать другую фабрику, которая будет  инжектить этот контекст
         // во все классы и билдеры, если это необходимо
@@ -41,7 +42,7 @@ public class TimerEventSimulation {
         //фабрика для события должна позволить строить сразу периодическое событие (не будем делать такое событие через
         // наследование, не надо плодить лишнюю иерархию, событие можно делать периодическим через добавление в него
         //специального хендлера timeout (в хендлер тож надо инжектить context автоматически).
-        Timeout timeout = new Timeout(new ExponentialRandomVariable(new Random(), 1));
+        TimeoutHandler timeout = new TimeoutHandler(new ExponentialRandomVariable(new Random(), 1));
         timeout.setSimulationContext(simulationContext);
 
 
@@ -51,18 +52,25 @@ public class TimerEventSimulation {
         model.run();
     }
 
-    public static void builderExample() {
+
+    public static void factoryExample() {
         Environment env = new EnvironmentImpl();
         Clock clock = new ClockImpl();
         EventProvider eventProvider = new EventProviderImpl(Collections.emptyList());
-        SimulationContext simulationContext = new SimulationContextImpl(env, clock, eventProvider);
+        SimulationContext simulationContext = new SimpleSimulationContext(env, clock, eventProvider);
 
-        HandledEvent randomPeriodic = new HandledEvent.HandledEventBuilder(simulationContext)
+        HandledEventBuilderFactory eventBuilderFactory = new HandledEventBuilderFactory(simulationContext,
+                event -> System.out.println("Before handler for event " + event),
+                event -> System.out.println("After handler for event " + event));
+
+        HandledEvent randomPeriodic = eventBuilderFactory
+                .create()
                 .periodic(new ExponentialRandomVariable(new Random(), 1))
                 .addHandler(event -> System.out.println("Message from periodic random event: " + event.getActivateTime()))
                 .build();
 
-        HandledEvent constPeriodic = new HandledEvent.HandledEventBuilder(simulationContext)
+        HandledEvent constPeriodic = eventBuilderFactory
+                .create()
                 .periodic(3)
                 .addHandler(event -> System.out.println("Message from periodic const event: " + event.getActivateTime()))
                 .build();
@@ -81,6 +89,6 @@ public class TimerEventSimulation {
 
         System.out.println(Strings.repeat("#", 50));
 
-        builderExample();
+        factoryExample();
     }
 }

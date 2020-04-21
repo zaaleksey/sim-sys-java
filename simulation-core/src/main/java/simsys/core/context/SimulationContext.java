@@ -1,4 +1,4 @@
-package simsys.core.model;
+package simsys.core.context;
 
 import simsys.clock.Clock;
 import simsys.core.environment.Environment;

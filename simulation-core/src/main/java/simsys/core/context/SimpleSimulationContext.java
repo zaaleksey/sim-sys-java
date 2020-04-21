@@ -1,16 +1,16 @@
-package simsys.core.model;
+package simsys.core.context;
 
 import simsys.clock.Clock;
 import simsys.core.environment.Environment;
 import simsys.core.provider.EventProvider;
 
-public class SimulationContextImpl implements SimulationContext {
+public class SimpleSimulationContext implements SimulationContext {
 
     protected Environment environment;
     protected Clock clock;
     protected EventProvider eventProvider;
 
-    public SimulationContextImpl(Environment environment, Clock clock, EventProvider eventProvider) {
+    public SimpleSimulationContext(Environment environment, Clock clock, EventProvider eventProvider) {
         this.environment = environment;
         this.clock = clock;
         this.eventProvider = eventProvider;

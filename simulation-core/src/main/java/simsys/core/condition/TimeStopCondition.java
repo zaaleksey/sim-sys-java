@@ -1,6 +1,6 @@
 package simsys.core.condition;
 
-import simsys.core.model.SimulationContext;
+import simsys.core.context.SimulationContext;
 
 import java.util.function.Predicate;
 

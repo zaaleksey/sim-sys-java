@@ -1,11 +1,11 @@
 package simsys.core;
 
 import simsys.core.exception.NoItemInCollection;
-import simsys.core.model.SimulationContext;
+import simsys.core.context.SimulationContext;
 
 import java.util.List;
 
-public abstract class AbstractSimulationComponent implements SimulationComponent {
+public abstract class Node implements SimulationComponent {
 
     protected String id;
     protected List<SimulationComponent> connectedComponents;
@@ -20,7 +20,7 @@ public abstract class AbstractSimulationComponent implements SimulationComponent
     }
 
     public SimulationComponent getComponentById(String id) throws NoItemInCollection {
-        for (SimulationComponent component: connectedComponents) {
+        for (SimulationComponent component : connectedComponents) {
             if (id.equals(component.getId())) {
                 return component;
             }
@@ -33,10 +33,6 @@ public abstract class AbstractSimulationComponent implements SimulationComponent
         return id;
     }
 
-    @Override
-    public List<SimulationComponent> getConnectedComponents() {
-        return null;
-    }
 
     @Override
     public SimulationContext getSimulationContext() {

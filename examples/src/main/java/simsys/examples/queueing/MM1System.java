@@ -1,4 +1,4 @@
-package simsys.examples.system;
+package simsys.examples.queueing;
 
 public class MM1System {
 
@@ -12,5 +12,8 @@ public class MM1System {
 //                .addConnection("очередь", "система") // добавить очереди связь с источником
 //                .build() // соберётся сразу с периодическим событием поступления требований
 //                .run(); // запустить
+
+
+
     }
 }

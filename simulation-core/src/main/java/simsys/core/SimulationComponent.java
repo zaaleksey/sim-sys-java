@@ -1,17 +1,19 @@
 package simsys.core;
 
-import simsys.core.model.SimulationContext;
+import simsys.core.environment.Entity;
+import simsys.core.event.Event;
+import simsys.core.context.SimulationContext;
 
-import java.util.List;
+import java.util.Collection;
 
+
+// send receive слишком избыточное описание
 public interface SimulationComponent {
     String getId();
 
-    List<SimulationComponent> getConnectedComponents();
-
     SimulationContext getSimulationContext();
 
-    void send();
+    Collection<Event> getEvents();
 
-    void receive(Object obj);
+    Collection<Entity> getEntities();
 }

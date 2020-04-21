@@ -31,7 +31,7 @@ public class EventProviderImpl implements EventProvider {
 
     @Override
     public Event peek() {
-        return (Event) Collections.min(events);
+        return Collections.min(events);
     }
 
     @Override

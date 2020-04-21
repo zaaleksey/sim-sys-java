@@ -1,8 +1,8 @@
 package simsys.core.event;
 
 import simsys.core.event.handler.EventHandler;
-import simsys.core.event.handler.Timeout;
-import simsys.core.model.SimulationContext;
+import simsys.core.event.handler.TimeoutHandler;
+import simsys.core.context.SimulationContext;
 import simsys.random.RandomVariable;
 
 import java.util.ArrayList;
@@ -45,7 +45,7 @@ public class HandledEvent extends AbstractEvent {
         private ArrayList<EventHandler> afterHandlers;
 
         // Если событие периодическое, то добавляем этот хендлер
-        private Timeout timeoutHandler;
+        private TimeoutHandler timeoutHandler;
 
         private Double startTime;
 
@@ -56,23 +56,23 @@ public class HandledEvent extends AbstractEvent {
             afterHandlers = new ArrayList<>();
         }
 
-        public HandledEventBuilder periodic(Timeout timeout) {
-            this.timeoutHandler = timeout;
+        public HandledEventBuilder periodic(TimeoutHandler timeoutHandler) {
+            this.timeoutHandler = timeoutHandler;
             return this;
         }
 
         public HandledEventBuilder periodic(RandomVariable randomVariable) {
-            this.timeoutHandler = new Timeout(randomVariable);
+            this.timeoutHandler = new TimeoutHandler(randomVariable);
             return this;
         }
 
         public HandledEventBuilder periodic(double interval) {
-            this.timeoutHandler = new Timeout(interval);
+            this.timeoutHandler = new TimeoutHandler(interval);
             return this;
         }
 
         public HandledEventBuilder periodic(Supplier<Double> activateTimes) {
-            this.timeoutHandler = new Timeout(activateTimes);
+            this.timeoutHandler = new TimeoutHandler(activateTimes);
             return this;
         }
 
