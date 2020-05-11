@@ -1,4 +1,4 @@
-package simsys.clock;
+package simsys.core.clock;
 
 public interface Clock {
     double getCurrentTime();

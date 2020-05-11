@@ -1,7 +1,7 @@
 package simsys.examples.queueing;
 
-import simsys.clock.Clock;
-import simsys.clock.ClockImpl;
+import simsys.core.clock.Clock;
+import simsys.core.clock.ClockImpl;
 import simsys.core.SimulationComponent;
 import simsys.core.environment.EnvironmentImpl;
 import simsys.core.event.HandledEvent;

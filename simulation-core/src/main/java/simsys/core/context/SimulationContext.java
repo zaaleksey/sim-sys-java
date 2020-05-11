@@ -1,6 +1,6 @@
 package simsys.core.context;
 
-import simsys.clock.Clock;
+import simsys.core.clock.Clock;
 import simsys.core.environment.Environment;
 import simsys.core.provider.EventProvider;
 
