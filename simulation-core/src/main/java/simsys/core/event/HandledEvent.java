@@ -9,9 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
 
-/**
- *
- */
+
 public class HandledEvent extends AbstractEvent {
     protected ArrayList<EventHandler> handlers = new ArrayList<>();
 
@@ -33,18 +31,13 @@ public class HandledEvent extends AbstractEvent {
 
 
     public static class HandledEventBuilder {
-        // обязательный параметр
         private final SimulationContext simulationContext;
 
-        //здесь основная логика события
         private ArrayList<EventHandler> handlers;
 
-        // здесь служебная обработка, например, логи (возможно автоматический сбор некоторой
-        // статистики
         private ArrayList<EventHandler> beforeHandlers;
         private ArrayList<EventHandler> afterHandlers;
 
-        // Если событие периодическое, то добавляем этот хендлер
         private TimeoutHandler timeoutHandler;
 
         private Double startTime;
@@ -118,6 +111,4 @@ public class HandledEvent extends AbstractEvent {
         }
 
     }
-
-
 }

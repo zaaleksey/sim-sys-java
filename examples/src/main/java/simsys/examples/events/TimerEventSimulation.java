@@ -23,25 +23,25 @@ import java.util.Random;
 public class TimerEventSimulation {
 
     public static void simpleExample() {
-        //Должна быть фабрика, которая создает это все
+        // Должна быть фабрика, которая создает это все
         Environment env = new EnvironmentImpl();
         Clock clock = new ClockImpl();
         EventProvider eventProvider = new EventProviderImpl(Collections.emptyList());
         SimulationContext simulationContext = new SimpleSimulationContext(env, clock, eventProvider);
 
-        //После того как создан контекст мы можем создать другую фабрику, которая будет  инжектить этот контекст
+        // После того как создан контекст мы можем создать другую фабрику, которая будет  инжектить этот контекст
         // во все классы и билдеры, если это необходимо
-        //не хочется самому таскать все зависимости, а simulationContext это основная зависимость
+        // не хочется самому таскать все зависимости, а simulationContext это основная зависимость
 
         SimulationModelImpl model = new SimulationModelImpl(simulationContext);
 
-        //То есть будет фабрика, которая вернет билдер для события, этот билдер уже содержит контекст
-        //мы только докручиваем остальные поля и вызываем метод build для создания объекта
+        // То есть будет фабрика, которая вернет билдер для события, этот билдер уже содержит контекст
+        // мы только докручиваем остальные поля и вызываем метод build для создания объекта
 
         HandledEvent periodic = new HandledEvent();
-        //фабрика для события должна позволить строить сразу периодическое событие (не будем делать такое событие через
+        // Фабрика для события должна позволить строить сразу периодическое событие (не будем делать такое событие через
         // наследование, не надо плодить лишнюю иерархию, событие можно делать периодическим через добавление в него
-        //специального хендлера timeout (в хендлер тож надо инжектить context автоматически).
+        // специального хендлера timeout (в хендлер тож надо инжектить context автоматически).
         TimeoutHandler timeout = new TimeoutHandler(new ExponentialRandomVariable(new Random(), 1));
         timeout.setSimulationContext(simulationContext);
 

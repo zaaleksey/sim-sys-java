@@ -7,7 +7,6 @@ import simsys.core.context.SimulationContext;
 import java.util.Collection;
 
 
-// send receive слишком избыточное описание
 public interface SimulationComponent {
     String getId();
 

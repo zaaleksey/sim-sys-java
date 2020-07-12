@@ -73,6 +73,4 @@ public class Source extends AbstractNode {
             return source;
         }
     }
-
-
 }
