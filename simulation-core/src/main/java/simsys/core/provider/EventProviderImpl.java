@@ -19,8 +19,10 @@ public class EventProviderImpl implements EventProvider {
     return events.size();
   }
 
+
   @Override
   public void add(Event event) {
+    //TODO: we cant add event if their activation time < current time
     events.add(event);
   }
 

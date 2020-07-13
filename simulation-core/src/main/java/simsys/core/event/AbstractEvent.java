@@ -14,4 +14,5 @@ public abstract class AbstractEvent implements Event {
     this.activateTime = activateTime;
   }
 
+
 }

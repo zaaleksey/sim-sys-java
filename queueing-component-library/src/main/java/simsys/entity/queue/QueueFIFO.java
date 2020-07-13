@@ -5,15 +5,15 @@ import java.util.Collection;
 import simsys.core.model.AbstractSimulationModel;
 import simsys.entity.demand.Demand;
 
-public class QueueImpl extends AbstractSimulationModel implements Queue {
+public class QueueFIFO extends AbstractSimulationModel implements Queue {
 
   private ArrayList<Demand> demandQueue;
 
-  public QueueImpl() {
+  public QueueFIFO() {
     this.demandQueue = new ArrayList<>();
   }
 
-  public QueueImpl(Collection<? extends Demand> demands) {
+  public QueueFIFO(Collection<? extends Demand> demands) {
     this.demandQueue = new ArrayList<>();
     this.demandQueue.addAll(demands);
   }
