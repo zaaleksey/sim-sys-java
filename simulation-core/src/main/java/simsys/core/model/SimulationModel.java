@@ -1,7 +1,8 @@
 package simsys.core.model;
 
 public interface SimulationModel {
-    void step();
 
-    void run();
+  void step();
+
+  void run();
 }

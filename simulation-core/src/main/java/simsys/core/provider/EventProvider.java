@@ -1,23 +1,23 @@
 package simsys.core.provider;
 
+import java.util.Collection;
 import simsys.core.event.Event;
 
-import java.util.Collection;
-
 public interface EventProvider {
-    int count();
 
-    void add(Event event);
+  int count();
 
-    void addAll(Collection<Event> events);
+  void add(Event event);
 
-    Event peek();
+  void addAll(Collection<Event> events);
 
-    Event getNext();
+  Event peek();
 
-    boolean remove(Event event);
+  Event getNext();
 
-    default boolean isEmpty() {
-        return count() == 0;
-    }
+  boolean remove(Event event);
+
+  default boolean isEmpty() {
+    return count() == 0;
+  }
 }

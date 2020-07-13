@@ -1,21 +1,21 @@
 package simsys.entity.queue;
 
+import java.util.Collection;
 import simsys.entity.demand.Demand;
 
-import java.util.Collection;
-
 public interface Queue {
-    int size();
 
-    void add(Demand demand);
+  int size();
 
-    void addAll(Collection<Demand> demands);
+  void add(Demand demand);
 
-    Demand peek();
+  void addAll(Collection<Demand> demands);
 
-    Demand poll();
+  Demand peek();
 
-    default boolean isEmpty() {
-        return size() == 0;
-    }
+  Demand poll();
+
+  default boolean isEmpty() {
+    return size() == 0;
+  }
 }

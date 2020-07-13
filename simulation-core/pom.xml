@@ -1,39 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xmlns="http://maven.apache.org/POM/4.0.0"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <parent>
-        <artifactId>simulation-framework-parent</artifactId>
-        <groupId>simulation</groupId>
-        <version>1.0-SNAPSHOT</version>
-    </parent>
-    <modelVersion>4.0.0</modelVersion>
+  xmlns="http://maven.apache.org/POM/4.0.0"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <artifactId>simulation-core</artifactId>
+  <dependencies>
 
-    <artifactId>simulation-core</artifactId>
+    <dependency>
+      <artifactId>random-variable</artifactId>
+      <groupId>simulation</groupId>
+      <version>1.0-SNAPSHOT</version>
+    </dependency>
+
+    <dependency>
+      <artifactId>spring-context</artifactId>
+      <groupId>org.springframework</groupId>
+      <version>5.2.5.RELEASE</version>
+    </dependency>
+
+    <dependency>
+      <artifactId>spring-beans</artifactId>
+      <groupId>org.springframework</groupId>
+      <version>5.2.5.RELEASE</version>
+    </dependency>
+
+
+  </dependencies>
+
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <artifactId>simulation-framework-parent</artifactId>
+    <groupId>simulation</groupId>
     <version>1.0-SNAPSHOT</version>
+  </parent>
 
 
-    <dependencies>
-
-        <dependency>
-            <groupId>simulation</groupId>
-            <artifactId>random-variable</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-context</artifactId>
-            <version>5.2.5.RELEASE</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-beans</artifactId>
-            <version>5.2.5.RELEASE</version>
-        </dependency>
-
-
-    </dependencies>
+  <version>1.0-SNAPSHOT</version>
 
 </project>

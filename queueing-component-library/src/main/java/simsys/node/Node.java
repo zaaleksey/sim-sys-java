@@ -1,14 +1,14 @@
 package simsys.node;
 
+import java.util.Collection;
 import simsys.core.component.Component;
 import simsys.entity.demand.Demand;
 
-import java.util.Collection;
-
 public interface Node extends Component {
-    Collection<Node> getNodes();
 
-    void addNode(Node node);
+  Collection<Node> getNodes();
 
-    void receive(Demand d);
+  void addNode(Node node);
+
+  void receive(Demand d);
 }

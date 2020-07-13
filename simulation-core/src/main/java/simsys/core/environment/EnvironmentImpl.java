@@ -1,29 +1,28 @@
 package simsys.core.environment;
 
-import simsys.core.SimulationComponent;
-
 import java.util.HashMap;
+import simsys.core.SimulationComponent;
 
 public class EnvironmentImpl implements Environment {
 
-    private HashMap<String, SimulationComponent> simulationComponents = new HashMap<>();
+  private HashMap<String, SimulationComponent> simulationComponents = new HashMap<>();
 
-    @Override
-    public HashMap<String, SimulationComponent> getComponents() {
-        return simulationComponents;
-    }
+  public EnvironmentImpl() {
+    simulationComponents = new HashMap<>();
+  }
 
-    public EnvironmentImpl() {
-        simulationComponents = new HashMap<>();
-    }
+  @Override
+  public HashMap<String, SimulationComponent> getComponents() {
+    return simulationComponents;
+  }
 
-    @Override
-    public void addComponent(String id, SimulationComponent component) {
-        simulationComponents.put(id, component);
-    }
+  @Override
+  public void addComponent(String id, SimulationComponent component) {
+    simulationComponents.put(id, component);
+  }
 
-    @Override
-    public SimulationComponent getComponent(String id) {
-        return simulationComponents.get(id);
-    }
+  @Override
+  public SimulationComponent getComponent(String id) {
+    return simulationComponents.get(id);
+  }
 }

@@ -5,13 +5,14 @@ import simsys.core.environment.Environment;
 import simsys.core.provider.EventProvider;
 
 public interface SimulationContext {
-    Environment getEnvironment();
 
-    Clock getClock();
+  Environment getEnvironment();
 
-    EventProvider getEventProvider();
+  Clock getClock();
 
-    default double getCurrentTime() {
-        return getClock().getCurrentTime();
-    }
+  EventProvider getEventProvider();
+
+  default double getCurrentTime() {
+    return getClock().getCurrentTime();
+  }
 }

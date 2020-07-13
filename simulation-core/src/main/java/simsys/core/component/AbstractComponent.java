@@ -1,33 +1,33 @@
 package simsys.core.component;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import simsys.core.environment.Entity;
 import simsys.core.event.Event;
 
-import java.util.ArrayList;
-import java.util.Collection;
-
 public class AbstractComponent implements Component {
-    private ArrayList<Entity> entities;
-    private ArrayList<Event> events;
 
-    @Override
-    public Collection<Entity> getEntities() {
-        return entities;
-    }
+  private ArrayList<Entity> entities;
+  private ArrayList<Event> events;
 
-    @Override
-    public Collection<Event> getEvents() {
-        return events;
-    }
+  @Override
+  public Collection<Entity> getEntities() {
+    return entities;
+  }
 
-    @Override
-    public void addEvent(Event event) {
-        events.add(event);
-    }
+  @Override
+  public Collection<Event> getEvents() {
+    return events;
+  }
 
-    @Override
-    public void addEntity(Entity entity) {
-        entities.add(entity);
-    }
+  @Override
+  public void addEvent(Event event) {
+    events.add(event);
+  }
+
+  @Override
+  public void addEntity(Entity entity) {
+    entities.add(entity);
+  }
 
 }

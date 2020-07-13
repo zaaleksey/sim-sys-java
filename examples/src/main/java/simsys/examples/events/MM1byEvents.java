@@ -1,6 +1,5 @@
 package simsys.examples.events;
 
-
 import com.google.common.base.Strings;
 import java.util.Collections;
 import java.util.Random;
@@ -19,9 +18,10 @@ import simsys.core.provider.EventProvider;
 import simsys.core.provider.EventProviderImpl;
 import simsys.random.ExponentialRV;
 
-public class TimerEventSimulation {
+public class MM1byEvents {
 
   public static void simpleExample() {
+
     // Должна быть фабрика, которая создает это все
     Environment env = new EnvironmentImpl();
     Clock clock = new ClockImpl();
@@ -91,4 +91,5 @@ public class TimerEventSimulation {
 
     factoryExample();
   }
+
 }

@@ -1,16 +1,16 @@
 package simsys.core.component;
 
+import java.util.Collection;
 import simsys.core.environment.Entity;
 import simsys.core.event.Event;
 
-import java.util.Collection;
-
 public interface Component {
-    Collection<Entity> getEntities();
 
-    Collection<Event> getEvents();
+  Collection<Entity> getEntities();
 
-    void addEvent(Event event);
+  Collection<Event> getEvents();
 
-    void addEntity(Entity entity);
+  void addEvent(Event event);
+
+  void addEntity(Entity entity);
 }

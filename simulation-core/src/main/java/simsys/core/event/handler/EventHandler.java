@@ -8,5 +8,6 @@ import simsys.core.event.Event;
  */
 @FunctionalInterface
 public interface EventHandler<T extends Event> {
-    void handle(T event);
+
+  void handle(T event);
 }
