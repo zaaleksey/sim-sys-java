@@ -2,6 +2,8 @@ package simsys.examples.events;
 
 import java.util.Collections;
 import java.util.Random;
+
+import lombok.SneakyThrows;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import simsys.core.clock.Clock;
@@ -14,6 +16,7 @@ import simsys.core.environment.EnvironmentImpl;
 import simsys.core.event.Event;
 import simsys.core.event.HandledEvent;
 import simsys.core.event.handler.TimeoutHandler;
+import simsys.core.exception.ImpossibleEventTime;
 import simsys.core.model.SimulationModelImpl;
 import simsys.core.provider.EventProvider;
 import simsys.core.provider.EventProviderImpl;
@@ -58,8 +61,8 @@ public class SimpleQueueingSystem {
     createDemand.addHandler(event -> {
       Demand demand = new DemandImpl(context.getCurrentTime());
       queue.add(demand);
-      //the simple and stupid way - to create an service event inplace
-      context.getEventProvider().add(createStartServiceEvent(queue, context));
+      //the simple and stupid way - to create an service event in place
+      context.getEventProvider().add(createStartServiceEvent(queue, context), context.getCurrentTime());
     });
     return createDemand;
   }
@@ -82,7 +85,7 @@ public class SimpleQueueingSystem {
         double delay = serviceTimes.nextValue();
         double endServiceTime = context.getCurrentTime() + delay;
         //add endServiceEvent
-        context.getEventProvider().add(createEndServiceEvent(endServiceTime, queue, context));
+        context.getEventProvider().add(createEndServiceEvent(endServiceTime, queue, context), context.getCurrentTime());
       }
     });
 
@@ -107,7 +110,7 @@ public class SimpleQueueingSystem {
         processingDemand = null;
 
         //end of service -> try to start service of a new demand
-        context.getEventProvider().add(createStartServiceEvent(queue, context));
+        context.getEventProvider().add(createStartServiceEvent(queue, context), context.getCurrentTime());
 
       }
     });
@@ -116,6 +119,7 @@ public class SimpleQueueingSystem {
   }
 
 
+  @SneakyThrows
   public static void simpleQueueingSystems() {
     Environment env = new EnvironmentImpl();
     Clock clock = new ClockImpl();
@@ -126,8 +130,8 @@ public class SimpleQueueingSystem {
     Queue queue = new QueueFIFO();
     Event event = createDemandEvent(2, queue, context);
 
-    eventProvider.add(event);
-    model.setStopCondition(new TimeStopCondition(10000));
+    eventProvider.add(event, context.getCurrentTime());
+    model.setStopCondition(new TimeStopCondition(100000));
     model.run();
   }
 

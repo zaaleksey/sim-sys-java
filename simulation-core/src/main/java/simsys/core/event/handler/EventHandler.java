@@ -1,6 +1,7 @@
 package simsys.core.event.handler;
 
 import simsys.core.event.Event;
+import simsys.core.exception.ImpossibleEventTime;
 
 
 /**
@@ -9,5 +10,5 @@ import simsys.core.event.Event;
 @FunctionalInterface
 public interface EventHandler<T extends Event> {
 
-  void handle(T event);
+  void handle(T event) throws ImpossibleEventTime;
 }

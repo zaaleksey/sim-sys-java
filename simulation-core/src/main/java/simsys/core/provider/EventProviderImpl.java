@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import simsys.core.event.Event;
+import simsys.core.exception.ImpossibleEventTime;
 
 public class EventProviderImpl implements EventProvider {
 
@@ -21,13 +22,20 @@ public class EventProviderImpl implements EventProvider {
 
 
   @Override
-  public void add(Event event) {
-    //TODO: we cant add event if their activation time < current time
+  public void add(Event event, double currentTime) throws ImpossibleEventTime {
+    if (event.getActivateTime() < currentTime) {
+      throw new ImpossibleEventTime(event.getActivateTime(), currentTime);
+    }
     events.add(event);
   }
 
   @Override
-  public void addAll(Collection<Event> events) {
+  public void addAll(Collection<Event> events, double currentTime) throws ImpossibleEventTime {
+    for (Event event : events) {
+      if (event.getActivateTime() < currentTime) {
+        throw new ImpossibleEventTime(event.getActivateTime(), currentTime);
+      }
+    }
     this.events.addAll(events);
   }
 

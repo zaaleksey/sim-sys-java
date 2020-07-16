@@ -2,6 +2,8 @@ package simsys.examples.queueing;
 
 import java.util.Collections;
 import java.util.Random;
+
+import lombok.SneakyThrows;
 import simsys.core.SimulationComponent;
 import simsys.core.clock.Clock;
 import simsys.core.clock.ClockImpl;
@@ -49,8 +51,9 @@ public class Network {
       return this;
     }
 
+    @SneakyThrows
     public NetworkBuilder addHandler(HandledEvent handledEvent) {
-      eventProvider.add(handledEvent);
+      eventProvider.add(handledEvent, clock.getCurrentTime());
       return this;
     }
 
@@ -63,6 +66,7 @@ public class Network {
 //            return this;
 //        }
 
+    @SneakyThrows
     public Network build() {
       HandledEvent expPeriodic = new HandledEvent.HandledEventBuilder(simulationContext)
           .periodic(new ExponentialRV(new Random(), 1))
@@ -70,7 +74,7 @@ public class Network {
           .addHandler(event -> java.lang.System.out
               .println("Message from periodic random event: " + event.getActivateTime()))
           .build();
-      eventProvider.add(expPeriodic);
+      eventProvider.add(expPeriodic, clock.getCurrentTime());
       return new Network().installModel(model);
     }
   }

@@ -1,6 +1,8 @@
 package simsys.core.event.handler;
 
 import java.util.function.Supplier;
+
+import lombok.SneakyThrows;
 import simsys.core.context.SimulationContext;
 import simsys.core.event.Event;
 import simsys.random.RandomVariable;
@@ -46,9 +48,10 @@ public class TimeoutHandler implements EventHandler {
   }
 
 
+  @SneakyThrows
   @Override
   public void handle(Event event) {
     event.setActivateTime(activateTimes.get());
-    simulationContext.getEventProvider().add(event);
+    simulationContext.getEventProvider().add(event, simulationContext.getCurrentTime());
   }
 }

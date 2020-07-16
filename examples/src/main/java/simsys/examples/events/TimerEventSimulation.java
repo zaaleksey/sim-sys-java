@@ -4,6 +4,8 @@ package simsys.examples.events;
 import com.google.common.base.Strings;
 import java.util.Collections;
 import java.util.Random;
+
+import lombok.SneakyThrows;
 import simsys.core.clock.Clock;
 import simsys.core.clock.ClockImpl;
 import simsys.core.condition.TimeStopCondition;
@@ -21,6 +23,7 @@ import simsys.random.ExponentialRV;
 
 public class TimerEventSimulation {
 
+  @SneakyThrows
   public static void simpleExample() {
     // Должна быть фабрика, которая создает это все
     Environment env = new EnvironmentImpl();
@@ -45,12 +48,13 @@ public class TimerEventSimulation {
     timeout.setSimulationContext(simulationContext);
 
     periodic.addHandler(timeout);
-    eventProvider.add(periodic);
+    eventProvider.add(periodic, clock.getCurrentTime());
     model.setStopCondition(new TimeStopCondition(10));
     model.run();
   }
 
 
+  @SneakyThrows
   public static void factoryExample() {
     Environment env = new EnvironmentImpl();
     Clock clock = new ClockImpl();
@@ -76,8 +80,8 @@ public class TimerEventSimulation {
             .println("Message from periodic const event: " + event.getActivateTime()))
         .build();
 
-    eventProvider.add(randomPeriodic);
-    eventProvider.add(constPeriodic);
+    eventProvider.add(randomPeriodic, clock.getCurrentTime());
+    eventProvider.add(constPeriodic, clock.getCurrentTime());
 
     SimulationModelImpl model = new SimulationModelImpl(simulationContext);
     model.setStopCondition(new TimeStopCondition(10));
