@@ -10,7 +10,6 @@ ____
 Simple queuing system. The demand comes in with some intensity. Served if the device is free and then leaves the system. If the system is busy, demand enters the waiting queue.
 
 ```java
-  ____
   public static void simpleQueueingSystems() {
     Environment env = new EnvironmentImpl();
     Clock clock = new ClockImpl();
@@ -24,6 +23,12 @@ Simple queuing system. The demand comes in with some intensity. Served if the de
     eventProvider.add(event, context.getCurrentTime());
     model.setStopCondition(new TimeStopCondition(100000));
     model.run();
-  } 
-  ____
+  }
 ```
+
+____
+
+## Module
+The modules that make up the system at the moment:
+![Module](https://github.com/AlexZavr/SimSysJava/raw/dev/documents/Module.png)
+
