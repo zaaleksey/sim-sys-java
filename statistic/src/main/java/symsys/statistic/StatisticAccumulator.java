@@ -20,4 +20,5 @@ public class StatisticAccumulator {
   public void addAll(double... values) {
     accumulator.addAll(values);
   }
+
 }

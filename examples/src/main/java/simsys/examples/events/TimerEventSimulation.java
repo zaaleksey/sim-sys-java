@@ -49,7 +49,7 @@ public class TimerEventSimulation {
 
     periodic.addHandler(timeout);
     eventProvider.add(periodic, clock.getCurrentTime());
-    model.setStopCondition(new TimeStopCondition(10));
+    model.setStopCondition(new TimeStopCondition(100));
     model.run();
   }
 
@@ -84,7 +84,7 @@ public class TimerEventSimulation {
     eventProvider.add(constPeriodic, clock.getCurrentTime());
 
     SimulationModelImpl model = new SimulationModelImpl(simulationContext);
-    model.setStopCondition(new TimeStopCondition(10));
+    model.setStopCondition(new TimeStopCondition(100));
     model.run();
   }
 

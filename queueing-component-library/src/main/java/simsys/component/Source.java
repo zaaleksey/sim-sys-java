@@ -32,7 +32,7 @@ public class Source extends AbstractNode {
 
   public static class SourceBuilder {
 
-    HandledEventBuilderFactory eventBuilderFactory;
+    private HandledEventBuilderFactory eventBuilderFactory;
     private RandomVariable interArrivalTimes;
     private Supplier<Demand> demandSupplier;
     private RouteFunction routeFunction;
