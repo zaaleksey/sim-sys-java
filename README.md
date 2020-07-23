@@ -7,6 +7,7 @@ ____
 ____
 
 *Example*
+
 Simple queuing system. The demand comes in with some intensity. Served if the device is free and then leaves the system. If the system is busy, demand enters the waiting queue.
 
 ```java
