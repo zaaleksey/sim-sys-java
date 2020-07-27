@@ -85,7 +85,8 @@ public class SimpleQueueingSystem {
         double delay = serviceTimes.nextValue();
         double endServiceTime = context.getCurrentTime() + delay;
         //add endServiceEvent
-        context.getEventProvider().add(createEndServiceEvent(endServiceTime, queue, context), context.getCurrentTime());
+        context.getEventProvider().add(createEndServiceEvent(endServiceTime, queue, context),
+            context.getCurrentTime());
       }
     });
 
@@ -110,7 +111,8 @@ public class SimpleQueueingSystem {
         processingDemand = null;
 
         //end of service -> try to start service of a new demand
-        context.getEventProvider().add(createStartServiceEvent(queue, context), context.getCurrentTime());
+        context.getEventProvider().add(createStartServiceEvent(queue, context),
+            context.getCurrentTime());
 
       }
     });
@@ -130,7 +132,11 @@ public class SimpleQueueingSystem {
     Queue queue = new QueueFIFO();
     Event event = createDemandEvent(2, queue, context);
 
-    eventProvider.add(event, context.getCurrentTime());
+    try {
+      eventProvider.add(event, context.getCurrentTime());
+    } catch (ImpossibleEventTime impossibleEventTime) {
+      impossibleEventTime.printStackTrace();
+    }
     model.setStopCondition(new TimeStopCondition(100000));
     model.run();
   }

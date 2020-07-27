@@ -16,6 +16,7 @@ import simsys.core.environment.EnvironmentImpl;
 import simsys.core.event.HandledEvent;
 import simsys.core.event.HandledEventBuilderFactory;
 import simsys.core.event.handler.TimeoutHandler;
+import simsys.core.exception.ImpossibleEventTime;
 import simsys.core.model.SimulationModelImpl;
 import simsys.core.provider.EventProvider;
 import simsys.core.provider.EventProviderImpl;
@@ -48,7 +49,11 @@ public class TimerEventSimulation {
     timeout.setSimulationContext(simulationContext);
 
     periodic.addHandler(timeout);
-    eventProvider.add(periodic, clock.getCurrentTime());
+    try {
+      eventProvider.add(periodic, clock.getCurrentTime());
+    } catch (ImpossibleEventTime impossibleEventTime) {
+      impossibleEventTime.printStackTrace();
+    }
     model.setStopCondition(new TimeStopCondition(100));
     model.run();
   }
@@ -80,8 +85,12 @@ public class TimerEventSimulation {
             .println("Message from periodic const event: " + event.getActivateTime()))
         .build();
 
-    eventProvider.add(randomPeriodic, clock.getCurrentTime());
-    eventProvider.add(constPeriodic, clock.getCurrentTime());
+    try {
+      eventProvider.add(randomPeriodic, clock.getCurrentTime());
+      eventProvider.add(constPeriodic, clock.getCurrentTime());
+    } catch (ImpossibleEventTime impossibleEventTime) {
+      impossibleEventTime.printStackTrace();
+    }
 
     SimulationModelImpl model = new SimulationModelImpl(simulationContext);
     model.setStopCondition(new TimeStopCondition(100));

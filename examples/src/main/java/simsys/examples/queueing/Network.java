@@ -13,6 +13,7 @@ import simsys.core.context.SimulationContext;
 import simsys.core.environment.EnvironmentImpl;
 import simsys.core.event.HandledEvent;
 import simsys.core.event.HandledEventBuilderFactory;
+import simsys.core.exception.ImpossibleEventTime;
 import simsys.core.model.SimulationModel;
 import simsys.core.model.SimulationModelImpl;
 import simsys.core.provider.EventProvider;
@@ -55,7 +56,11 @@ public class Network {
 
     @SneakyThrows
     public NetworkBuilder addHandler(HandledEvent handledEvent) {
-      eventProvider.add(handledEvent, clock.getCurrentTime());
+      try {
+        eventProvider.add(handledEvent, clock.getCurrentTime());
+      } catch (ImpossibleEventTime impossibleEventTime) {
+        impossibleEventTime.printStackTrace();
+      }
       return this;
     }
 //
@@ -77,7 +82,11 @@ public class Network {
 
           })
           .build();
-      eventProvider.add(expPeriodic, clock.getCurrentTime());
+      try {
+        eventProvider.add(expPeriodic, clock.getCurrentTime());
+      } catch (ImpossibleEventTime impossibleEventTime) {
+        impossibleEventTime.printStackTrace();
+      }
       return new Network().installModel(model);
     }
   }

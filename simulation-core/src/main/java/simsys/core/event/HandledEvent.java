@@ -8,6 +8,7 @@ import lombok.SneakyThrows;
 import simsys.core.context.SimulationContext;
 import simsys.core.event.handler.EventHandler;
 import simsys.core.event.handler.TimeoutHandler;
+import simsys.core.exception.ImpossibleEventTime;
 import simsys.random.RandomVariable;
 
 
@@ -26,9 +27,12 @@ public class HandledEvent extends AbstractEvent {
   @SneakyThrows
   @Override
   public final void activate() {
-    for (EventHandler handler :
-        handlers) {
-      handler.handle(this);
+    for (EventHandler handler : handlers) {
+      try {
+        handler.handle(this);
+      } catch (ImpossibleEventTime impossibleEventTime) {
+        impossibleEventTime.printStackTrace();
+      }
     }
   }
 
@@ -37,10 +41,10 @@ public class HandledEvent extends AbstractEvent {
 
     private final SimulationContext simulationContext;
 
-    private ArrayList<EventHandler> handlers;
+    private final ArrayList<EventHandler> handlers;
 
-    private ArrayList<EventHandler> beforeHandlers;
-    private ArrayList<EventHandler> afterHandlers;
+    private final ArrayList<EventHandler> beforeHandlers;
+    private final ArrayList<EventHandler> afterHandlers;
 
     private TimeoutHandler timeoutHandler;
 

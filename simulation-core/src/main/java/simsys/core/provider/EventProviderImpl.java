@@ -9,7 +9,7 @@ import simsys.core.exception.ImpossibleEventTime;
 
 public class EventProviderImpl implements EventProvider {
 
-  private ArrayList<Event> events;
+  private final ArrayList<Event> events;
 
 
   public EventProviderImpl(Collection<? extends Event> events) {
@@ -27,7 +27,11 @@ public class EventProviderImpl implements EventProvider {
   @Override
   public void add(Event event, double currentTime) {
     if (event.getActivateTime() < currentTime) {
-      throw new ImpossibleEventTime(event.getActivateTime(), currentTime);
+      try {
+        throw new ImpossibleEventTime(event.getActivateTime(), currentTime);
+      } catch (ImpossibleEventTime impossibleEventTime) {
+        impossibleEventTime.printStackTrace();
+      }
     }
     events.add(event);
   }
@@ -37,7 +41,11 @@ public class EventProviderImpl implements EventProvider {
   public void addAll(Collection<Event> events, double currentTime) {
     for (Event event : events) {
       if (event.getActivateTime() < currentTime) {
-        throw new ImpossibleEventTime(event.getActivateTime(), currentTime);
+        try {
+          throw new ImpossibleEventTime(event.getActivateTime(), currentTime);
+        } catch (ImpossibleEventTime impossibleEventTime) {
+          impossibleEventTime.printStackTrace();
+        }
       }
     }
     this.events.addAll(events);
