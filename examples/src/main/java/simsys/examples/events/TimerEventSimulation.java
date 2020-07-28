@@ -24,7 +24,6 @@ import simsys.random.ExponentialRV;
 
 public class TimerEventSimulation {
 
-  @SneakyThrows
   public static void simpleExample() {
     // Должна быть фабрика, которая создает это все
     Environment env = new EnvironmentImpl();
@@ -59,7 +58,6 @@ public class TimerEventSimulation {
   }
 
 
-  @SneakyThrows
   public static void factoryExample() {
     Environment env = new EnvironmentImpl();
     Clock clock = new ClockImpl();

@@ -1,8 +1,8 @@
 package simsys.entity.demand;
 
-public class DemandImpl extends Demand {
+public class SimpleDemand extends Demand {
 
-  public DemandImpl(double arrivalTime) {
+  public SimpleDemand(double arrivalTime) {
     super();
     this.arrivalTime = arrivalTime;
   }

@@ -33,7 +33,8 @@ public class ServiceNode extends AbstractNode {
          1 start service:  take demand and start process it
          2 delay (processing)
          3 end service
-         there are a builder that allows create a SimulationModel with corresponding events by this process description
+         there are a builder that allows create a SimulationModel with corresponding
+         events by this process description
         */
 
     Event startServiceEvent = eventBuilderFactory.create()
@@ -52,4 +53,5 @@ public class ServiceNode extends AbstractNode {
         .startTime(simulationContext.getCurrentTime())
         .build();
   }
+
 }

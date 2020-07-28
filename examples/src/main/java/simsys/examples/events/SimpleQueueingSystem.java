@@ -2,8 +2,6 @@ package simsys.examples.events;
 
 import java.util.Collections;
 import java.util.Random;
-
-import lombok.SneakyThrows;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import simsys.core.clock.Clock;
@@ -21,7 +19,7 @@ import simsys.core.model.SimulationModelImpl;
 import simsys.core.provider.EventProvider;
 import simsys.core.provider.EventProviderImpl;
 import simsys.entity.demand.Demand;
-import simsys.entity.demand.DemandImpl;
+import simsys.entity.demand.SimpleDemand;
 import simsys.entity.queue.Queue;
 import simsys.entity.queue.QueueFIFO;
 import simsys.random.ExponentialRV;
@@ -59,7 +57,7 @@ public class SimpleQueueingSystem {
     //it's very nice create an event activated by a condition
     //but here we'll use a simple way
     createDemand.addHandler(event -> {
-      Demand demand = new DemandImpl(context.getCurrentTime());
+      Demand demand = new SimpleDemand(context.getCurrentTime());
       queue.add(demand);
       //the simple and stupid way - to create an service event in place
       context.getEventProvider().add(createStartServiceEvent(queue, context), context.getCurrentTime());
@@ -121,7 +119,6 @@ public class SimpleQueueingSystem {
   }
 
 
-  @SneakyThrows
   public static void simpleQueueingSystems() {
     Environment env = new EnvironmentImpl();
     Clock clock = new ClockImpl();
@@ -137,7 +134,7 @@ public class SimpleQueueingSystem {
     } catch (ImpossibleEventTime impossibleEventTime) {
       impossibleEventTime.printStackTrace();
     }
-    model.setStopCondition(new TimeStopCondition(100000));
+    model.setStopCondition(new TimeStopCondition(1000));
     model.run();
   }
 

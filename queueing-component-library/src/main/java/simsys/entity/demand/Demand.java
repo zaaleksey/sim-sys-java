@@ -12,6 +12,7 @@ public abstract class Demand {
   // The time from the arrival of the requirement to the network until its departure
   protected double networkTime;
 
+  //TODO: put in constructor creationTime?
   public Demand() {
     COUNTER++;
     id = COUNTER;

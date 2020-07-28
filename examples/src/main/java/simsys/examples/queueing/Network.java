@@ -18,6 +18,8 @@ import simsys.core.model.SimulationModel;
 import simsys.core.model.SimulationModelImpl;
 import simsys.core.provider.EventProvider;
 import simsys.core.provider.EventProviderImpl;
+import simsys.entity.demand.Demand;
+import simsys.entity.demand.SimpleDemand;
 import simsys.random.ExponentialRV;
 
 public class Network {
@@ -54,7 +56,6 @@ public class Network {
       return this;
     }
 
-    @SneakyThrows
     public NetworkBuilder addHandler(HandledEvent handledEvent) {
       try {
         eventProvider.add(handledEvent, clock.getCurrentTime());
@@ -73,13 +74,13 @@ public class Network {
 //            return this;
 //        }
 
-    @SneakyThrows
     public Network build() {
       HandledEvent expPeriodic = new HandledEvent.HandledEventBuilder(simulationContext)
           .periodic(new ExponentialRV(new Random(), 1))
           // TODO: прописать логику создания и отправки из источника
           .addHandler(event -> {
-
+            Demand demand = new SimpleDemand(clock.getCurrentTime());
+            //TODO: куда отправлять?
           })
           .build();
       try {
