@@ -4,8 +4,6 @@ package simsys.examples.events;
 import com.google.common.base.Strings;
 import java.util.Collections;
 import java.util.Random;
-
-import lombok.SneakyThrows;
 import simsys.core.clock.Clock;
 import simsys.core.clock.ClockImpl;
 import simsys.core.condition.TimeStopCondition;
@@ -48,11 +46,8 @@ public class TimerEventSimulation {
     timeout.setSimulationContext(simulationContext);
 
     periodic.addHandler(timeout);
-    try {
-      eventProvider.add(periodic, clock.getCurrentTime());
-    } catch (ImpossibleEventTime impossibleEventTime) {
-      impossibleEventTime.printStackTrace();
-    }
+    eventProvider.add(periodic);
+
     model.setStopCondition(new TimeStopCondition(100));
     model.run();
   }
@@ -84,8 +79,8 @@ public class TimerEventSimulation {
         .build();
 
     try {
-      eventProvider.add(randomPeriodic, clock.getCurrentTime());
-      eventProvider.add(constPeriodic, clock.getCurrentTime());
+      eventProvider.add(randomPeriodic);
+      eventProvider.add(constPeriodic);
     } catch (ImpossibleEventTime impossibleEventTime) {
       impossibleEventTime.printStackTrace();
     }

@@ -4,7 +4,7 @@ import java.util.List;
 import simsys.core.context.SimulationContext;
 import simsys.core.exception.NoItemInCollection;
 
-public abstract class Node implements SimulationComponent {
+public abstract class Node {
 
   protected String id;
   protected List<SimulationComponent> connectedComponents;
@@ -27,13 +27,11 @@ public abstract class Node implements SimulationComponent {
     throw new NoItemInCollection(id);
   }
 
-  @Override
   public String getId() {
     return id;
   }
 
 
-  @Override
   public SimulationContext getSimulationContext() {
     return null;
   }

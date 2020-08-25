@@ -1,9 +1,9 @@
 package simsys.core.exception;
 
-public class ImpossibleEventTime extends Exception {
+public class ImpossibleEventTime extends RuntimeException {
 
-    public ImpossibleEventTime(double eventActionTime, double currentTime) {
-        super("Unable to add event with activation time" +
-                eventActionTime + "at the current time" + currentTime);
-    }
+  public ImpossibleEventTime(double eventActionTime, double currentTime) {
+    super("Unable to add the event with activation time" +
+        eventActionTime + "because currentTime: " + currentTime);
+  }
 }

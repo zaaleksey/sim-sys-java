@@ -2,9 +2,8 @@ package simsys.node;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import simsys.core.component.AbstractComponent;
 
-public abstract class AbstractNode extends AbstractComponent implements Node {
+public abstract class AbstractNode implements Node {
 
   protected ArrayList<Node> nodes;
 

@@ -3,7 +3,6 @@ package simsys.core.event;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
-
 import lombok.SneakyThrows;
 import simsys.core.context.SimulationContext;
 import simsys.core.event.handler.EventHandler;
@@ -24,7 +23,6 @@ public class HandledEvent extends AbstractEvent {
     return handlers;
   }
 
-  @SneakyThrows
   @Override
   public final void activate() {
     for (EventHandler handler : handlers) {
