@@ -60,7 +60,7 @@ public class SimpleQueueingSystem {
       Demand demand = new SimpleDemand(context.getCurrentTime());
       queue.add(demand);
       //the simple and stupid way - to create an service event in place
-      context.getEventProvider().add(createStartServiceEvent(queue, context), context.getCurrentTime());
+      context.getEventProvider().add(createStartServiceEvent(queue, context));
     });
     return createDemand;
   }
@@ -83,8 +83,7 @@ public class SimpleQueueingSystem {
         double delay = serviceTimes.nextValue();
         double endServiceTime = context.getCurrentTime() + delay;
         //add endServiceEvent
-        context.getEventProvider().add(createEndServiceEvent(endServiceTime, queue, context),
-            context.getCurrentTime());
+        context.getEventProvider().add(createEndServiceEvent(endServiceTime, queue, context));
       }
     });
 
@@ -109,8 +108,7 @@ public class SimpleQueueingSystem {
         processingDemand = null;
 
         //end of service -> try to start service of a new demand
-        context.getEventProvider().add(createStartServiceEvent(queue, context),
-            context.getCurrentTime());
+        context.getEventProvider().add(createStartServiceEvent(queue, context));
 
       }
     });
@@ -130,7 +128,7 @@ public class SimpleQueueingSystem {
     Event event = createDemandEvent(2, queue, context);
 
     try {
-      eventProvider.add(event, context.getCurrentTime());
+      eventProvider.add(event);
     } catch (ImpossibleEventTime impossibleEventTime) {
       impossibleEventTime.printStackTrace();
     }

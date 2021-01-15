@@ -2,9 +2,6 @@ package simsys.examples.queueing;
 
 import java.util.Collections;
 import java.util.Random;
-import lombok.SneakyThrows;
-import simsys.component.Source;
-import simsys.component.Source.SourceBuilder;
 import simsys.core.SimulationComponent;
 import simsys.core.clock.Clock;
 import simsys.core.clock.ClockImpl;
@@ -12,7 +9,6 @@ import simsys.core.context.SimpleSimulationContext;
 import simsys.core.context.SimulationContext;
 import simsys.core.environment.EnvironmentImpl;
 import simsys.core.event.HandledEvent;
-import simsys.core.event.HandledEventBuilderFactory;
 import simsys.core.exception.ImpossibleEventTime;
 import simsys.core.model.SimulationModel;
 import simsys.core.model.SimulationModelImpl;
@@ -58,7 +54,7 @@ public class Network {
 
     public NetworkBuilder addHandler(HandledEvent handledEvent) {
       try {
-        eventProvider.add(handledEvent, clock.getCurrentTime());
+        eventProvider.add(handledEvent);
       } catch (ImpossibleEventTime impossibleEventTime) {
         impossibleEventTime.printStackTrace();
       }
@@ -84,7 +80,7 @@ public class Network {
           })
           .build();
       try {
-        eventProvider.add(expPeriodic, clock.getCurrentTime());
+        eventProvider.add(expPeriodic);
       } catch (ImpossibleEventTime impossibleEventTime) {
         impossibleEventTime.printStackTrace();
       }

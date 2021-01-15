@@ -1,10 +1,9 @@
 package simsys.node;
 
 import java.util.Collection;
-import simsys.core.component.Component;
 import simsys.entity.demand.Demand;
 
-public interface Node extends Component {
+public interface Node {
 
   Collection<Node> getNodes();
 
