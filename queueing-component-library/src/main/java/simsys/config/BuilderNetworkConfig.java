@@ -1,6 +1,6 @@
 package simsys.config;
 
-import simsys.system_components.api.node.Node;
+import simsys.node.Node;
 
 public interface BuilderNetworkConfig {
     void addComponents(Node node);
