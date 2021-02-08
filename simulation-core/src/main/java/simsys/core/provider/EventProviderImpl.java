@@ -18,8 +18,7 @@ public class EventProviderImpl implements EventProvider {
   public int count() {
     return events.size();
   }
-
-
+  
   @Override
   public void add(Event event) {
     events.add(event);
@@ -27,9 +26,7 @@ public class EventProviderImpl implements EventProvider {
 
   @Override
   public void addAll(Collection<Event> events) {
-    for (Event event : events) {
-      this.events.addAll(events);
-    }
+    this.events.addAll(events);
   }
 
   @Override
@@ -48,4 +45,5 @@ public class EventProviderImpl implements EventProvider {
   public boolean remove(Event event) {
     return events.remove(event);
   }
+
 }
