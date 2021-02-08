@@ -12,9 +12,7 @@ public class HandledEventBuilderFactory implements Factory<HandledEvent.HandledE
 
 
   public HandledEventBuilderFactory(SimulationContext simulationContext,
-      EventHandler beforeHandler,
-      EventHandler afterHandler
-  ) {
+      EventHandler beforeHandler, EventHandler afterHandler) {
     this.simulationContext = simulationContext;
     this.afterHandler = afterHandler;
     this.beforeHandler = beforeHandler;
@@ -28,4 +26,5 @@ public class HandledEventBuilderFactory implements Factory<HandledEvent.HandledE
         .addBeforeHandler(beforeHandler);
     return builder;
   }
+
 }

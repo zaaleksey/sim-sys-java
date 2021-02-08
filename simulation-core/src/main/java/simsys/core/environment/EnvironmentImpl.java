@@ -5,7 +5,7 @@ import simsys.core.SimulationComponent;
 
 public class EnvironmentImpl implements Environment {
 
-  private HashMap<String, SimulationComponent> simulationComponents = new HashMap<>();
+  private final HashMap<String, SimulationComponent> simulationComponents;
 
   public EnvironmentImpl() {
     simulationComponents = new HashMap<>();
@@ -25,4 +25,5 @@ public class EnvironmentImpl implements Environment {
   public SimulationComponent getComponent(String id) {
     return simulationComponents.get(id);
   }
+
 }

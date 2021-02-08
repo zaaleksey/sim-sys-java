@@ -5,13 +5,14 @@ import org.jetbrains.annotations.NotNull;
 public interface Event extends Comparable<Event> {
 
   double getActivateTime();
-
   void setActivateTime(double activateTime);
+  void activate();
 
   default void postpone() {
     setActivateTime(Double.POSITIVE_INFINITY);
   }
 
+//  TODO: void?
   default double postpone(double duration) {
     setActivateTime(getActivateTime() + duration);
     return getActivateTime();
@@ -22,5 +23,4 @@ public interface Event extends Comparable<Event> {
     return Double.compare(this.getActivateTime(), event.getActivateTime());
   }
 
-  void activate();
 }

@@ -10,7 +10,7 @@ import simsys.core.annotation.Statistic;
 import simsys.core.clock.Clock;
 import simsys.core.clock.ClockImpl;
 import simsys.core.condition.TimeStopCondition;
-import simsys.core.context.SimpleSimulationContext;
+import simsys.core.context.SimulationContextImpl;
 import simsys.core.context.SimulationContext;
 import simsys.core.environment.Environment;
 import simsys.core.environment.EnvironmentImpl;
@@ -58,7 +58,7 @@ public class AgentSimulation {
     Environment env = new EnvironmentImpl();
     Clock clock = new ClockImpl();
     EventProvider eventProvider = new EventProviderImpl(Collections.emptyList());
-    SimulationContext simulationContext = new SimpleSimulationContext(env, clock, eventProvider);
+    SimulationContext simulationContext = new SimulationContextImpl(env, clock, eventProvider);
 
     AgentBasedSimulationModel simulation = new AgentBasedSimulationModel(simulationContext);
     simulation.setStopCondition(new TimeStopCondition(100));

@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory;
 import simsys.core.clock.Clock;
 import simsys.core.clock.ClockImpl;
 import simsys.core.condition.TimeStopCondition;
-import simsys.core.context.SimpleSimulationContext;
+import simsys.core.context.SimulationContextImpl;
 import simsys.core.context.SimulationContext;
 import simsys.core.environment.Environment;
 import simsys.core.environment.EnvironmentImpl;
@@ -121,7 +121,7 @@ public class SimpleQueueingSystem {
     Environment env = new EnvironmentImpl();
     Clock clock = new ClockImpl();
     EventProvider eventProvider = new EventProviderImpl(Collections.emptyList());
-    SimulationContext context = new SimpleSimulationContext(env, clock, eventProvider);
+    SimulationContext context = new SimulationContextImpl(env, clock, eventProvider);
     SimulationModelImpl model = new SimulationModelImpl(context);
 
     Queue queue = new QueueFIFO();

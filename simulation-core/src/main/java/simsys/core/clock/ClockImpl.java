@@ -17,4 +17,5 @@ public final class ClockImpl implements Clock {
   public void setCurrentTime(double currentTime) {
     this.currentTime = currentTime;
   }
+
 }

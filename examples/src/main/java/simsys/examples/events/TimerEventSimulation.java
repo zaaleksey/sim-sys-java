@@ -7,7 +7,7 @@ import java.util.Random;
 import simsys.core.clock.Clock;
 import simsys.core.clock.ClockImpl;
 import simsys.core.condition.TimeStopCondition;
-import simsys.core.context.SimpleSimulationContext;
+import simsys.core.context.SimulationContextImpl;
 import simsys.core.context.SimulationContext;
 import simsys.core.environment.Environment;
 import simsys.core.environment.EnvironmentImpl;
@@ -27,7 +27,7 @@ public class TimerEventSimulation {
     Environment env = new EnvironmentImpl();
     Clock clock = new ClockImpl();
     EventProvider eventProvider = new EventProviderImpl(Collections.emptyList());
-    SimulationContext simulationContext = new SimpleSimulationContext(env, clock, eventProvider);
+    SimulationContext simulationContext = new SimulationContextImpl(env, clock, eventProvider);
 
     // После того как создан контекст мы можем создать другую фабрику, которая будет  инжектить этот контекст
     // во все классы и билдеры, если это необходимо
@@ -57,7 +57,7 @@ public class TimerEventSimulation {
     Environment env = new EnvironmentImpl();
     Clock clock = new ClockImpl();
     EventProvider eventProvider = new EventProviderImpl(Collections.emptyList());
-    SimulationContext simulationContext = new SimpleSimulationContext(env, clock, eventProvider);
+    SimulationContext simulationContext = new SimulationContextImpl(env, clock, eventProvider);
 
     HandledEventBuilderFactory eventBuilderFactory = new HandledEventBuilderFactory(
         simulationContext,
