@@ -4,14 +4,14 @@ import simsys.core.clock.Clock;
 import simsys.core.environment.Environment;
 import simsys.core.provider.EventProvider;
 
-public class SimpleSimulationContext implements SimulationContext {
+public class SimulationContextImpl implements SimulationContext {
 
   protected Environment environment;
   protected Clock clock;
   protected EventProvider eventProvider;
 
-  public SimpleSimulationContext(Environment environment, Clock clock,
-      EventProvider eventProvider) {
+  public SimulationContextImpl(Environment environment,
+      Clock clock, EventProvider eventProvider) {
     this.environment = environment;
     this.clock = clock;
     this.eventProvider = eventProvider;
@@ -31,4 +31,5 @@ public class SimpleSimulationContext implements SimulationContext {
   public EventProvider getEventProvider() {
     return eventProvider;
   }
+
 }
