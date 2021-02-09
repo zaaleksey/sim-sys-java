@@ -62,6 +62,7 @@ public class SimpleQueueingSystem {
       //the simple and stupid way - to create an service event in place
       context.getEventProvider().add(createStartServiceEvent(queue, context));
     });
+
     return createDemand;
   }
 

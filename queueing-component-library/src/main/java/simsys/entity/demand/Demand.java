@@ -61,4 +61,5 @@ public abstract class Demand {
   public void setNetworkTime(double networkTime) {
     this.networkTime = networkTime;
   }
+
 }

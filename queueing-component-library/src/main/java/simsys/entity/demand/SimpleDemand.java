@@ -6,4 +6,5 @@ public class SimpleDemand extends Demand {
     super();
     this.arrivalTime = arrivalTime;
   }
+
 }

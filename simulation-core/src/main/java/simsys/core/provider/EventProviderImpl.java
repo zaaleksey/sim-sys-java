@@ -18,7 +18,7 @@ public class EventProviderImpl implements EventProvider {
   public int count() {
     return events.size();
   }
-  
+
   @Override
   public void add(Event event) {
     events.add(event);

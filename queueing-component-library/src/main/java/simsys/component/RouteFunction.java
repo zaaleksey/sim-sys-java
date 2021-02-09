@@ -6,4 +6,5 @@ import simsys.node.Node;
 public interface RouteFunction {
 
   public Node route();
+
 }

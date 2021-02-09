@@ -8,7 +8,6 @@ public abstract class AbstractSource extends AbstractAgent {
   private static final String SLEEPING_STATE = "SLEEPING";
   private static final String ERROR_MESSAGE = "Method is not implemented";
 
-
   void arrivalAction() {
     throw new UnsupportedOperationException(ERROR_MESSAGE);
   }
@@ -16,6 +15,5 @@ public abstract class AbstractSource extends AbstractAgent {
   double interArrivalTime() {
     throw new UnsupportedOperationException(ERROR_MESSAGE);
   }
-
 
 }

@@ -86,5 +86,7 @@ public class Network {
       }
       return new Network().installModel(model);
     }
+
   }
+
 }

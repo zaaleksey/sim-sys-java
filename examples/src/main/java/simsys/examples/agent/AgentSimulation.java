@@ -65,6 +65,6 @@ public class AgentSimulation {
 
     simulation.addAgent(markovAgent);
     simulation.run();
-
   }
+  
 }
