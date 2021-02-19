@@ -5,7 +5,7 @@ import java.util.Random;
 public class ExponentialRV implements RandomVariable {
 
   private final Random random;
-  public double rate;
+  private final double rate;
 
   public ExponentialRV(Random random, double rate) {
     this.random = random;
