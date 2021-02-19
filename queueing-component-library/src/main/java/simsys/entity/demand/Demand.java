@@ -42,7 +42,6 @@ public abstract class Demand {
 
   public void setLeavingTime(double leavingTime) {
     this.leavingTime = leavingTime;
-    // calculate the time spent in the network
     setNetworkTime(getLeavingTime() - getCreationTime());
   }
 

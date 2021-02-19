@@ -60,7 +60,7 @@ public class Network {
       }
       return this;
     }
-//
+
 //        public NetworkBuilder addConnection(String out, String in) {
 //            for(SimulationComponent component: env.getComponents().values()) {
 //                if(component.getId().equals(out)) {

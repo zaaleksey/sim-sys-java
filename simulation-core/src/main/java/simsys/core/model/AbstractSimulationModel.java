@@ -10,8 +10,6 @@ import simsys.core.event.Event;
 @Slf4j
 public abstract class AbstractSimulationModel implements SimulationModel {
 
-  static final Logger LOGGER = LoggerFactory.getLogger(AbstractSimulationModel.class);
-
   protected SimulationContext simulationContext;
   protected Predicate<SimulationContext> stopCondition;
 
