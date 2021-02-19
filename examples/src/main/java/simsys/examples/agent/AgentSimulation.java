@@ -1,24 +1,17 @@
 package simsys.examples.agent;
 
-import java.util.Collections;
-import java.util.Random;
 import simsys.core.agent.AbstractAgent;
 import simsys.core.agent.Agent;
 import simsys.core.annotation.Action;
 import simsys.core.annotation.State;
 import simsys.core.annotation.Statistic;
-import simsys.core.clock.Clock;
-import simsys.core.clock.ClockImpl;
 import simsys.core.condition.TimeStopCondition;
 import simsys.core.context.SimulationContextImpl;
-import simsys.core.context.SimulationContext;
-import simsys.core.environment.Environment;
-import simsys.core.environment.EnvironmentImpl;
 import simsys.core.model.AgentBasedSimulationModel;
-import simsys.core.provider.EventProvider;
-import simsys.core.provider.EventProviderImpl;
 import simsys.random.ExponentialRV;
 import simsys.random.RandomVariable;
+
+import java.util.Random;
 
 public class AgentSimulation {
 
@@ -54,13 +47,7 @@ public class AgentSimulation {
       }
     };
 
-    // Должна быть фабрика, которая создает это все
-    Environment env = new EnvironmentImpl();
-    Clock clock = new ClockImpl();
-    EventProvider eventProvider = new EventProviderImpl(Collections.emptyList());
-    SimulationContext simulationContext = new SimulationContextImpl(env, clock, eventProvider);
-
-    AgentBasedSimulationModel simulation = new AgentBasedSimulationModel(simulationContext);
+    AgentBasedSimulationModel simulation = new AgentBasedSimulationModel(SimulationContextImpl.getEmptyInstance());
     simulation.setStopCondition(new TimeStopCondition(100));
 
     simulation.addAgent(markovAgent);
