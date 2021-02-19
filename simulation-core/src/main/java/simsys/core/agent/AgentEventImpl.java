@@ -16,6 +16,7 @@ import simsys.core.context.SimulationContext;
 import simsys.core.event.HandledEvent;
 
 
+//TODO: check
 //Wrapper-adapter for agent as event
 public class AgentEventImpl implements AgentEvent {
 
@@ -35,7 +36,7 @@ public class AgentEventImpl implements AgentEvent {
   }
 
   @Override
-  public Agent setAgent(Agent agent) {
+  public void setAgent(Agent agent) {
     Set<String> states = new HashSet<>();
     String initialState = null;
 
@@ -132,7 +133,6 @@ public class AgentEventImpl implements AgentEvent {
     }
     System.out.println("*******************************************");
 
-    return null;
   }
 
   @Override
@@ -149,4 +149,5 @@ public class AgentEventImpl implements AgentEvent {
   public void activate() {
 
   }
+
 }

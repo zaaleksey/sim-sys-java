@@ -16,4 +16,5 @@ public class KendallNotation extends QSDescription {
     super(countOfServers, serviceTime, queue);
     this.interArrivalTimes = interArrivalTimes;
   }
+
 }

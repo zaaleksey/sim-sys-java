@@ -6,4 +6,5 @@ public interface EventHandlerFactory extends Factory<EventHandler<?>> {
 
   @Override
   EventHandler<?> create();
+
 }

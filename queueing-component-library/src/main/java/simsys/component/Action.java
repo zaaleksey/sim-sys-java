@@ -4,4 +4,5 @@ package simsys.component;
 public interface Action {
 
   public void activate();
+
 }

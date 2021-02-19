@@ -9,7 +9,6 @@ public class TimeoutHandler implements EventHandler {
 
   protected SimulationContext simulationContext;
 
-
   private Supplier<Double> activateTimes;
 
   public TimeoutHandler(double interval) {
@@ -40,7 +39,6 @@ public class TimeoutHandler implements EventHandler {
     this.activateTimes = activateTimes;
   }
 
-
   public void setSimulationContext(SimulationContext simulationContext) {
     this.simulationContext = simulationContext;
   }
@@ -50,4 +48,5 @@ public class TimeoutHandler implements EventHandler {
     event.setActivateTime(activateTimes.get());
     simulationContext.getEventProvider().add(event);
   }
+
 }

@@ -1,8 +1,6 @@
 package simsys.core.agent;
 
-import java.util.List;
 import java.util.Set;
-import simsys.core.event.Event;
 
 public abstract class AbstractAgent implements Agent {
 
@@ -32,6 +30,5 @@ public abstract class AbstractAgent implements Agent {
     nextActivationTime += delay;
     nextState = state;
   }
-
 
 }

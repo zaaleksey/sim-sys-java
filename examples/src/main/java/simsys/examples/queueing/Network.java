@@ -5,7 +5,7 @@ import java.util.Random;
 import simsys.core.SimulationComponent;
 import simsys.core.clock.Clock;
 import simsys.core.clock.ClockImpl;
-import simsys.core.context.SimpleSimulationContext;
+import simsys.core.context.SimulationContextImpl;
 import simsys.core.context.SimulationContext;
 import simsys.core.environment.EnvironmentImpl;
 import simsys.core.event.HandledEvent;
@@ -43,7 +43,7 @@ public class Network {
       env = new EnvironmentImpl();
       clock = new ClockImpl();
       eventProvider = new EventProviderImpl(Collections.emptyList());
-      simulationContext = new SimpleSimulationContext(env, clock, eventProvider);
+      simulationContext = new SimulationContextImpl(env, clock, eventProvider);
       model = new SimulationModelImpl(simulationContext);
     }
 
@@ -86,5 +86,7 @@ public class Network {
       }
       return new Network().installModel(model);
     }
+
   }
+
 }

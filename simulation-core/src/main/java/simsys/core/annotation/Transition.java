@@ -12,8 +12,7 @@ import java.lang.annotation.Target;
 public @interface Transition {
 
   String from();
-
   String to();
-
   String transitionFunction() default "";
+
 }

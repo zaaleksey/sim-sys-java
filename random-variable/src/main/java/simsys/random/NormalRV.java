@@ -6,4 +6,5 @@ public class NormalRV implements RandomVariable{
   public double nextValue() {
     return 0;
   }
+
 }

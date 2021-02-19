@@ -15,4 +15,5 @@ public class TimeStopCondition implements Predicate<SimulationContext> {
   public boolean test(SimulationContext simulationContext) {
     return simulationContext.getCurrentTime() > simulationDuration;
   }
+
 }

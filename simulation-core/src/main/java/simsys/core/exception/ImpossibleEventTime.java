@@ -6,4 +6,5 @@ public class ImpossibleEventTime extends RuntimeException {
     super("Unable to add the event with activation time" +
         eventActionTime + "because currentTime: " + currentTime);
   }
+
 }

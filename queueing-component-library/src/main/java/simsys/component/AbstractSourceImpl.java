@@ -19,4 +19,5 @@ public class AbstractSourceImpl extends AbstractSource {
   public double interArrivalTime() {
     return 0;
   }
+
 }

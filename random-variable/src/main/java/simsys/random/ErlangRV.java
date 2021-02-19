@@ -6,4 +6,5 @@ public class ErlangRV implements RandomVariable {
   public double nextValue() {
     return 0;
   }
+
 }

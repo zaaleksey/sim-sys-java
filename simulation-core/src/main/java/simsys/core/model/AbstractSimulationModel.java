@@ -14,18 +14,18 @@ public abstract class AbstractSimulationModel implements SimulationModel {
   protected Predicate<SimulationContext> stopCondition;
 
   @Override
+  public void run() {
+    while (!stopCondition.test(simulationContext)) {
+      step();
+    }
+  }
+
+  @Override
   public void step() {
     Event nextEvent = simulationContext.getEventProvider().getNext();
     simulationContext.getClock().setCurrentTime(nextEvent.getActivateTime());
     LOGGER.debug("A new EVENT!  The current time: {}", simulationContext.getCurrentTime());
     nextEvent.activate();
-  }
-
-  @Override
-  public void run() {
-    while (!stopCondition.test(simulationContext)) {
-      step();
-    }
   }
 
   public Predicate<SimulationContext> getStopCondition() {
@@ -35,5 +35,5 @@ public abstract class AbstractSimulationModel implements SimulationModel {
   public void setStopCondition(Predicate<SimulationContext> stopCondition) {
     this.stopCondition = stopCondition;
   }
-  
+
 }

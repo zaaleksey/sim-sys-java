@@ -7,12 +7,11 @@ import simsys.core.provider.EventProvider;
 public interface SimulationContext {
 
   Environment getEnvironment();
-
   Clock getClock();
-
   EventProvider getEventProvider();
 
   default double getCurrentTime() {
     return getClock().getCurrentTime();
   }
+
 }

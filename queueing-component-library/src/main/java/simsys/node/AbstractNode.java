@@ -16,4 +16,5 @@ public abstract class AbstractNode implements Node {
   public void addNode(Node node) {
     nodes.add(node);
   }
+
 }

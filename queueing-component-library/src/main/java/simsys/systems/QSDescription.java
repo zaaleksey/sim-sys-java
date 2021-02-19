@@ -20,7 +20,6 @@ public class QSDescription {
     this.queue = queue;
   }
 
-
   public Integer getCountOfServers() {
     return countOfServers;
   }
@@ -44,4 +43,5 @@ public class QSDescription {
   public void setQueue(Queue queue) {
     this.queue = queue;
   }
+
 }

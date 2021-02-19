@@ -16,4 +16,5 @@ public class ExponentialRV implements RandomVariable {
   public double nextValue() {
     return -1.0 / rate * Math.log(random.nextDouble());
   }
+
 }

@@ -44,4 +44,5 @@ public class QueueFIFO extends AbstractSimulationModel implements Queue {
     demandQueue.remove(0);
     return demand;
   }
+
 }
