@@ -16,18 +16,18 @@ public class ErlangRV implements RandomVariable {
 
   @Override
   public double nextValue() {
-    return -Math.log(getProductUniform01(this.n)) / this.rate;
+    return -Math.log(getProductUniform01()) / this.rate;
   }
 
-  private double getProductUniform01(int n) {
+  private double getProductUniform01() {
     double product = 1;
-    double[] arr = new double[n];
+    double[] arr = new double[this.n];
 
-    for(int i = 0; i < n; i++) {
+    for(int i = 0; i < this.n; i++) {
       arr[i] = this.random.nextDouble();
     }
 
-    for (int i = 0; i < n; i++) {
+    for (int i = 0; i < this.n; i++) {
       product *= arr[i];
     }
 
