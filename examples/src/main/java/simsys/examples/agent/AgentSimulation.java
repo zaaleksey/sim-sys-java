@@ -22,8 +22,8 @@ public class AgentSimulation {
   public static void main(String[] args) {
 
     Agent markovAgent = new AbstractAgent() {
-      RandomVariable alpha = new ExponentialRV(new Random(), 0.1);
-      RandomVariable beta = new ExponentialRV(new Random(), 2);
+      final RandomVariable alpha = new ExponentialRV(new Random(), 0.1);
+      final RandomVariable beta = new ExponentialRV(new Random(), 2);
 
       @State(initial = true)
       @Statistic
