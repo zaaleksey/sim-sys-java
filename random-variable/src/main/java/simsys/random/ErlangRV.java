@@ -16,6 +16,7 @@ public class ErlangRV implements RandomVariable {
 
   @Override
   public double nextValue() {
+//    or generate n exponential with mean rate and return sum
     return -Math.log(getProductUniform01()) / this.rate;
   }
 
