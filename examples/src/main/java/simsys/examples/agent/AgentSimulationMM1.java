@@ -12,8 +12,14 @@ public class AgentSimulationMM1 {
     public static void main(String[] args) {
 
         Agent mm1Agent = new AbstractAgent() {
-            private double lambda = 1;
-          RandomVariable in = new ExponentialRV(new Random(), );
+
+          private final double lambda = 1;
+          private final double mu = 2;
+
+          RandomVariable in = new ExponentialRV(new Random(), lambda);
+          RandomVariable out = new ExponentialRV(new Random(), mu);
+
+          
         };
     }
 }
