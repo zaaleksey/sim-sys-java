@@ -45,7 +45,8 @@ public class AgentSimulation {
       }
     };
 
-    AgentBasedSimulationModel simulation = new AgentBasedSimulationModel(SimulationContextImpl.getEmptyInstance());
+    AgentBasedSimulationModel simulation = new AgentBasedSimulationModel(
+        SimulationContextImpl.getEmptyInstance());
     simulation.setStopCondition(new TimeStopCondition(100));
 
     simulation.addAgent(markovAgent);
