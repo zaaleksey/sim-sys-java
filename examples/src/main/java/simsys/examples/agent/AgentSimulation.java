@@ -37,8 +37,6 @@ public class AgentSimulation {
         return currentState.equals(STATE_A) ? STATE_B : STATE_A;
       }
 
-
-
       @Action(states = {STATE_A, STATE_B})
       public void action() {
         System.out.println("Current State " + currentState);
