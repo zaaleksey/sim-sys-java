@@ -16,23 +16,22 @@ public class UniformRV implements RandomVariable {
 
     @Override
     public double nextValue() {
-        return this.startOfRange + random.nextInt(Integer.MAX_VALUE) *
-                (this.endOfRange - this.startOfRange) / Integer.MAX_VALUE;
+        return this.startOfRange + random.nextDouble() * (this.endOfRange - this.startOfRange);
     }
 
     // TODO: don't forget to clean up
     public static void main(String[] args) {
 
-        int[] values = new int[11];
-        RandomVariable rv = new UniformRV(new Random(), 0, 10);
+        int n = 10;
+        int[] counter = new int[n];
+        RandomVariable rv = new UniformRV(new Random(), 0, n);
 
-        for(int i = 0; i < 10000; i++) {
-//            System.out.println(rv.nextValue());
-            values[(int) Math.round(rv.nextValue())]++;
+        for(int i = 0; i < 1000000; i++) {
+            counter[(int) rv.nextValue()]++;
         }
 
-        for(int i: values) {
-            System.out.println(i);
+        for(int i = 0; i < n; i++) {
+            System.out.println(i + ": " + counter[i]);
         }
     }
 
