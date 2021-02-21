@@ -1,5 +1,7 @@
 # sim-sys-java
 
+[![CodeQL](https://github.com/AlexeyZavarzin/sim-sys-java/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/AlexeyZavarzin/sim-sys-java/actions/workflows/codeql-analysis.yml) 
+
 ____
 
 ## Discrete-event simulation framework
