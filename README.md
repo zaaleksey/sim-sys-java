@@ -1,7 +1,6 @@
 # sim-sys-java
 
 [![Maven](https://github.com/AlexeyZavarzin/sim-sys-java/actions/workflows/maven.yml/badge.svg)](https://github.com/AlexeyZavarzin/sim-sys-java/actions/workflows/maven.yml) 
-
 [![CodeQL](https://github.com/AlexeyZavarzin/sim-sys-java/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/AlexeyZavarzin/sim-sys-java/actions/workflows/codeql-analysis.yml) 
 
 ____
