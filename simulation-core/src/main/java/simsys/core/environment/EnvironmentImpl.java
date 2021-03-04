@@ -3,27 +3,33 @@ package simsys.core.environment;
 import java.util.HashMap;
 import simsys.core.SimulationComponent;
 
-public class EnvironmentImpl implements Environment {
+public class EnvironmentImpl<T extends SimulationComponent> implements Environment<T> {
 
+  private String currentState;
+  private double timeDeltaBetweenStates;
   private final HashMap<String, SimulationComponent> simulationComponents;
 
   public EnvironmentImpl() {
-    simulationComponents = new HashMap<>();
+    this.simulationComponents = new HashMap<>();
+  }
+
+  public void setTimeDeltaBetweenStates(double timeDeltaBetweenStates) {
+    this.timeDeltaBetweenStates = timeDeltaBetweenStates;
   }
 
   @Override
   public HashMap<String, SimulationComponent> getComponents() {
-    return simulationComponents;
+    return this.simulationComponents;
   }
 
   @Override
   public void addComponent(String id, SimulationComponent component) {
-    simulationComponents.put(id, component);
+    this.simulationComponents.put(id, component);
   }
 
   @Override
-  public SimulationComponent getComponent(String id) {
-    return simulationComponents.get(id);
+  public T getComponent(String id) {
+    return (T) this.simulationComponents.get(id);
   }
 
 }
