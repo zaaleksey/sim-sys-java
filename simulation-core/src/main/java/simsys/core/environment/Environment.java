@@ -1,7 +1,7 @@
 package simsys.core.environment;
 
 import java.util.Map;
-import simsys.core.SimulationComponent;
+import simsys.core.component.SimulationComponent;
 
 public interface Environment<T extends SimulationComponent> {
 

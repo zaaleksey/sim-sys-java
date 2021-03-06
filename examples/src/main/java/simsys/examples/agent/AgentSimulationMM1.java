@@ -22,10 +22,6 @@ public class AgentSimulationMM1 {
           RandomVariable in = new ExponentialRV(new Random(), lambda);
           RandomVariable out = new ExponentialRV(new Random(), mu);
 
-//          определить состяния
-
-//          функцию action для перехода из состояния в состояние
-
         };
 
       AgentBasedSimulationModel agentSimulationMM1 = new AgentBasedSimulationModel(

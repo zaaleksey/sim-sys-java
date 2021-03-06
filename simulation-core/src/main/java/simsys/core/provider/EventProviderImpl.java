@@ -16,12 +16,12 @@ public class EventProviderImpl implements EventProvider {
 
   @Override
   public int count() {
-    return events.size();
+    return this.events.size();
   }
 
   @Override
   public void add(Event event) {
-    events.add(event);
+    this.events.add(event);
   }
 
   @Override
@@ -31,7 +31,7 @@ public class EventProviderImpl implements EventProvider {
 
   @Override
   public Event peek() {
-    return Collections.min(events);
+    return Collections.min(this.events);
   }
 
   @Override
@@ -43,7 +43,7 @@ public class EventProviderImpl implements EventProvider {
 
   @Override
   public boolean remove(Event event) {
-    return events.remove(event);
+    return this.events.remove(event);
   }
 
 }

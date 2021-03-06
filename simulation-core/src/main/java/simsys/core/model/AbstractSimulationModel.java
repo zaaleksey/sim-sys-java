@@ -15,21 +15,22 @@ public abstract class AbstractSimulationModel implements SimulationModel {
 
   @Override
   public void run() {
-    while (!stopCondition.test(simulationContext)) {
+    while (!this.stopCondition.test(this.simulationContext)) {
       step();
     }
   }
 
   @Override
   public void step() {
-    Event nextEvent = simulationContext.getEventProvider().getNext();
-    simulationContext.getClock().setCurrentTime(nextEvent.getActivateTime());
-    LOGGER.debug("A new EVENT!  The current time: {}", simulationContext.getCurrentTime());
+    Event nextEvent = this.simulationContext.getEventProvider().getNext();
+    this.simulationContext.getClock().setCurrentTime(nextEvent.getActivateTime());
+    LOGGER.debug("A new EVENT!  The current time: {}", this.simulationContext.getCurrentTime());
     nextEvent.activate();
+    this.simulationContext.updateDeltaTimeLastTwoEvents();
   }
 
   public Predicate<SimulationContext> getStopCondition() {
-    return stopCondition;
+    return this.stopCondition;
   }
 
   public void setStopCondition(Predicate<SimulationContext> stopCondition) {

@@ -12,7 +12,6 @@ public interface Event extends Comparable<Event> {
     setActivateTime(Double.POSITIVE_INFINITY);
   }
 
-//  TODO: void?
   default double postpone(double duration) {
     setActivateTime(getActivateTime() + duration);
     return getActivateTime();

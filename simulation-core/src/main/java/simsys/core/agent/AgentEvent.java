@@ -4,7 +4,7 @@ import simsys.core.event.Event;
 
 public interface AgentEvent extends Event {
 
-  public Agent getAgent();
-  public void setAgent(Agent agent);
+  Agent getAgent();
+  void setAgent(Agent agent);
 
 }

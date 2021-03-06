@@ -31,13 +31,15 @@ public class AgentSimulation {
       @State
       @Statistic
       private final String STATE_B = "B";
+      @State
+      private final String STATE_C = "C";
 
       public String defineNextState() {
         // there are two possibilities
         return currentState.equals(STATE_A) ? STATE_B : STATE_A;
       }
 
-      @Action(states = {STATE_A, STATE_B})
+      @Action(states = {STATE_A, STATE_B, STATE_C})
       public void action() {
         System.out.println("Current State " + currentState);
         double delay = currentState.equals(STATE_A) ? alpha.nextValue() : beta.nextValue();
