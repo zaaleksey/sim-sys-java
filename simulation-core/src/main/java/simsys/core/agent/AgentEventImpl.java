@@ -21,25 +21,28 @@ import simsys.core.event.handler.StatisticHandler;
 // Wrapper-adapter for agent as event
 public class AgentEventImpl implements AgentEvent {
 
+  protected Agent agent;
   protected SimulationContext context;
 
   List<HandledEvent> events;
 
   public AgentEventImpl(Agent agent, SimulationContext context) {
-    System.out.println("Constructor for agent event");
+    this.agent = agent;
     this.context = context;
     setAgent(agent);
   }
 
   @Override
   public Agent getAgent() {
-    return null;
+    return this.agent;
   }
 
   @Override
   public void setAgent(Agent agent) {
+    // create handler for all states
+    StatisticHandler statisticHandler = new StatisticHandler(agent, this.context);
+
     Set<String> states = new HashSet<>();
-    Set<String> statesForStatistics = new HashSet<>();
 
     String initialState = null;
 
@@ -47,33 +50,17 @@ public class AgentEventImpl implements AgentEvent {
     for (Field field : fields) {
       Annotation[] annotations = field.getDeclaredAnnotations();
       for (Annotation annotation : annotations) {
-        System.out.println(annotation);
         if (annotation.annotationType().equals(State.class)) {
           field.setAccessible(true);
           String stateName = (String) ReflectionUtils.getField(field, agent);
-          System.out.println("New state = " + stateName);
           states.add(stateName);
           boolean isInitial = ((State) annotation).initial();
           if (isInitial) {
             initialState = stateName;
-            System.out.println("We've found an initial state:" + initialState);
           }
-        }
-
-        if (annotation.annotationType().equals(Statistic.class)) {
-          field.setAccessible(true);
-          String stateName = (String) ReflectionUtils.getField(field, agent);
-          System.out.println("New state for statistics = " + stateName);
-          statesForStatistics.add(stateName);
         }
       }
     }
-
-    // create handler for all states
-    StatisticHandler statisticHandler = new StatisticHandler(statesForStatistics);
-
-    System.out.println("All states: " + states);
-    System.out.println("States for statistics: " + statesForStatistics);
 
     // create map State->Method
     Map<String, Method> methodResolver = new HashMap<>();
@@ -144,11 +131,11 @@ public class AgentEventImpl implements AgentEvent {
     ReflectionUtils.setField(currentStateFiled, agent, initialState);
 
     // Print all
-    System.out.println("Print states and corresponding actions");
-    for (Map.Entry<String, HandledEvent> pair : eventResolver.entrySet()) {
-      System.out.println(pair.getKey() + ": " + pair.getValue());
-    }
-    System.out.println("*******************************************");
+//    System.out.println("Print states and corresponding actions");
+//    for (Map.Entry<String, HandledEvent> pair : eventResolver.entrySet()) {
+//      System.out.println(pair.getKey() + ": " + pair.getValue());
+//    }
+//    System.out.println("*******************************************");
 
   }
 

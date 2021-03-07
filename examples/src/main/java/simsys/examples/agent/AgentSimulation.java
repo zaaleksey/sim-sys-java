@@ -22,7 +22,7 @@ public class AgentSimulation {
   public static void main(String[] args) {
 
     Agent markovAgent = new AbstractAgent() {
-      final RandomVariable alpha = new ExponentialRV(new Random(), 0.1);
+      final RandomVariable alpha = new ExponentialRV(new Random(), 1);
       final RandomVariable beta = new ExponentialRV(new Random(), 2);
 
       @State(initial = true)
@@ -31,15 +31,13 @@ public class AgentSimulation {
       @State
       @Statistic
       private final String STATE_B = "B";
-      @State
-      private final String STATE_C = "C";
 
       public String defineNextState() {
         // there are two possibilities
         return currentState.equals(STATE_A) ? STATE_B : STATE_A;
       }
 
-      @Action(states = {STATE_A, STATE_B, STATE_C})
+      @Action(states = {STATE_A, STATE_B})
       public void action() {
         System.out.println("Current State " + currentState);
         double delay = currentState.equals(STATE_A) ? alpha.nextValue() : beta.nextValue();
@@ -49,7 +47,7 @@ public class AgentSimulation {
 
     AgentBasedSimulationModel simulation = new AgentBasedSimulationModel(
         SimulationContextImpl.getEmptyInstance());
-    simulation.setStopCondition(new TimeStopCondition(100));
+    simulation.setStopCondition(new TimeStopCondition(1500));
 
     simulation.addAgent(markovAgent);
     simulation.run();
