@@ -1,6 +1,7 @@
 package simsys.core;
 
 import java.util.List;
+import simsys.core.component.SimulationComponent;
 import simsys.core.context.SimulationContext;
 import simsys.core.exception.NoItemInCollection;
 
@@ -35,4 +36,5 @@ public abstract class Node {
   public SimulationContext getSimulationContext() {
     return null;
   }
+
 }

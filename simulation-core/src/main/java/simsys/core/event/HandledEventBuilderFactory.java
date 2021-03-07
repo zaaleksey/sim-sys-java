@@ -7,12 +7,14 @@ import simsys.core.event.handler.EventHandler;
 public class HandledEventBuilderFactory implements Factory<HandledEvent.HandledEventBuilder> {
 
   private SimulationContext simulationContext;
-  private EventHandler beforeHandler;
-  private EventHandler afterHandler;
+  private EventHandler<HandledEvent> beforeHandler;
+  private EventHandler<HandledEvent> afterHandler;
 
 
-  public HandledEventBuilderFactory(SimulationContext simulationContext,
-      EventHandler beforeHandler, EventHandler afterHandler) {
+  public HandledEventBuilderFactory(
+      SimulationContext simulationContext,
+      EventHandler<HandledEvent> beforeHandler,
+      EventHandler<HandledEvent> afterHandler) {
     this.simulationContext = simulationContext;
     this.afterHandler = afterHandler;
     this.beforeHandler = beforeHandler;
@@ -21,9 +23,9 @@ public class HandledEventBuilderFactory implements Factory<HandledEvent.HandledE
   @Override
   public HandledEvent.HandledEventBuilder create() {
     HandledEvent.HandledEventBuilder builder = new HandledEvent.HandledEventBuilder(
-        simulationContext);
-    builder.addAfterHandler(afterHandler)
-        .addBeforeHandler(beforeHandler);
+        this.simulationContext);
+    builder.addAfterHandler(this.afterHandler)
+        .addBeforeHandler(this.beforeHandler);
     return builder;
   }
 

@@ -1,23 +1,14 @@
 package simsys.examples.events;
 
-import java.util.Collections;
-import java.util.Random;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import simsys.core.clock.Clock;
-import simsys.core.clock.ClockImpl;
+import lombok.extern.slf4j.Slf4j;
 import simsys.core.condition.TimeStopCondition;
-import simsys.core.context.SimulationContextImpl;
 import simsys.core.context.SimulationContext;
-import simsys.core.environment.Environment;
-import simsys.core.environment.EnvironmentImpl;
+import simsys.core.context.SimulationContextImpl;
 import simsys.core.event.Event;
 import simsys.core.event.HandledEvent;
 import simsys.core.event.handler.TimeoutHandler;
 import simsys.core.exception.ImpossibleEventTime;
 import simsys.core.model.SimulationModelImpl;
-import simsys.core.provider.EventProvider;
-import simsys.core.provider.EventProviderImpl;
 import simsys.entity.demand.Demand;
 import simsys.entity.demand.SimpleDemand;
 import simsys.entity.queue.Queue;
@@ -25,14 +16,14 @@ import simsys.entity.queue.QueueFIFO;
 import simsys.random.ExponentialRV;
 import simsys.random.RandomVariable;
 
+import java.util.Random;
 
+@Slf4j
 public class SimpleQueueingSystem {
-
-  static final Logger LOGGER = LoggerFactory.getLogger(SimpleQueueingSystem.class);
 
   //don't use global variable!!!
   //only for very fast examples
-  static private RandomVariable serviceTimes = new ExponentialRV(new Random(), 4);
+  static private final RandomVariable serviceTimes = new ExponentialRV(new Random(), 4);
   static Demand processingDemand;
   static double averageServiceTime = 0;
   static double countOfDemands = 0;
@@ -119,17 +110,14 @@ public class SimpleQueueingSystem {
 
 
   public static void simpleQueueingSystems() {
-    Environment env = new EnvironmentImpl();
-    Clock clock = new ClockImpl();
-    EventProvider eventProvider = new EventProviderImpl(Collections.emptyList());
-    SimulationContext context = new SimulationContextImpl(env, clock, eventProvider);
+    SimulationContext context = SimulationContextImpl.getEmptyInstance();
     SimulationModelImpl model = new SimulationModelImpl(context);
 
     Queue queue = new QueueFIFO();
     Event event = createDemandEvent(2, queue, context);
 
     try {
-      eventProvider.add(event);
+      context.getEventProvider().add(event);
     } catch (ImpossibleEventTime impossibleEventTime) {
       impossibleEventTime.printStackTrace();
     }

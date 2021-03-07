@@ -6,7 +6,7 @@ public abstract class AbstractEvent implements Event {
 
   @Override
   public double getActivateTime() {
-    return activateTime;
+    return this.activateTime;
   }
 
   @Override

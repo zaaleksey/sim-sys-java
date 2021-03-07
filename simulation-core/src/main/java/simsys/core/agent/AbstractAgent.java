@@ -12,23 +12,23 @@ public abstract class AbstractAgent implements Agent {
 
   @Override
   public String currentState() {
-    return currentState;
+    return this.currentState;
   }
 
   @Override
   public void sleep(double delay) {
-    nextActivationTime += delay;
+    this.nextActivationTime += delay;
   }
 
   @Override
   public void moveToState(String state) {
-    nextState = state;
+    this.nextState = state;
   }
 
   @Override
   public void moveToStateAfterTimeout(String state, double delay) {
-    nextActivationTime += delay;
-    nextState = state;
+    this.nextActivationTime += delay;
+    this.nextState = state;
   }
 
 }

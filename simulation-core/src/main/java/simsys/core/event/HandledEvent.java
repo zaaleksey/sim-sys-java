@@ -3,7 +3,6 @@ package simsys.core.event;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
-import lombok.SneakyThrows;
 import simsys.core.context.SimulationContext;
 import simsys.core.event.handler.EventHandler;
 import simsys.core.event.handler.TimeoutHandler;
@@ -13,19 +12,21 @@ import simsys.random.RandomVariable;
 
 public class HandledEvent extends AbstractEvent {
 
-  protected ArrayList<EventHandler> handlers = new ArrayList<>();
+  protected ArrayList<EventHandler<HandledEvent>> handlers = new ArrayList<>();
 
-  public void addHandler(EventHandler<HandledEvent> eventHandler) {
-    handlers.add(eventHandler);
+  public HandledEvent addHandler(EventHandler<HandledEvent> eventHandler) {
+    this.handlers.add(eventHandler);
+    return this;
   }
 
-  public List<EventHandler> getAllHandlers() {
-    return handlers;
+  public List<EventHandler<HandledEvent>> getAllHandlers() {
+    return this.handlers;
   }
 
   @Override
   public final void activate() {
-    for (EventHandler handler : handlers) {
+
+    for (EventHandler<HandledEvent> handler : this.handlers) {
       try {
         handler.handle(this);
       } catch (ImpossibleEventTime impossibleEventTime) {
@@ -39,10 +40,10 @@ public class HandledEvent extends AbstractEvent {
 
     private final SimulationContext simulationContext;
 
-    private final ArrayList<EventHandler> handlers;
+    private final ArrayList<EventHandler<HandledEvent>> handlers;
 
-    private final ArrayList<EventHandler> beforeHandlers;
-    private final ArrayList<EventHandler> afterHandlers;
+    private final ArrayList<EventHandler<HandledEvent>> beforeHandlers;
+    private final ArrayList<EventHandler<HandledEvent>> afterHandlers;
 
     private TimeoutHandler timeoutHandler;
 
@@ -50,9 +51,9 @@ public class HandledEvent extends AbstractEvent {
 
     public HandledEventBuilder(SimulationContext simulationContext) {
       this.simulationContext = simulationContext;
-      handlers = new ArrayList<>();
-      beforeHandlers = new ArrayList<>();
-      afterHandlers = new ArrayList<>();
+      this.handlers = new ArrayList<>();
+      this.beforeHandlers = new ArrayList<>();
+      this.afterHandlers = new ArrayList<>();
     }
 
     public HandledEventBuilder periodic(TimeoutHandler timeoutHandler) {
@@ -76,18 +77,18 @@ public class HandledEvent extends AbstractEvent {
     }
 
 
-    public HandledEventBuilder addHandler(EventHandler eventHandler) {
-      handlers.add(eventHandler);
+    public HandledEventBuilder addHandler(EventHandler<HandledEvent> eventHandler) {
+      this.handlers.add(eventHandler);
       return this;
     }
 
-    public HandledEventBuilder addBeforeHandler(EventHandler eventHandler) {
-      beforeHandlers.add(eventHandler);
+    public HandledEventBuilder addBeforeHandler(EventHandler<HandledEvent> eventHandler) {
+      this.beforeHandlers.add(eventHandler);
       return this;
     }
 
-    public HandledEventBuilder addAfterHandler(EventHandler eventHandler) {
-      afterHandlers.add(eventHandler);
+    public HandledEventBuilder addAfterHandler(EventHandler<HandledEvent> eventHandler) {
+      this.afterHandlers.add(eventHandler);
       return this;
     }
 
@@ -100,18 +101,18 @@ public class HandledEvent extends AbstractEvent {
     public HandledEvent build() {
       HandledEvent handledEvent = new HandledEvent();
 
-      handledEvent.handlers.addAll(beforeHandlers);
-      handledEvent.handlers.addAll(handlers);
+      handledEvent.handlers.addAll(this.beforeHandlers);
+      handledEvent.handlers.addAll(this.handlers);
 
-      if (timeoutHandler != null) {
+      if (this.timeoutHandler != null) {
         timeoutHandler.setSimulationContext(simulationContext);
         handledEvent.handlers.add(timeoutHandler);
       }
 
-      handledEvent.handlers.addAll(afterHandlers);
+      handledEvent.handlers.addAll(this.afterHandlers);
 
       if (this.startTime != null) {
-        handledEvent.setActivateTime(startTime);
+        handledEvent.setActivateTime(this.startTime);
       }
       return handledEvent;
     }

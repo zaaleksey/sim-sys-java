@@ -2,7 +2,7 @@ package simsys.examples.queueing;
 
 import java.util.Collections;
 import java.util.Random;
-import simsys.core.SimulationComponent;
+import simsys.core.component.SimulationComponent;
 import simsys.core.clock.Clock;
 import simsys.core.clock.ClockImpl;
 import simsys.core.context.SimulationContextImpl;
@@ -73,10 +73,8 @@ public class Network {
     public Network build() {
       HandledEvent expPeriodic = new HandledEvent.HandledEventBuilder(simulationContext)
           .periodic(new ExponentialRV(new Random(), 1))
-          // TODO: прописать логику создания и отправки из источника
           .addHandler(event -> {
             Demand demand = new SimpleDemand(clock.getCurrentTime());
-            //TODO: куда отправлять?
           })
           .build();
       try {

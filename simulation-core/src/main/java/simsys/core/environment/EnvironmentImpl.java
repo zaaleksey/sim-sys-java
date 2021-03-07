@@ -1,29 +1,35 @@
 package simsys.core.environment;
 
 import java.util.HashMap;
-import simsys.core.SimulationComponent;
+import lombok.SneakyThrows;
+import simsys.core.component.SimulationComponent;
+import simsys.core.exception.NoItemInCollection;
 
-public class EnvironmentImpl implements Environment {
+public class EnvironmentImpl<T extends SimulationComponent> implements Environment<T> {
 
   private final HashMap<String, SimulationComponent> simulationComponents;
 
   public EnvironmentImpl() {
-    simulationComponents = new HashMap<>();
+    this.simulationComponents = new HashMap<>();
   }
 
   @Override
   public HashMap<String, SimulationComponent> getComponents() {
-    return simulationComponents;
+    return this.simulationComponents;
   }
 
   @Override
   public void addComponent(String id, SimulationComponent component) {
-    simulationComponents.put(id, component);
+    this.simulationComponents.put(id, component);
   }
 
+  @SneakyThrows
   @Override
-  public SimulationComponent getComponent(String id) {
-    return simulationComponents.get(id);
+  public T getComponent(String id) {
+    if (this.simulationComponents.get(id) == null) {
+      throw new NoItemInCollection(id);
+    }
+    return (T) this.simulationComponents.get(id);
   }
 
 }

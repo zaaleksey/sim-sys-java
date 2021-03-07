@@ -13,7 +13,7 @@ public class TimeStopCondition implements Predicate<SimulationContext> {
 
   @Override
   public boolean test(SimulationContext simulationContext) {
-    return simulationContext.getCurrentTime() > simulationDuration;
+    return simulationContext.getCurrentTime() > this.simulationDuration;
   }
 
 }
