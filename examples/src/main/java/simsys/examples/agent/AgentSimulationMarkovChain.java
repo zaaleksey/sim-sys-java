@@ -1,25 +1,26 @@
 package simsys.examples.agent;
 
+import java.util.Random;
 import simsys.core.agent.AbstractAgent;
 import simsys.core.agent.Agent;
 import simsys.core.annotation.Action;
 import simsys.core.annotation.State;
-import simsys.core.annotation.Statistic;
 import simsys.core.condition.TimeStopCondition;
 import simsys.core.context.SimulationContextImpl;
 import simsys.core.model.AgentBasedSimulationModel;
 import simsys.random.ExponentialRV;
 import simsys.random.RandomVariable;
 
-import java.util.Random;
 
+/**
+ *    In this example, we consider a continuous Markov chain consisting of only two states: A, B.
+ *    Initial state: A.
+ *    Transition rates:
+ *    q(A, B) = alpha (exponential with rate = 1)
+ *    q(B, A) = beta (exponential with rate = 2)
+ */
+public class AgentSimulationMarkovChain {
 
-public class AgentSimulation {
-
-  // In this example, we consider a continuous Markov chain consisting from two states: A, B.
-  // Transition rates:
-  // q(A, B) = alpha
-  // q(B, A) = betta
   public static void main(String[] args) {
 
     Agent markovAgent = new AbstractAgent() {
