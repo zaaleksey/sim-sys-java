@@ -24,14 +24,18 @@ public class SystemAgent extends AbstractAgent implements Receiver {
 
   @Action(states = {EMPTY_STATE, BUSY_STATE})
   public void action() {
-    System.out.println("System action... Current state: " + currentState);
-    System.out.println("Number of demands in queue: " + this.numberOfDemandsInQueue);
+    System.out.println("System action... Current state: " + this.currentState);
+    if (this.numberOfDemandsInQueue == 0) {
+      this.currentState = EMPTY_STATE;
+      return;
+    }
+
     if (currentState.equals(EMPTY_STATE) && this.numberOfDemandsInQueue > 0) {
-      this.numberOfDemandsInQueue--;
-      moveToState(BUSY_STATE);
+      this.currentState = BUSY_STATE;
       action();
     }
-    if (currentState.equals(BUSY_STATE)) {
+    if (this.currentState.equals(BUSY_STATE)) {
+      this.numberOfDemandsInQueue--;
       double delay = this.randomVariable.nextValue();
       moveToStateAfterTimeout(defineNextState(), delay);
     }
@@ -44,8 +48,9 @@ public class SystemAgent extends AbstractAgent implements Receiver {
   @Override
   public void receive() {
     this.numberOfDemandsInQueue++;
-    if (currentState.equals(EMPTY_STATE)) {
-//      moveToState(BUSY_STATE);
+    System.out.println("The system accepts the new demand. "
+        + "Number of demands in queue: " + this.numberOfDemandsInQueue);
+    if (this.currentState.equals(EMPTY_STATE)) {
       action();
     }
   }

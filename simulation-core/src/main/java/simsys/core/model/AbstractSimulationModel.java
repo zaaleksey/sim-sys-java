@@ -24,7 +24,7 @@ public abstract class AbstractSimulationModel implements SimulationModel {
   public void step() {
     Event nextEvent = this.simulationContext.getEventProvider().getNext();
     this.simulationContext.getClock().setCurrentTime(nextEvent.getActivateTime());
-    LOGGER.debug("A new EVENT!  The current time: {}", this.simulationContext.getCurrentTime());
+    System.out.println("The current time: " + this.simulationContext.getCurrentTime());
     nextEvent.activate();
     this.simulationContext.updateDeltaTimeLastTwoEvents();
   }

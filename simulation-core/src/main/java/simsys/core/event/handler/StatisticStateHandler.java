@@ -30,11 +30,13 @@ public class StatisticStateHandler implements EventHandler {
   @Override
   public void handle(Event event) {
     String state = this.agent.currentState();
-    double updateTime = this.timeInStates.get(state)  //  if not in timeInState current state?
-        + this.simulationContext.getDeltaTimeLastTwoEvents();
-    this.timeInStates.put(state, updateTime);
+    if (this.timeInStates.get(state) != null) {
+      double updateTime = this.timeInStates.get(state)  //  if not in timeInState current state?
+          + this.simulationContext.getDeltaTimeLastTwoEvents();
+      this.timeInStates.put(state, updateTime);
 
-    System.out.println("Time in states: " + this.timeInStates);
+      System.out.println("Time in states: " + this.timeInStates);
+    }
   }
 
   private void initStatesMap() {
@@ -53,9 +55,11 @@ public class StatisticStateHandler implements EventHandler {
       Annotation[] annotations = field.getDeclaredAnnotations();
       for (Annotation annotation : annotations) {
         if (annotation.annotationType().equals(State.class)) {
-          field.setAccessible(true);
-          String stateName = (String) ReflectionUtils.getField(field, agent);
-          states.add(stateName);
+          if (((State) annotation).statistic()) {
+            field.setAccessible(true);
+            String stateName = (String) ReflectionUtils.getField(field, agent);
+            states.add(stateName);
+          }
         }
       }
     }

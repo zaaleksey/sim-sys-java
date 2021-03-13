@@ -20,7 +20,7 @@ public class SourceAgent extends AbstractAgent implements Sender {
 
   @Action(states = {SLEEP_STATE})
   public void wakeUp() {
-    System.out.println("Source wake up...");
+    System.out.println("Source wake up... send a demand to the system");
     double delay = this.randomVariable.nextValue();
     send(this.receiver);
     sleep(delay);

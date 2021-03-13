@@ -18,6 +18,7 @@ public abstract class AbstractAgent implements Agent {
   @Override
   public void sleep(double delay) {
     this.nextActivationTime += delay;
+    this.nextState = currentState;
   }
 
   @Override
