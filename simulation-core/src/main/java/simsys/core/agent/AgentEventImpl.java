@@ -12,10 +12,9 @@ import java.util.Set;
 import org.springframework.util.ReflectionUtils;
 import simsys.core.annotation.Action;
 import simsys.core.annotation.State;
-import simsys.core.annotation.Statistic;
 import simsys.core.context.SimulationContext;
 import simsys.core.event.HandledEvent;
-import simsys.core.event.handler.StatisticHandler;
+import simsys.core.event.handler.StatisticStateHandler;
 
 
 // Wrapper-adapter for agent as event
@@ -40,7 +39,7 @@ public class AgentEventImpl implements AgentEvent {
   @Override
   public void setAgent(Agent agent) {
     // create handler for all states
-    StatisticHandler statisticHandler = new StatisticHandler(agent, this.context);
+    StatisticStateHandler statisticHandler = new StatisticStateHandler(agent, this.context);
 
     Set<String> states = new HashSet<>();
 

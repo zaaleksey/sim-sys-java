@@ -13,6 +13,7 @@ import simsys.random.RandomVariable;
 
 import java.util.Random;
 
+
 public class AgentSimulation {
 
   // In this example, we consider a continuous Markov chain consisting from two states: A, B.
@@ -26,10 +27,8 @@ public class AgentSimulation {
       final RandomVariable beta = new ExponentialRV(new Random(), 2);
 
       @State(initial = true)
-      @Statistic
       private final String STATE_A = "A";
       @State
-      @Statistic
       private final String STATE_B = "B";
 
       public String defineNextState() {
