@@ -31,7 +31,7 @@ public class StatisticStateHandler implements EventHandler {
   public void handle(Event event) {
     String state = this.agent.currentState();
     if (this.timeInStates.get(state) != null) {
-      double updateTime = this.timeInStates.get(state)  //  if not in timeInState current state?
+      double updateTime = this.timeInStates.get(state)
           + this.simulationContext.getDeltaTimeLastTwoEvents();
       this.timeInStates.put(state, updateTime);
 

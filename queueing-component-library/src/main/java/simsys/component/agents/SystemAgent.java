@@ -26,14 +26,13 @@ public class SystemAgent extends AbstractAgent implements Receiver {
   public void action() {
     System.out.println("System action... Current state: " + this.currentState);
     if (this.numberOfDemandsInQueue == 0) {
-      this.currentState = EMPTY_STATE;
-      return;
+      moveToState(EMPTY_STATE);
     }
 
     if (currentState.equals(EMPTY_STATE) && this.numberOfDemandsInQueue > 0) {
-      this.currentState = BUSY_STATE;
-      action();
+      moveToState(BUSY_STATE);
     }
+
     if (this.currentState.equals(BUSY_STATE)) {
       this.numberOfDemandsInQueue--;
       double delay = this.randomVariable.nextValue();

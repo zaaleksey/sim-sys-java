@@ -7,8 +7,9 @@ import simsys.random.RandomVariable;
 
 public class SourceAgent extends AbstractAgent implements Sender {
 
-  @State(initial=true, statistic = false)
-  private static final String SLEEP_STATE = "SLEEP";  //  the source has only one state
+  //  the source has only one state
+  @State(initial = true, statistic = false)
+  private static final String SLEEP_STATE = "SLEEP";
 
   private final RandomVariable randomVariable;
   //  recipient array?

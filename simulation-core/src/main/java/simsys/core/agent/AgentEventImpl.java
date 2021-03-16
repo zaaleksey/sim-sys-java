@@ -21,13 +21,14 @@ import simsys.core.event.handler.StatisticStateHandler;
 public class AgentEventImpl implements AgentEvent {
 
   protected Agent agent;
-  protected SimulationContext context;
+  protected SimulationContext simulationContext;
 
+  Set<String> states;
   List<HandledEvent> events;
 
-  public AgentEventImpl(Agent agent, SimulationContext context) {
+  public AgentEventImpl(Agent agent, SimulationContext simulationContext) {
     this.agent = agent;
-    this.context = context;
+    this.simulationContext = simulationContext;
     setAgent(agent);
   }
 
@@ -38,28 +39,13 @@ public class AgentEventImpl implements AgentEvent {
 
   @Override
   public void setAgent(Agent agent) {
-    // create handler for all states
-    StatisticStateHandler statisticHandler = new StatisticStateHandler(agent, this.context);
+    System.out.println("Agent name: " + agent.getClass().getName());
+    // create statistic handler for all states
+    StatisticStateHandler statisticHandler =
+        new StatisticStateHandler(agent, this.simulationContext);
 
-    Set<String> states = new HashSet<>();
-
-    String initialState = null;
-
-    Field[] fields = agent.getClass().getDeclaredFields();
-    for (Field field : fields) {
-      Annotation[] annotations = field.getDeclaredAnnotations();
-      for (Annotation annotation : annotations) {
-        if (annotation.annotationType().equals(State.class)) {
-          field.setAccessible(true);
-          String stateName = (String) ReflectionUtils.getField(field, agent);
-          states.add(stateName);
-          boolean isInitial = ((State) annotation).initial();
-          if (isInitial) {
-            initialState = stateName;
-          }
-        }
-      }
-    }
+    defineAllAgentStates();
+    String initialState = getInitialState();
 
     // create map State->Method
     Map<String, Method> methodResolver = new HashMap<>();
@@ -67,32 +53,40 @@ public class AgentEventImpl implements AgentEvent {
 
     Method[] methods = agent.getClass().getDeclaredMethods();
 
-    Field nextActivationTimeField = ReflectionUtils
-        .findField(agent.getClass(), "nextActivationTime");
-    nextActivationTimeField.setAccessible(true);
-
     for (Method method : methods) {
       Annotation[] annotations = method.getDeclaredAnnotations();
       for (Annotation annotation : annotations) {
         if (annotation.annotationType().equals(Action.class)) {
           String[] statesFromAnnotation = ((Action) annotation).states();
           for (String state : statesFromAnnotation) {
-            if (!states.contains(state)) {
-              throw new IllegalStateException("There is no a state with name " + state);
+            if (!this.states.contains(state)) {
+              throw new IllegalStateException("There is no a state with name "
+                  + state);
             }
             methodResolver.put(state, method);
-            eventResolver.put(state, new HandledEvent().addHandler(statisticHandler));
+            eventResolver.put(state, new HandledEvent()
+                .addHandler(statisticHandler));
           }
         }
       }
     }
 
-    events = new ArrayList<>();
+//    ???
+    this.events = new ArrayList<>();
 
-    Field nextStateField = ReflectionUtils.findField(agent.getClass(), "nextState");
-    nextStateField.setAccessible(true);
-    Field currentStateFiled = ReflectionUtils.findField(agent.getClass(), "currentState");
+    Field currentStateFiled = ReflectionUtils
+        .findField(agent.getClass(),
+            "currentState");
     currentStateFiled.setAccessible(true);
+
+    Field nextStateField = ReflectionUtils
+        .findField(agent.getClass(), "nextState");
+    nextStateField.setAccessible(true);
+
+    Field nextActivationTimeField = ReflectionUtils
+        .findField(agent.getClass(), "nextActivationTime");
+    nextActivationTimeField.setAccessible(true);
+
     // we create event per method
     for (Map.Entry<String, Method> response : methodResolver.entrySet()) {
       HandledEvent event = eventResolver.get(response.getKey());
@@ -105,37 +99,71 @@ public class AgentEventImpl implements AgentEvent {
         Object nextState = ReflectionUtils.getField(nextStateField, agent);
         ReflectionUtils.setField(currentStateFiled, agent, nextState);
 
+        System.out.println("Next state: " + nextState + " for current state: " + currentStateFiled.get(agent));
         // it means the next state is defined = makes sense
         // we need create the next event
         if (nextState != null) {
           HandledEvent nextEvent = eventResolver.get(nextState);
-          double nextActivationTime = (double) ReflectionUtils
+          Object nextActivationTime = ReflectionUtils
               .getField(nextActivationTimeField, agent);
-          nextEvent.setActivateTime(nextActivationTime);
-          context.getEventProvider().add(nextEvent);
-
+          nextEvent.setActivateTime((double) nextActivationTime);
+          this.simulationContext.getEventProvider().add(nextEvent);
         }
       });
 
     }
 
-    // need schedule the first event
-    if (initialState == null) {
-      //dummy way
-      throw new IllegalStateException("There is no initial state");
-    }
-    context.getEventProvider().add(eventResolver.get(initialState));
+    this.simulationContext.getEventProvider().add(eventResolver.get(initialState));
     // set initial value from annotation
     // also we can consider a case with init method or initialization within constructor
     ReflectionUtils.setField(currentStateFiled, agent, initialState);
 
-    // Print all
-//    System.out.println("Print states and corresponding actions");
-//    for (Map.Entry<String, HandledEvent> pair : eventResolver.entrySet()) {
-//      System.out.println(pair.getKey() + ": " + pair.getValue());
-//    }
-//    System.out.println("*******************************************");
+    System.out.println("Print states and corresponding actions");
+    for (Map.Entry<String, HandledEvent> pair : eventResolver.entrySet()) {
+      System.out.println(pair.getKey() + ": " + pair.getValue());
+    }
+    System.out.println("*******************************************");
 
+  }
+
+  private void defineAllAgentStates() {
+    this.states = new HashSet<>();
+
+    Field[] fields = this.agent.getClass().getDeclaredFields();
+    for (Field field : fields) {
+      Annotation[] annotations = field.getDeclaredAnnotations();
+      for (Annotation annotation : annotations) {
+        if (annotation.annotationType().equals(State.class)) {
+          field.setAccessible(true);
+          String stateName = (String) ReflectionUtils.getField(field, this.agent);
+          states.add(stateName);
+        }
+      }
+    }
+  }
+
+  private String getInitialState() {
+    String initialState = null;
+
+    Field[] fields = this.agent.getClass().getDeclaredFields();
+    for (Field field : fields) {
+      Annotation[] annotations = field.getDeclaredAnnotations();
+      for (Annotation annotation : annotations) {
+        if (annotation.annotationType().equals(State.class)) {
+          if (((State) annotation).initial()) {
+            field.setAccessible(true);
+            initialState = (String) ReflectionUtils.getField(field, this.agent);
+          }
+        }
+      }
+    }
+
+    if (initialState == null) {
+      throw new IllegalStateException("There is no initial state");
+    }
+
+    System.out.println("Found the initial state of the agent: " + initialState);
+    return initialState;
   }
 
   @Override
