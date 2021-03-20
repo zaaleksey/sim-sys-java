@@ -22,10 +22,11 @@ public abstract class AbstractSimulationModel implements SimulationModel {
 
   @Override
   public void step() {
-    Event nextEvent = this.simulationContext.getEventProvider().getNext();
-    this.simulationContext.getClock().setCurrentTime(nextEvent.getActivateTime());
+    Event event = this.simulationContext.getEventProvider().getNext();
+    this.simulationContext.getClock().setCurrentTime(event.getActivateTime());
     System.out.println("The current time: " + this.simulationContext.getCurrentTime());
-    nextEvent.activate();
+    event.activate();
+
     this.simulationContext.updateDeltaTimeLastTwoEvents();
   }
 
