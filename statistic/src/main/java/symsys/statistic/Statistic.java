@@ -1,7 +1,5 @@
 package symsys.statistic;
 
-
-
 public class Statistic {
 
   private Statistic() { }
@@ -16,7 +14,7 @@ public class Statistic {
 
   private double getSumOfValues(double... values) {
     double sum = 0;
-    for(double v : values) {
+    for (double v : values) {
       sum += v;
     }
     return sum;

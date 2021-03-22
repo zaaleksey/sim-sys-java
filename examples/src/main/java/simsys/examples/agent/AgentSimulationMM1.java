@@ -6,17 +6,17 @@ import simsys.component.agents.SystemAgent;
 import simsys.core.condition.TimeStopCondition;
 import simsys.core.context.SimulationContextImpl;
 import simsys.core.model.AgentBasedSimulationModel;
-import simsys.random.ExponentialRV;
+import simsys.random.ExponentialRandomVariable;
 
 public class AgentSimulationMM1 {
 
   public static void main(String[] args) {
 
     double lambda = 1;
-    SourceAgent source = new SourceAgent(new ExponentialRV(new Random(), lambda));
+    SourceAgent source = new SourceAgent(new ExponentialRandomVariable(new Random(), lambda));
 
     double mu = 2;
-    SystemAgent system = new SystemAgent(new ExponentialRV(new Random(), mu));
+    SystemAgent system = new SystemAgent(new ExponentialRandomVariable(new Random(), mu));
 
     source.setReceiver(system);
 

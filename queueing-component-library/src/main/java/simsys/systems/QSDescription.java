@@ -5,7 +5,7 @@ import simsys.entity.queue.Queue;
 import simsys.random.RandomVariable;
 
 /**
- * This class defines a queueing system
+ * This class defines a queueing system.
  */
 public class QSDescription {
 

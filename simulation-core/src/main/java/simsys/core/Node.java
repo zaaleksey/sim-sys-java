@@ -32,7 +32,6 @@ public abstract class Node {
     return id;
   }
 
-
   public SimulationContext getSimulationContext() {
     return null;
   }

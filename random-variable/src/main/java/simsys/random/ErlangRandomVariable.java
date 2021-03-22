@@ -2,15 +2,15 @@ package simsys.random;
 
 import java.util.Random;
 
-public class ErlangRV implements RandomVariable {
+public class ErlangRandomVariable implements RandomVariable {
 
   private final Random random;
-  private final int n;
+  private final int count;
   private final double rate;
 
-  public ErlangRV(Random random, int n, double rate) {
+  public ErlangRandomVariable(Random random, int count, double rate) {
     this.random = random;
-    this.n = n;
+    this.count = count;
     this.rate = rate;
   }
 
@@ -21,13 +21,13 @@ public class ErlangRV implements RandomVariable {
 
   private double getProductUniform01() {
     double product = 1;
-    double[] arr = new double[this.n];
+    double[] arr = new double[this.count];
 
-    for(int i = 0; i < this.n; i++) {
+    for (int i = 0; i < this.count; i++) {
       arr[i] = this.random.nextDouble();
     }
 
-    for (int i = 0; i < this.n; i++) {
+    for (int i = 0; i < this.count; i++) {
       product *= arr[i];
     }
 

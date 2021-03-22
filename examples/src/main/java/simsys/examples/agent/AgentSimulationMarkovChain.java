@@ -8,7 +8,7 @@ import simsys.core.annotation.State;
 import simsys.core.condition.TimeStopCondition;
 import simsys.core.context.SimulationContextImpl;
 import simsys.core.model.AgentBasedSimulationModel;
-import simsys.random.ExponentialRV;
+import simsys.random.ExponentialRandomVariable;
 import simsys.random.RandomVariable;
 
 
@@ -24,8 +24,8 @@ public class AgentSimulationMarkovChain {
   public static void main(String[] args) {
 
     Agent markovAgent = new AbstractAgent() {
-      final RandomVariable alpha = new ExponentialRV(new Random(), 1);
-      final RandomVariable beta = new ExponentialRV(new Random(), 2);
+      final RandomVariable alpha = new ExponentialRandomVariable(new Random(), 1);
+      final RandomVariable beta = new ExponentialRandomVariable(new Random(), 2);
 
       @State(initial = true)
       private final String STATE_A = "A";

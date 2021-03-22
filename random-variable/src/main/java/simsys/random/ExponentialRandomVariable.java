@@ -2,12 +2,12 @@ package simsys.random;
 
 import java.util.Random;
 
-public class ExponentialRV implements RandomVariable {
+public class ExponentialRandomVariable implements RandomVariable {
 
   private final Random random;
   private final double rate;
 
-  public ExponentialRV(Random random, double rate) {
+  public ExponentialRandomVariable(Random random, double rate) {
     this.random = random;
     this.rate = rate;
   }

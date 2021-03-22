@@ -16,7 +16,6 @@ import simsys.core.context.SimulationContext;
 import simsys.core.event.HandledEvent;
 import simsys.core.event.handler.StatisticStateHandler;
 
-
 // Wrapper-adapter for agent as event
 public class AgentEventImpl implements AgentEvent {
 

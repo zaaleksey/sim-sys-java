@@ -5,7 +5,6 @@ public final class ClockImpl implements Clock {
   private double previousTime;
   private double currentTime;
 
-
   public ClockImpl() {
     this.previousTime = 0;
     this.currentTime = 0;

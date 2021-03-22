@@ -2,11 +2,11 @@ package simsys.examples.queueing;
 
 import java.util.Collections;
 import java.util.Random;
-import simsys.core.component.SimulationComponent;
 import simsys.core.clock.Clock;
 import simsys.core.clock.ClockImpl;
-import simsys.core.context.SimulationContextImpl;
+import simsys.core.component.SimulationComponent;
 import simsys.core.context.SimulationContext;
+import simsys.core.context.SimulationContextImpl;
 import simsys.core.environment.EnvironmentImpl;
 import simsys.core.event.HandledEvent;
 import simsys.core.exception.ImpossibleEventTime;
@@ -16,7 +16,7 @@ import simsys.core.provider.EventProvider;
 import simsys.core.provider.EventProviderImpl;
 import simsys.entity.demand.Demand;
 import simsys.entity.demand.SimpleDemand;
-import simsys.random.ExponentialRV;
+import simsys.random.ExponentialRandomVariable;
 
 public class Network {
 
@@ -72,7 +72,7 @@ public class Network {
 
     public Network build() {
       HandledEvent expPeriodic = new HandledEvent.HandledEventBuilder(simulationContext)
-          .periodic(new ExponentialRV(new Random(), 1))
+          .periodic(new ExponentialRandomVariable(new Random(), 1))
           .addHandler(event -> {
             Demand demand = new SimpleDemand(clock.getCurrentTime());
           })
