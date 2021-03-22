@@ -78,7 +78,7 @@ public class AgentEventImpl implements AgentEvent {
     }
 
     Field currentStateFiled = getField("currentState");
-    Field activationTimeField = getField("actionTime");
+    Field activationTimeField = getField("activationTime");
     Field nextStateField = getField("nextState");
     Field nextActivationTimeField = getField("nextActivationTime");
 
