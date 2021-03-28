@@ -9,6 +9,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.ReflectionUtils;
 import simsys.core.annotation.Action;
 import simsys.core.annotation.State;
@@ -17,6 +18,7 @@ import simsys.core.event.HandledEvent;
 import simsys.core.event.handler.StatisticStateHandler;
 
 // Wrapper-adapter for agent as event
+@Slf4j
 public class AgentEventImpl implements AgentEvent {
 
   protected Agent agent;
@@ -43,7 +45,7 @@ public class AgentEventImpl implements AgentEvent {
   }
 
   public void agentDefinition() {
-    System.out.println("Agent name: " + this.agent.getClass().getName());
+    LOGGER.debug("Agent name: " + this.agent.getClass().getName());
 
     // create map State->Method
     this.eventResolver = new HashMap<>();
@@ -77,7 +79,7 @@ public class AgentEventImpl implements AgentEvent {
     }
 
     Field currentStateFiled = getField("currentState");
-    Field activationTimeField = getField("activationTime");
+    Field currentActivationTimeField = getField("currentActivationTime");
     Field nextStateField = getField("nextState");
     Field nextActivationTimeField = getField("nextActivationTime");
 
@@ -89,21 +91,24 @@ public class AgentEventImpl implements AgentEvent {
       event.addHandler(e -> {
         // first off all invoke agent method
         method.setAccessible(true);
-        System.out.println("Invoke method: " + method.getName());
+        LOGGER.debug("Invoke method: " + method.getName());
         ReflectionUtils.invokeMethod(method, this.agent);
         // after this agent was pre-updated
-        String nextState = (String) ReflectionUtils.getField(nextStateField, this.agent);
+        Object nextState = ReflectionUtils.getField(nextStateField, this.agent);
         ReflectionUtils.setField(currentStateFiled, this.agent, nextState);
 
         // it means the next state is defined = makes sense
         // we need create the next event
-
         if (nextState != null) {
-          HandledEvent nextEvent = eventResolver.get(nextState);
-          Object nextActivationTime = ReflectionUtils
-              .getField(nextActivationTimeField, this.agent);
-          nextEvent.setActivateTime((double) nextActivationTime);
-          this.simulationContext.getEventProvider().add(nextEvent);
+          if ((currentState.equals(nextState)) &&
+              nextActivationTimeField.get(this.agent) != currentActivationTimeField
+                  .get(this.agent)) {
+            HandledEvent nextEvent = eventResolver.get(nextState);
+            Object nextActivationTime = ReflectionUtils
+                .getField(nextActivationTimeField, this.agent);
+            nextEvent.setActivateTime((double) nextActivationTime);
+            this.simulationContext.getEventProvider().add(nextEvent);
+          }
         }
       });
 
@@ -114,11 +119,11 @@ public class AgentEventImpl implements AgentEvent {
     // also we can consider a case with init method or initialization within constructor
     ReflectionUtils.setField(currentStateFiled, this.agent, initialState);
 
-    System.out.println("Print states and corresponding actions");
+    LOGGER.debug("Print states and corresponding actions");
     for (Map.Entry<String, HandledEvent> pair : eventResolver.entrySet()) {
-      System.out.println(pair.getKey() + ": " + pair.getValue());
+      LOGGER.debug(pair.getKey() + ": " + pair.getValue());
     }
-    System.out.println("*******************************************");
+    LOGGER.debug("*******************************************");
 
   }
 
@@ -158,7 +163,7 @@ public class AgentEventImpl implements AgentEvent {
       throw new IllegalStateException("There is no initial state");
     }
 
-    System.out.println("Found the initial state of the agent: " + initialState);
+    LOGGER.debug("Found the initial state of the agent: " + initialState);
     return initialState;
   }
 

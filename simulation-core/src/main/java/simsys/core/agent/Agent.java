@@ -6,8 +6,6 @@ public interface Agent {
 
   String currentState();
 
-  double getActivationTime();
-
   Set<String> getAllStates();
 
   void sleep();

@@ -24,7 +24,7 @@ public class AgentSimulationMM1 {
     AgentBasedSimulationModel agentSimulationMM1 = new AgentBasedSimulationModel(
         SimulationContextImpl.getEmptyInstance());
 
-    agentSimulationMM1.setStopCondition(new TimeStopCondition(100));
+    agentSimulationMM1.setStopCondition(new TimeStopCondition(50));
 
     agentSimulationMM1.addAgent(source);
     agentSimulationMM1.addAgent(system);

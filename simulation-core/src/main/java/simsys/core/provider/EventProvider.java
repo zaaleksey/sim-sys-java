@@ -1,6 +1,7 @@
 package simsys.core.provider;
 
 import java.util.Collection;
+import java.util.List;
 import simsys.core.event.Event;
 
 public interface EventProvider {
@@ -14,6 +15,8 @@ public interface EventProvider {
   Event peek();
 
   Event getNext();
+
+  List<Event> getAllEvents();
 
   boolean remove(Event event);
 

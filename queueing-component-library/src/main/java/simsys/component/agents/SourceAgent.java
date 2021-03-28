@@ -1,10 +1,12 @@
 package simsys.component.agents;
 
+import lombok.extern.slf4j.Slf4j;
 import simsys.core.agent.AbstractAgent;
 import simsys.core.annotation.Action;
 import simsys.core.annotation.State;
 import simsys.random.RandomVariable;
 
+@Slf4j
 public class SourceAgent extends AbstractAgent implements Sender {
 
   // the source has only one state
@@ -23,7 +25,7 @@ public class SourceAgent extends AbstractAgent implements Sender {
 
   @Action(states = {SLEEP_STATE})
   public void wakeUp() {
-    System.out.println("Source wake up... send a demand to the system");
+    LOGGER.debug("Source wake up... send a demand to the system");
     double delay = this.randomVariable.nextValue();
     send(this.receiver);
     sleep(delay);

@@ -4,12 +4,14 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.HashSet;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.ReflectionUtils;
 import simsys.core.agent.Agent;
 import simsys.core.annotation.State;
 import simsys.core.context.SimulationContext;
 import simsys.core.event.Event;
 
+@Slf4j
 public class StatisticStateHandler implements EventHandler {
 
   protected SimulationContext simulationContext;
@@ -35,7 +37,7 @@ public class StatisticStateHandler implements EventHandler {
           + this.simulationContext.getDeltaTimeLastTwoEvents();
       this.timeInStates.put(state, updateTime);
 
-      System.out.println("Time in states: " + this.timeInStates);
+      LOGGER.debug("Time in states: " + this.timeInStates);
     }
   }
 
