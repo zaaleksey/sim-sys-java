@@ -1,5 +1,8 @@
 package simsys.core.clock;
 
+/**
+ * Основная реализация интерфейса Clock.
+ */
 public final class ClockImpl implements Clock {
 
   private double previousTime;
