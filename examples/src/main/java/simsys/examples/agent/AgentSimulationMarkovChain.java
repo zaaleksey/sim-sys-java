@@ -42,18 +42,12 @@ public class AgentSimulationMarkovChain {
       public void action() {
         double delay;
         System.out.println("Current State " + currentState);
-        switch (currentState) {
-          case STATE_A:
-            delay = alpha.nextValue();
-            break;
-          case STATE_B:
-            delay = beta.nextValue();
-            break;
-          case STATE_C:
-            delay = gamma.nextValue();
-            break;
-          default:
-            delay = 0;
+        if (currentState.equals(STATE_A)) {
+          delay = alpha.nextValue();
+        } else if (currentState.equals(STATE_B)) {
+          delay = beta.nextValue();
+        } else {
+          delay = gamma.nextValue();
         }
         moveToStateAfterTimeout(defineNextState(), delay);
       }

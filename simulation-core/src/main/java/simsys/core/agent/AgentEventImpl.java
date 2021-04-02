@@ -79,7 +79,6 @@ public class AgentEventImpl implements AgentEvent {
     }
 
     Field currentStateFiled = getField("currentState");
-    Field currentActivationTimeField = getField("currentActivationTime");
     Field nextStateField = getField("nextState");
     Field nextActivationTimeField = getField("nextActivationTime");
 
@@ -100,15 +99,12 @@ public class AgentEventImpl implements AgentEvent {
         // it means the next state is defined = makes sense
         // we need create the next event
         if (nextState != null) {
-          if ((currentState.equals(nextState)) &&
-              nextActivationTimeField.get(this.agent) != currentActivationTimeField
-                  .get(this.agent)) {
-            HandledEvent nextEvent = eventResolver.get(nextState);
-            Object nextActivationTime = ReflectionUtils
-                .getField(nextActivationTimeField, this.agent);
-            nextEvent.setActivateTime((double) nextActivationTime);
-            this.simulationContext.getEventProvider().add(nextEvent);
-          }
+
+          HandledEvent nextEvent = eventResolver.get(nextState);
+          Object nextActivationTime = ReflectionUtils
+              .getField(nextActivationTimeField, this.agent);
+          nextEvent.setActivateTime((double) nextActivationTime);
+          this.simulationContext.getEventProvider().add(nextEvent);
         }
       });
 
