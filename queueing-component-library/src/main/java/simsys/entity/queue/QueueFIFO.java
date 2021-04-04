@@ -1,20 +1,21 @@
 package simsys.entity.queue;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collection;
 import simsys.core.model.AbstractSimulationModel;
 import simsys.entity.demand.Demand;
 
-public class QueueFIFO extends AbstractSimulationModel implements Queue {
+public class QueueFIFO implements Queue {
 
-  private ArrayList<Demand> demandQueue;
+  private ArrayDeque<Demand> demandQueue;
 
   public QueueFIFO() {
-    this.demandQueue = new ArrayList<>();
+    this.demandQueue = new ArrayDeque<>();
   }
 
   public QueueFIFO(Collection<? extends Demand> demands) {
-    this.demandQueue = new ArrayList<>();
+    this.demandQueue = new ArrayDeque<>();
     this.demandQueue.addAll(demands);
   }
 
@@ -35,14 +36,12 @@ public class QueueFIFO extends AbstractSimulationModel implements Queue {
 
   @Override
   public Demand peek() {
-    return demandQueue.get(0);
+    return demandQueue.peek();
   }
 
   @Override
-  public Demand poll() {
-    Demand demand = peek();
-    demandQueue.remove(0);
-    return demand;
+  public Demand remove() {
+    return demandQueue.remove();
   }
 
 }

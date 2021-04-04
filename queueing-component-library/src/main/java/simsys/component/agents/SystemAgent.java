@@ -40,7 +40,7 @@ public class SystemAgent extends AbstractAgent implements Receiver {
     }
 
     if (this.currentState.equals(BUSY_STATE)) {
-      this.queue.poll();
+      this.queue.remove();
       if (this.queue.size() == 0) {
         moveToStateAfterTimeout(EMPTY_STATE, delay);
       } else {

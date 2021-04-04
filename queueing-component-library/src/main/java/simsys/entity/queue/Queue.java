@@ -13,7 +13,7 @@ public interface Queue {
 
   Demand peek();
 
-  Demand poll();
+  Demand remove();
 
   default boolean isEmpty() {
     return size() == 0;
