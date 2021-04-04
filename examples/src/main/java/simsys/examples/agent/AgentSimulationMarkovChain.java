@@ -13,7 +13,6 @@ import simsys.core.model.AgentBasedSimulationModel;
 import simsys.random.ExponentialRandomVariable;
 import simsys.random.RandomVariable;
 
-
 /**
  *    In this example, we consider a continuous Markov chain consisting of three states: A, B and C
  *    Initial state: A.
@@ -27,6 +26,8 @@ public class AgentSimulationMarkovChain {
   public static void main(String[] args) {
 
     Agent markovAgent = new AbstractAgent() {
+      private final Random random = new Random(0);
+
       final RandomVariable alpha = new ExponentialRandomVariable(new Random(), 1);
       final RandomVariable beta = new ExponentialRandomVariable(new Random(), 2);
       final RandomVariable gamma = new ExponentialRandomVariable(new Random(), 3);
@@ -55,13 +56,13 @@ public class AgentSimulationMarkovChain {
       public String defineNextState() {
         ArrayList<String> states = new ArrayList<>(Arrays.asList(STATE_A, STATE_B, STATE_C));
 //        states.remove(currentState);
-        return states.get(new Random().nextInt(states.size()));
+        return states.get(random.nextInt(states.size()));
       }
     };
 
     AgentBasedSimulationModel simulation = new AgentBasedSimulationModel(
         SimulationContextImpl.getEmptyInstance());
-    simulation.setStopCondition(new TimeStopCondition(1500));
+    simulation.setStopCondition(new TimeStopCondition(1000));
 
     simulation.addAgent(markovAgent);
     simulation.run();
