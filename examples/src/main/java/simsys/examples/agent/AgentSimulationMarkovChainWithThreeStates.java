@@ -13,7 +13,6 @@ import simsys.core.model.AgentBasedSimulationModel;
 import simsys.random.ExponentialRandomVariable;
 import simsys.random.RandomVariable;
 
-
 /**
  *    In this example, we consider a continuous Markov chain consisting of three states: A, B and C
  *    Initial state: A.
@@ -22,11 +21,13 @@ import simsys.random.RandomVariable;
  *    q(B, A), q(B, C) = beta (exponential)
  *    q(C, A), q(C, B) = gamma (exponential)
  */
-public class AgentSimulationMarkovChain {
+public class AgentSimulationMarkovChainWithThreeStates {
 
   public static void main(String[] args) {
 
     Agent markovAgent = new AbstractAgent() {
+      private final Random random = new Random(0);
+
       final RandomVariable alpha = new ExponentialRandomVariable(new Random(), 1);
       final RandomVariable beta = new ExponentialRandomVariable(new Random(), 2);
       final RandomVariable gamma = new ExponentialRandomVariable(new Random(), 3);
@@ -41,33 +42,28 @@ public class AgentSimulationMarkovChain {
       @Action(states = {STATE_A, STATE_B, STATE_C})
       public void action() {
         double delay;
-        System.out.println("Current State " + currentState);
-        switch (currentState) {
-          case STATE_A:
-            delay = alpha.nextValue();
-            break;
-          case STATE_B:
-            delay = beta.nextValue();
-            break;
-          case STATE_C:
-            delay = gamma.nextValue();
-            break;
-          default:
-            delay = 0;
+        if (currentState.equals(STATE_A)) {
+          delay = alpha.nextValue();
+        } else if (currentState.equals(STATE_B)) {
+          delay = beta.nextValue();
+        } else {
+          delay = gamma.nextValue();
         }
-        moveToStateAfterTimeout(defineNextState(), delay);
+        String new_state = defineNextState();
+        System.out.println("Current State --> " + currentState + ". Next state --> " + new_state);
+        moveToStateAfterTimeout(new_state, delay);
       }
 
       public String defineNextState() {
         ArrayList<String> states = new ArrayList<>(Arrays.asList(STATE_A, STATE_B, STATE_C));
-//        states.remove(currentState);
-        return states.get(new Random().nextInt(states.size()));
+        states.remove(currentState);
+        return states.get(random.nextInt(states.size()));
       }
     };
 
     AgentBasedSimulationModel simulation = new AgentBasedSimulationModel(
         SimulationContextImpl.getEmptyInstance());
-    simulation.setStopCondition(new TimeStopCondition(1500));
+    simulation.setStopCondition(new TimeStopCondition(10000));
 
     simulation.addAgent(markovAgent);
     simulation.run();

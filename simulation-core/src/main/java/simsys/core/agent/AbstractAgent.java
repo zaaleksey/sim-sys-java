@@ -6,7 +6,6 @@ public abstract class AbstractAgent implements Agent {
 
   protected Set<String> states;
   protected String currentState;
-  protected double currentActivationTime;
   protected String nextState;
   protected double nextActivationTime;
 
@@ -23,14 +22,13 @@ public abstract class AbstractAgent implements Agent {
   @Override
   public void sleep(double delay) {
     this.nextState = this.currentState;
-    this.currentActivationTime = this.nextActivationTime;
-    this.nextActivationTime = this.currentActivationTime + delay;
+    this.nextActivationTime += delay;
   }
 
   @Override
   public void sleep() {
     this.nextState = this.currentState;
-//    this.nextActivationTime = Double.POSITIVE_INFINITY;
+    this.nextActivationTime = Double.POSITIVE_INFINITY;
   }
 
   @Override
@@ -41,8 +39,7 @@ public abstract class AbstractAgent implements Agent {
   @Override
   public void moveToStateAfterTimeout(String state, double delay) {
     this.nextState = state;
-    this.currentActivationTime = this.nextActivationTime;
-    this.nextActivationTime = this.currentActivationTime + delay;
+    this.nextActivationTime += delay;
   }
 
 }

@@ -65,7 +65,7 @@ public class SimpleQueueingSystem {
     serviceEvent.addHandler(event -> {
       LOGGER.info("Start service event");
       if (!queue.isEmpty() && processingDemand == null) {
-        Demand demand = queue.poll();
+        Demand demand = queue.remove();
         demand.setServiceStartTime(context.getCurrentTime());
         //move the demand to sever
         processingDemand = demand;

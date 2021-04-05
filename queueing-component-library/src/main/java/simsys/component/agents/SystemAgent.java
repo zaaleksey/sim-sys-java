@@ -4,7 +4,6 @@ import lombok.extern.slf4j.Slf4j;
 import simsys.core.agent.AbstractAgent;
 import simsys.core.annotation.Action;
 import simsys.core.annotation.State;
-import simsys.core.annotation.Statistic;
 import simsys.entity.demand.Demand;
 import simsys.entity.demand.SimpleDemand;
 import simsys.entity.queue.QueueFIFO;
@@ -41,7 +40,7 @@ public class SystemAgent extends AbstractAgent implements Receiver {
     }
 
     if (this.currentState.equals(BUSY_STATE)) {
-      this.queue.poll();
+      this.queue.remove();
       if (this.queue.size() == 0) {
         moveToStateAfterTimeout(EMPTY_STATE, delay);
       } else {
@@ -53,7 +52,7 @@ public class SystemAgent extends AbstractAgent implements Receiver {
 
   @Override
   public void receive() {
-    Demand demand = new SimpleDemand(this.currentActivationTime);
+    Demand demand = new SimpleDemand(this.nextActivationTime);
     this.queue.add(demand);
     LOGGER.debug("The system accepts the new demand. "
         + "Number of demands in system: " + this.queue.size());
