@@ -5,7 +5,9 @@ import org.jetbrains.annotations.NotNull;
 public interface Event extends Comparable<Event> {
 
   double getActivateTime();
+
   void setActivateTime(double activateTime);
+
   void activate();
 
   default void postpone() {

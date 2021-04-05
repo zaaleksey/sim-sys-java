@@ -2,8 +2,6 @@ package simsys.core.model;
 
 import java.util.function.Predicate;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import simsys.core.context.SimulationContext;
 import simsys.core.event.Event;
 
@@ -17,16 +15,19 @@ public abstract class AbstractSimulationModel implements SimulationModel {
   public void run() {
     while (!this.stopCondition.test(this.simulationContext)) {
       step();
+      System.out.println();
     }
   }
 
+
   @Override
   public void step() {
-    Event nextEvent = this.simulationContext.getEventProvider().getNext();
-    this.simulationContext.getClock().setCurrentTime(nextEvent.getActivateTime());
-    System.out.println("The current time: " + this.simulationContext.getCurrentTime());
-    nextEvent.activate();
+    Event event = this.simulationContext.getEventProvider().getNext();
+    this.simulationContext.getClock().setCurrentTime(event.getActivateTime());
     this.simulationContext.updateDeltaTimeLastTwoEvents();
+    event.activate();
+
+    LOGGER.debug("The current time: " + this.simulationContext.getCurrentTime());
   }
 
   public Predicate<SimulationContext> getStopCondition() {

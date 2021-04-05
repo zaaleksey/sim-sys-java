@@ -2,13 +2,13 @@ package simsys.random;
 
 import java.util.Random;
 
-public class UniformRV implements RandomVariable {
+public class UniformRandomVariable implements RandomVariable {
 
   private final Random random;
   private final double startOfRange;
   private final double endOfRange;
 
-  public UniformRV(Random random, double startOfRange, double endOfRange) {
+  public UniformRandomVariable(Random random, double startOfRange, double endOfRange) {
     this.random = random;
     this.startOfRange = startOfRange;
     this.endOfRange = endOfRange;

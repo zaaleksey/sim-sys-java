@@ -1,5 +1,11 @@
 package simsys.core.event.handler;
 
-public class StatisticHandler {
+import simsys.core.event.Event;
+
+public class StatisticHandler implements EventHandler {
+
+  @Override
+  public void handle(Event event) {
+  }
 
 }

@@ -4,20 +4,26 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.HashSet;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.ReflectionUtils;
 import simsys.core.agent.Agent;
 import simsys.core.annotation.State;
 import simsys.core.context.SimulationContext;
 import simsys.core.event.Event;
 
+@Slf4j
 public class StatisticStateHandler implements EventHandler {
 
   protected SimulationContext simulationContext;
 
+  private double allTime;
+  private String state;
   private final Agent agent;
   private final HashMap<String, Double> timeInStates = new HashMap<>();
+  private final HashMap<String, Double> probabilityInStates = new HashMap<>();
 
   public StatisticStateHandler(Agent agent, SimulationContext simulationContext) {
+    this.allTime = 0;
     this.agent = agent;
     this.simulationContext = simulationContext;
     initStatesMap();
@@ -29,13 +35,18 @@ public class StatisticStateHandler implements EventHandler {
 
   @Override
   public void handle(Event event) {
-    String state = this.agent.currentState();
-    if (this.timeInStates.get(state) != null) {
-      double updateTime = this.timeInStates.get(state)  //  if not in timeInState current state?
-          + this.simulationContext.getDeltaTimeLastTwoEvents();
-      this.timeInStates.put(state, updateTime);
+    allTime += simulationContext.getDeltaTimeLastTwoEvents();
+    if (timeInStates.get(state) != null) {
+      double updateTime = timeInStates.get(state)
+          + simulationContext.getDeltaTimeLastTwoEvents();
+      timeInStates.put(state, updateTime);
+      probabilityInStates.put(state, updateTime / allTime);
 
-      System.out.println("Time in states: " + this.timeInStates);
+      state = agent.currentState();
+
+      LOGGER.debug("All time: " + allTime);
+      LOGGER.debug("Time in states: " + timeInStates);
+      LOGGER.debug("Probability in states: " + probabilityInStates);
     }
   }
 
@@ -59,6 +70,9 @@ public class StatisticStateHandler implements EventHandler {
             field.setAccessible(true);
             String stateName = (String) ReflectionUtils.getField(field, agent);
             states.add(stateName);
+            if (((State) annotation).initial()) {
+              this.state = stateName;
+            }
           }
         }
       }

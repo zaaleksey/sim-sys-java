@@ -3,6 +3,7 @@ package simsys.core.provider;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 import simsys.core.event.Event;
 
 public class EventProviderImpl implements EventProvider {
@@ -39,6 +40,11 @@ public class EventProviderImpl implements EventProvider {
     Event nextEvent = peek();
     remove(nextEvent);
     return nextEvent;
+  }
+
+  @Override
+  public List<Event> getAllEvents() {
+    return this.events;
   }
 
   @Override

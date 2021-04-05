@@ -7,9 +7,13 @@ import simsys.core.provider.EventProvider;
 public interface SimulationContext {
 
   double getDeltaTimeLastTwoEvents();
+
   void setDeltaTimeLastTwoEvents(double delta);
+
   Environment getEnvironment();
+
   Clock getClock();
+
   EventProvider getEventProvider();
 
   default double getCurrentTime() {

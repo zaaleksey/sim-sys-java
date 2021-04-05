@@ -8,24 +8,23 @@ import simsys.core.annotation.State;
 import simsys.core.condition.TimeStopCondition;
 import simsys.core.context.SimulationContextImpl;
 import simsys.core.model.AgentBasedSimulationModel;
-import simsys.random.ExponentialRV;
+import simsys.random.ExponentialRandomVariable;
 import simsys.random.RandomVariable;
 
+public class AgentSimulationMarkovChainWithTwoStates {
 
-/**
- *    In this example, we consider a continuous Markov chain consisting of only two states: A, B.
- *    Initial state: A.
- *    Transition rates:
- *    q(A, B) = alpha (exponential with rate = 1)
- *    q(B, A) = beta (exponential with rate = 2)
- */
-public class AgentSimulationMarkovChain {
-
+  /**
+   *    In this example, we consider a continuous Markov chain consisting of two states: A and B
+   *    Initial state: A.
+   *    Transition rates:
+   *    q(A, B), q(A, C) = alpha (exponential)
+   *    q(B, A), q(B, C) = beta (exponential)
+   */
   public static void main(String[] args) {
 
     Agent markovAgent = new AbstractAgent() {
-      final RandomVariable alpha = new ExponentialRV(new Random(), 1);
-      final RandomVariable beta = new ExponentialRV(new Random(), 2);
+      final RandomVariable alpha = new ExponentialRandomVariable(new Random(), 1);
+      final RandomVariable beta = new ExponentialRandomVariable(new Random(), 2);
 
       @State(initial = true)
       private final String STATE_A = "A";
@@ -33,7 +32,6 @@ public class AgentSimulationMarkovChain {
       private final String STATE_B = "B";
 
       public String defineNextState() {
-        // there are two possibilities
         return currentState.equals(STATE_A) ? STATE_B : STATE_A;
       }
 
@@ -47,10 +45,10 @@ public class AgentSimulationMarkovChain {
 
     AgentBasedSimulationModel simulation = new AgentBasedSimulationModel(
         SimulationContextImpl.getEmptyInstance());
-    simulation.setStopCondition(new TimeStopCondition(1500));
+    simulation.setStopCondition(new TimeStopCondition(10000));
 
     simulation.addAgent(markovAgent);
     simulation.run();
   }
-  
+
 }

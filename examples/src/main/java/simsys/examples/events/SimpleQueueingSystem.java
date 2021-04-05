@@ -1,5 +1,6 @@
 package simsys.examples.events;
 
+import java.util.Random;
 import lombok.extern.slf4j.Slf4j;
 import simsys.core.condition.TimeStopCondition;
 import simsys.core.context.SimulationContext;
@@ -13,17 +14,15 @@ import simsys.entity.demand.Demand;
 import simsys.entity.demand.SimpleDemand;
 import simsys.entity.queue.Queue;
 import simsys.entity.queue.QueueFIFO;
-import simsys.random.ExponentialRV;
+import simsys.random.ExponentialRandomVariable;
 import simsys.random.RandomVariable;
-
-import java.util.Random;
 
 @Slf4j
 public class SimpleQueueingSystem {
 
   //don't use global variable!!!
   //only for very fast examples
-  static private final RandomVariable serviceTimes = new ExponentialRV(new Random(), 4);
+  static final RandomVariable serviceTimes = new ExponentialRandomVariable(new Random(), 4);
   static Demand processingDemand;
   static double averageServiceTime = 0;
   static double countOfDemands = 0;
@@ -32,12 +31,12 @@ public class SimpleQueueingSystem {
   public static Event createDemandEvent(double lambda, Queue queue, SimulationContext context) {
     //we create some event and make this periodic
     HandledEvent createDemand = new HandledEvent();
-    TimeoutHandler timeout = new TimeoutHandler(new ExponentialRV(new Random(), lambda));
+    TimeoutHandler timeout = new TimeoutHandler(
+        new ExponentialRandomVariable(new Random(), lambda));
     timeout.setSimulationContext(context);
     createDemand.addHandler(timeout);
     //just a very simple logger
-    createDemand.addHandler(event ->
-        {
+    createDemand.addHandler(event -> {
           LOGGER.info("Create demand event");
           LOGGER.info("Queue size = " + queue.size());
         }
@@ -57,7 +56,6 @@ public class SimpleQueueingSystem {
     return createDemand;
   }
 
-
   //this way have one more disadvantages - we create a new Event each time
   //we need reuse events
   public static Event createStartServiceEvent(Queue queue, SimulationContext context) {
@@ -67,7 +65,7 @@ public class SimpleQueueingSystem {
     serviceEvent.addHandler(event -> {
       LOGGER.info("Start service event");
       if (!queue.isEmpty() && processingDemand == null) {
-        Demand demand = queue.poll();
+        Demand demand = queue.remove();
         demand.setServiceStartTime(context.getCurrentTime());
         //move the demand to sever
         processingDemand = demand;
@@ -81,7 +79,6 @@ public class SimpleQueueingSystem {
 
     return serviceEvent;
   }
-
 
   public static Event createEndServiceEvent(double activationTime, Queue queue,
       SimulationContext context) {
@@ -108,7 +105,6 @@ public class SimpleQueueingSystem {
     return endServiceEvent;
   }
 
-
   public static void simpleQueueingSystems() {
     SimulationContext context = SimulationContextImpl.getEmptyInstance();
     SimulationModelImpl model = new SimulationModelImpl(context);
@@ -124,7 +120,6 @@ public class SimpleQueueingSystem {
     model.setStopCondition(new TimeStopCondition(1000));
     model.run();
   }
-
 
   public static void main(String[] args) {
     simpleQueueingSystems();

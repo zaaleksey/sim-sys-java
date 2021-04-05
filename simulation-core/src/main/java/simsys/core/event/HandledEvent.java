@@ -9,7 +9,6 @@ import simsys.core.event.handler.TimeoutHandler;
 import simsys.core.exception.ImpossibleEventTime;
 import simsys.random.RandomVariable;
 
-
 public class HandledEvent extends AbstractEvent {
 
   protected ArrayList<EventHandler<HandledEvent>> handlers = new ArrayList<>();
@@ -29,12 +28,11 @@ public class HandledEvent extends AbstractEvent {
     for (EventHandler<HandledEvent> handler : this.handlers) {
       try {
         handler.handle(this);
-      } catch (ImpossibleEventTime impossibleEventTime) {
+      } catch (ImpossibleEventTime | IllegalAccessException impossibleEventTime) {
         impossibleEventTime.printStackTrace();
       }
     }
   }
-
 
   public static class HandledEventBuilder {
 
@@ -76,7 +74,6 @@ public class HandledEvent extends AbstractEvent {
       return this;
     }
 
-
     public HandledEventBuilder addHandler(EventHandler<HandledEvent> eventHandler) {
       this.handlers.add(eventHandler);
       return this;
@@ -96,7 +93,6 @@ public class HandledEvent extends AbstractEvent {
       this.startTime = time;
       return this;
     }
-
 
     public HandledEvent build() {
       HandledEvent handledEvent = new HandledEvent();
