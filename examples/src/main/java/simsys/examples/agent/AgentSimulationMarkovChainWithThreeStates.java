@@ -21,7 +21,7 @@ import simsys.random.RandomVariable;
  *    q(B, A), q(B, C) = beta (exponential)
  *    q(C, A), q(C, B) = gamma (exponential)
  */
-public class AgentSimulationMarkovChain {
+public class AgentSimulationMarkovChainWithThreeStates {
 
   public static void main(String[] args) {
 
