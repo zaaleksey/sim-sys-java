@@ -23,9 +23,8 @@ public class AgentSimulationMarkovChainWithTwoStates {
   public static void main(String[] args) {
 
     Agent markovAgent = new AbstractAgent() {
-      final Random random = new Random();
-      final RandomVariable alpha = new ExponentialRandomVariable(random, 1);
-      final RandomVariable beta = new ExponentialRandomVariable(random, 2);
+      final RandomVariable alpha = new ExponentialRandomVariable(new Random(), 1);
+      final RandomVariable beta = new ExponentialRandomVariable(new Random(), 2);
 
       @State(initial = true)
       private final String STATE_A = "A";
@@ -46,7 +45,7 @@ public class AgentSimulationMarkovChainWithTwoStates {
 
     AgentBasedSimulationModel simulation = new AgentBasedSimulationModel(
         SimulationContextImpl.getEmptyInstance());
-    simulation.setStopCondition(new TimeStopCondition(1500));
+    simulation.setStopCondition(new TimeStopCondition(10000));
 
     simulation.addAgent(markovAgent);
     simulation.run();

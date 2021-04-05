@@ -17,12 +17,13 @@ public class StatisticStateHandler implements EventHandler {
   protected SimulationContext simulationContext;
 
   private double allTime;
+  private String state;
   private final Agent agent;
   private final HashMap<String, Double> timeInStates = new HashMap<>();
   private final HashMap<String, Double> probabilityInStates = new HashMap<>();
 
   public StatisticStateHandler(Agent agent, SimulationContext simulationContext) {
-    this.allTime = Double.MIN_VALUE;
+    this.allTime = 0;
     this.agent = agent;
     this.simulationContext = simulationContext;
     initStatesMap();
@@ -34,17 +35,18 @@ public class StatisticStateHandler implements EventHandler {
 
   @Override
   public void handle(Event event) {
-    this.allTime += this.simulationContext.getDeltaTimeLastTwoEvents();
-    String state = this.agent.currentState();
-    if (this.timeInStates.get(state) != null) {
-      double updateTime = this.timeInStates.get(state)
-          + this.simulationContext.getDeltaTimeLastTwoEvents();
-      this.timeInStates.put(state, updateTime);
-      this.probabilityInStates.put(state, updateTime / this.allTime);
+    allTime += simulationContext.getDeltaTimeLastTwoEvents();
+    if (timeInStates.get(state) != null) {
+      double updateTime = timeInStates.get(state)
+          + simulationContext.getDeltaTimeLastTwoEvents();
+      timeInStates.put(state, updateTime);
+      probabilityInStates.put(state, updateTime / allTime);
 
-      LOGGER.debug("All time: " + this.allTime);
-      LOGGER.debug("Time in states: " + this.timeInStates);
-      LOGGER.debug("Probability in states: " + this.probabilityInStates);
+      state = agent.currentState();
+
+      LOGGER.debug("All time: " + allTime);
+      LOGGER.debug("Time in states: " + timeInStates);
+      LOGGER.debug("Probability in states: " + probabilityInStates);
     }
   }
 
@@ -68,6 +70,9 @@ public class StatisticStateHandler implements EventHandler {
             field.setAccessible(true);
             String stateName = (String) ReflectionUtils.getField(field, agent);
             states.add(stateName);
+            if (((State) annotation).initial()) {
+              this.state = stateName;
+            }
           }
         }
       }

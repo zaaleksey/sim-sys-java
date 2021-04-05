@@ -42,7 +42,6 @@ public class AgentSimulationMarkovChainWithThreeStates {
       @Action(states = {STATE_A, STATE_B, STATE_C})
       public void action() {
         double delay;
-        System.out.println("Current State " + currentState);
         if (currentState.equals(STATE_A)) {
           delay = alpha.nextValue();
         } else if (currentState.equals(STATE_B)) {
@@ -50,19 +49,21 @@ public class AgentSimulationMarkovChainWithThreeStates {
         } else {
           delay = gamma.nextValue();
         }
-        moveToStateAfterTimeout(defineNextState(), delay);
+        String new_state = defineNextState();
+        System.out.println("Current State --> " + currentState + ". Next state --> " + new_state);
+        moveToStateAfterTimeout(new_state, delay);
       }
 
       public String defineNextState() {
         ArrayList<String> states = new ArrayList<>(Arrays.asList(STATE_A, STATE_B, STATE_C));
-//        states.remove(currentState);
+        states.remove(currentState);
         return states.get(random.nextInt(states.size()));
       }
     };
 
     AgentBasedSimulationModel simulation = new AgentBasedSimulationModel(
         SimulationContextImpl.getEmptyInstance());
-    simulation.setStopCondition(new TimeStopCondition(1000));
+    simulation.setStopCondition(new TimeStopCondition(10000));
 
     simulation.addAgent(markovAgent);
     simulation.run();
