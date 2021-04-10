@@ -1,5 +1,7 @@
 package simsys.core.agent;
 
+import simsys.core.context.SimulationContext;
+
 import java.util.Set;
 
 public interface Agent {
@@ -16,4 +18,5 @@ public interface Agent {
 
   void moveToStateAfterTimeout(String state, double delay);
 
+  void setContext(SimulationContext context);
 }

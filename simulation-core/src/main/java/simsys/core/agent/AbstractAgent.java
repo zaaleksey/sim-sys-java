@@ -46,4 +46,9 @@ public abstract class AbstractAgent implements Agent {
     this.nextActivationTime = context.getCurrentTime() + delay;
   }
 
+  @Override
+  public void setContext(SimulationContext context) {
+    this.context = context;
+  }
+
 }

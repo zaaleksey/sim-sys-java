@@ -8,6 +8,7 @@ import simsys.core.agent.Agent;
 import simsys.core.annotation.Action;
 import simsys.core.annotation.State;
 import simsys.core.condition.TimeStopCondition;
+import simsys.core.context.SimulationContext;
 import simsys.core.context.SimulationContextImpl;
 import simsys.core.model.AgentBasedSimulationModel;
 import simsys.random.ExponentialRandomVariable;
@@ -61,8 +62,10 @@ public class AgentSimulationMarkovChainWithThreeStates {
       }
     };
 
-    AgentBasedSimulationModel simulation = new AgentBasedSimulationModel(
-        SimulationContextImpl.getEmptyInstance());
+    SimulationContext context = SimulationContextImpl.getEmptyInstance();
+    markovAgent.setContext(context);
+
+    AgentBasedSimulationModel simulation = new AgentBasedSimulationModel(context);
     simulation.setStopCondition(new TimeStopCondition(10000));
 
     simulation.addAgent(markovAgent);
