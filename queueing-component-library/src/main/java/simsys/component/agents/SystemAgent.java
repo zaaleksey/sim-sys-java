@@ -4,9 +4,10 @@ import lombok.extern.slf4j.Slf4j;
 import simsys.core.agent.AbstractAgent;
 import simsys.core.annotation.Action;
 import simsys.core.annotation.State;
+import simsys.core.context.SimulationContext;
 import simsys.entity.demand.Demand;
 import simsys.entity.demand.SimpleDemand;
-import simsys.entity.queue.QueueFIFO;
+import simsys.entity.queue.Queue;
 import simsys.random.RandomVariable;
 
 @Slf4j
@@ -17,18 +18,18 @@ public class SystemAgent extends AbstractAgent implements Receiver {
   @State
   private static final String BUSY_STATE = "BUSY";
 
-  private final QueueFIFO queue;
+  private final Queue queue;
   private final RandomVariable randomVariable;
 
-  public SystemAgent(RandomVariable randomVariable) {
-    this.queue = new QueueFIFO();
+  public SystemAgent(SimulationContext context, Queue queue, RandomVariable randomVariable) {
+    this.context = context;
+    this.queue = queue;
     this.randomVariable = randomVariable;
   }
 
   @Action(states = {EMPTY_STATE, BUSY_STATE})
   public void action() {
     LOGGER.debug("System action... Current state: " + this.currentState);
-    LOGGER.debug("Number of demands in system:" + this.queue.size());
     double delay = this.randomVariable.nextValue();
 
     if (this.currentState.equals(EMPTY_STATE)) {
@@ -47,6 +48,7 @@ public class SystemAgent extends AbstractAgent implements Receiver {
         moveToStateAfterTimeout(BUSY_STATE, delay);
       }
     }
+    LOGGER.debug("Number of demands in system:" + this.queue.size());
 
   }
 
@@ -58,7 +60,8 @@ public class SystemAgent extends AbstractAgent implements Receiver {
         + "Number of demands in system: " + this.queue.size());
 
     if (this.currentState.equals(EMPTY_STATE)) {
-      action();
+//      action();
+      moveToState(BUSY_STATE);
     }
 
   }

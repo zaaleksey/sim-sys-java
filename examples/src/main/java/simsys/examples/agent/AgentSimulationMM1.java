@@ -4,25 +4,30 @@ import java.util.Random;
 import simsys.component.agents.SourceAgent;
 import simsys.component.agents.SystemAgent;
 import simsys.core.condition.TimeStopCondition;
+import simsys.core.context.SimulationContext;
 import simsys.core.context.SimulationContextImpl;
 import simsys.core.model.AgentBasedSimulationModel;
+import simsys.entity.queue.Queue;
+import simsys.entity.queue.QueueFIFO;
 import simsys.random.ExponentialRandomVariable;
 
 public class AgentSimulationMM1 {
 
   public static void main(String[] args) {
 
-    double lambda = 1;
-    SourceAgent source = new SourceAgent(new ExponentialRandomVariable(new Random(), lambda));
+    SimulationContext context = SimulationContextImpl.getEmptyInstance();
 
+    double lambda = 1;
+    SourceAgent source = new SourceAgent(context, new ExponentialRandomVariable(new Random(), lambda));
+
+    Queue queue = new QueueFIFO();
     double mu = 2;
-    SystemAgent system = new SystemAgent(new ExponentialRandomVariable(new Random(), mu));
+    SystemAgent system = new SystemAgent(context, queue, new ExponentialRandomVariable(new Random(), mu));
 
     source.setReceiver(system);
 
 
-    AgentBasedSimulationModel agentSimulationMM1 = new AgentBasedSimulationModel(
-        SimulationContextImpl.getEmptyInstance());
+    AgentBasedSimulationModel agentSimulationMM1 = new AgentBasedSimulationModel(context);
 
     agentSimulationMM1.setStopCondition(new TimeStopCondition(50));
 

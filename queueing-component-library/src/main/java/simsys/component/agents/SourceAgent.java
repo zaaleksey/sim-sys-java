@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import simsys.core.agent.AbstractAgent;
 import simsys.core.annotation.Action;
 import simsys.core.annotation.State;
+import simsys.core.context.SimulationContext;
 import simsys.random.RandomVariable;
 
 @Slf4j
@@ -17,15 +18,15 @@ public class SourceAgent extends AbstractAgent implements Sender {
   // recipient array?
   private Receiver receiver;
 
-  public SourceAgent(RandomVariable randomVariable) {
+  public SourceAgent(SimulationContext context, RandomVariable randomVariable) {
     // the time of the first activation of the source is determined
-    this.nextActivationTime = randomVariable.nextValue();
+    this.context = context;
     this.randomVariable = randomVariable;
   }
 
   @Action(states = {SLEEP_STATE})
   public void wakeUp() {
-    LOGGER.debug("Source wake up... send a demand to the system");
+    LOGGER.debug("Source wake up... send a demand to the system. Current time: " + this.context.getCurrentTime());
     double delay = this.randomVariable.nextValue();
     send(this.receiver);
     sleep(delay);

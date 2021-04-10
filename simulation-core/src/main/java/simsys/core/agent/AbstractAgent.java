@@ -1,8 +1,11 @@
 package simsys.core.agent;
 
 import java.util.Set;
+import simsys.core.context.SimulationContext;
 
 public abstract class AbstractAgent implements Agent {
+
+  protected SimulationContext context;
 
   protected Set<String> states;
   protected String currentState;
@@ -22,7 +25,7 @@ public abstract class AbstractAgent implements Agent {
   @Override
   public void sleep(double delay) {
     this.nextState = this.currentState;
-    this.nextActivationTime += delay;
+    this.nextActivationTime = context.getCurrentTime() + delay;
   }
 
   @Override
@@ -34,12 +37,13 @@ public abstract class AbstractAgent implements Agent {
   @Override
   public void moveToState(String state) {
     this.nextState = state;
+    this.nextActivationTime = this.context.getCurrentTime();
   }
 
   @Override
   public void moveToStateAfterTimeout(String state, double delay) {
     this.nextState = state;
-    this.nextActivationTime += delay;
+    this.nextActivationTime = context.getCurrentTime() + delay;
   }
 
 }
