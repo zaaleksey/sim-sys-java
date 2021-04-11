@@ -2,9 +2,10 @@ package simsys.examples.events;
 
 import java.util.Random;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import simsys.core.CoreConfig;
 import simsys.core.condition.TimeStopCondition;
 import simsys.core.context.SimulationContext;
-import simsys.core.context.SimulationContextImpl;
 import simsys.core.event.Event;
 import simsys.core.event.HandledEvent;
 import simsys.core.event.handler.TimeoutHandler;
@@ -106,14 +107,17 @@ public class SimpleQueueingSystem {
   }
 
   public static void simpleQueueingSystems() {
-    SimulationContext context = SimulationContextImpl.getEmptyInstance();
-    SimulationModelImpl model = new SimulationModelImpl(context);
+//    SimulationContext simulationContext = SimulationContextImpl.getEmptyInstance();
+    SimulationContext simulationContext =
+        new AnnotationConfigApplicationContext(CoreConfig.class).getBean(SimulationContext.class);
+
+    SimulationModelImpl model = new SimulationModelImpl(simulationContext);
 
     Queue queue = new QueueFIFO();
-    Event event = createDemandEvent(2, queue, context);
+    Event event = createDemandEvent(2, queue, simulationContext);
 
     try {
-      context.getEventProvider().add(event);
+      simulationContext.getEventProvider().add(event);
     } catch (ImpossibleEventTime impossibleEventTime) {
       impossibleEventTime.printStackTrace();
     }
@@ -124,7 +128,7 @@ public class SimpleQueueingSystem {
   public static void main(String[] args) {
     simpleQueueingSystems();
 
-    //correct answer  = 1/(mu - lambda) = 0.5
+//    correct answer  = 1/(mu - lambda) = 0.5
     System.out.println("Average service time is " + averageServiceTime / countOfDemands);
 
   }

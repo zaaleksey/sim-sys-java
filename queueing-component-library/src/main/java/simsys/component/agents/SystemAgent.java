@@ -60,8 +60,7 @@ public class SystemAgent extends AbstractAgent implements Receiver {
         + "Number of demands in system: " + this.queue.size());
 
     if (this.currentState.equals(EMPTY_STATE)) {
-//      action();
-      moveToState(BUSY_STATE);
+      this.nextActivationTime = this.context.getCurrentTime();
     }
 
   }

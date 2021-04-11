@@ -1,8 +1,11 @@
 package simsys.core.clock;
 
+import org.springframework.stereotype.Component;
+
 /**
  * Основная реализация интерфейса Clock.
  */
+@Component
 public final class ClockImpl implements Clock {
 
   private double previousTime;

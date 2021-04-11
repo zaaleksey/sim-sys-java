@@ -1,31 +1,24 @@
 package simsys.core.context;
 
-import java.util.Collections;
+import org.springframework.beans.factory.annotation.Autowired;
 import simsys.core.clock.Clock;
-import simsys.core.clock.ClockImpl;
 import simsys.core.environment.Environment;
-import simsys.core.environment.EnvironmentImpl;
 import simsys.core.provider.EventProvider;
-import simsys.core.provider.EventProviderImpl;
 
 public class SimulationContextImpl implements SimulationContext {
 
   private double deltaTimeLastTwoEvents;
 
+  @Autowired
   protected Environment environment;
+  @Autowired
   protected Clock clock;
+  @Autowired
   protected EventProvider eventProvider;
 
-  public SimulationContextImpl(
-      Environment environment,
-      Clock clock,
-      EventProvider eventProvider) {
+  public SimulationContextImpl() {
     this.deltaTimeLastTwoEvents = 0;
-    this.environment = environment;
-    this.clock = clock;
-    this.eventProvider = eventProvider;
   }
-
 
   @Override
   public double getDeltaTimeLastTwoEvents() {
@@ -50,13 +43,6 @@ public class SimulationContextImpl implements SimulationContext {
   @Override
   public EventProvider getEventProvider() {
     return this.eventProvider;
-  }
-
-  public static SimulationContextImpl getEmptyInstance() {
-    return new SimulationContextImpl(
-        new EnvironmentImpl(),
-        new ClockImpl(),
-        new EventProviderImpl(Collections.emptyList()));
   }
 
 }

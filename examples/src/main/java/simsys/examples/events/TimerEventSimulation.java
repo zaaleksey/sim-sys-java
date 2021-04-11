@@ -27,7 +27,7 @@ public class TimerEventSimulation {
     Environment env = new EnvironmentImpl();
     Clock clock = new ClockImpl();
     EventProvider eventProvider = new EventProviderImpl(Collections.emptyList());
-    SimulationContext simulationContext = new SimulationContextImpl(env, clock, eventProvider);
+    SimulationContext simulationContext = new SimulationContextImpl();
     // После того как создан контекст мы можем создать другую фабрику,
     // которая будет  инжектить этот контекст
     // во все классы и билдеры, если это необходимо
@@ -59,7 +59,7 @@ public class TimerEventSimulation {
     Environment env = new EnvironmentImpl();
     Clock clock = new ClockImpl();
     EventProvider eventProvider = new EventProviderImpl(Collections.emptyList());
-    SimulationContext simulationContext = new SimulationContextImpl(env, clock, eventProvider);
+    SimulationContext simulationContext = new SimulationContextImpl();
 
     HandledEventBuilderFactory eventBuilderFactory = new HandledEventBuilderFactory(
         simulationContext,

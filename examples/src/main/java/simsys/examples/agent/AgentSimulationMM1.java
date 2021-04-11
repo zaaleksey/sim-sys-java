@@ -1,11 +1,12 @@
 package simsys.examples.agent;
 
 import java.util.Random;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import simsys.component.agents.SourceAgent;
 import simsys.component.agents.SystemAgent;
+import simsys.core.CoreConfig;
 import simsys.core.condition.TimeStopCondition;
 import simsys.core.context.SimulationContext;
-import simsys.core.context.SimulationContextImpl;
 import simsys.core.model.AgentBasedSimulationModel;
 import simsys.entity.queue.Queue;
 import simsys.entity.queue.QueueFIFO;
@@ -15,7 +16,8 @@ public class AgentSimulationMM1 {
 
   public static void main(String[] args) {
 
-    SimulationContext context = SimulationContextImpl.getEmptyInstance();
+//    SimulationContext context = SimulationContextImpl.getEmptyInstance();
+    SimulationContext context = new AnnotationConfigApplicationContext(CoreConfig.class).getBean(SimulationContext.class);
 
     double lambda = 1;
     SourceAgent source = new SourceAgent(context, new ExponentialRandomVariable(new Random(), lambda));
