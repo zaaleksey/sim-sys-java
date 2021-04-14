@@ -1,14 +1,13 @@
 package simsys.examples.agent;
 
 import java.util.Random;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import simsys.core.CoreConfig;
 import simsys.core.agent.AbstractAgent;
 import simsys.core.agent.Agent;
 import simsys.core.annotation.Action;
 import simsys.core.annotation.State;
 import simsys.core.condition.TimeStopCondition;
 import simsys.core.context.SimulationContext;
+import simsys.core.context.SimulationContextImpl;
 import simsys.core.model.AgentBasedSimulationModel;
 import simsys.random.ExponentialRandomVariable;
 import simsys.random.RandomVariable;
@@ -45,8 +44,7 @@ public class AgentSimulationMarkovChainWithTwoStates {
       }
     };
 
-    SimulationContext context =
-        new AnnotationConfigApplicationContext(CoreConfig.class).getBean(SimulationContext.class);
+    SimulationContext context = SimulationContextImpl.getContext()
     markovAgent.setContext(context);
 
     AgentBasedSimulationModel simulation = new AgentBasedSimulationModel(context);

@@ -1,6 +1,8 @@
 package simsys.core.context;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import simsys.core.CoreConfig;
 import simsys.core.clock.Clock;
 import simsys.core.environment.Environment;
 import simsys.core.provider.EventProvider;
@@ -18,6 +20,10 @@ public class SimulationContextImpl implements SimulationContext {
 
   public SimulationContextImpl() {
     this.deltaTimeLastTwoEvents = 0;
+  }
+
+  public static SimulationContext getContext() {
+    return new AnnotationConfigApplicationContext(CoreConfig.class).getBean(SimulationContext.class);
   }
 
   @Override
