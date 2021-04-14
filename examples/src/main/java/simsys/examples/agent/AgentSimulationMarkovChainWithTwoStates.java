@@ -44,7 +44,7 @@ public class AgentSimulationMarkovChainWithTwoStates {
       }
     };
 
-    SimulationContext context = SimulationContextImpl.getContext()
+    SimulationContext context = SimulationContextImpl.getContext();
     markovAgent.setContext(context);
 
     AgentBasedSimulationModel simulation = new AgentBasedSimulationModel(context);
