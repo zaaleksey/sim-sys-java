@@ -2,6 +2,7 @@ package simsys.core.agent;
 
 import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
+import simsys.core.annotation.TimeTrigger;
 import simsys.core.context.SimulationContext;
 
 public abstract class AbstractAgent implements Agent {
@@ -11,6 +12,7 @@ public abstract class AbstractAgent implements Agent {
   protected Set<String> states;
   protected String currentState;
   protected String nextState;
+  @TimeTrigger
   protected double nextActivationTime;
 
   @Override

@@ -1,5 +1,6 @@
 package simsys.examples.agent;
 
+import java.util.Collections;
 import java.util.Random;
 import simsys.component.agents.SourceAgent;
 import simsys.component.agents.SystemAgent;
@@ -24,7 +25,7 @@ public class AgentSimulationMM1 {
     double mu = 2;
     SystemAgent system = new SystemAgent(context, queue, new ExponentialRandomVariable(new Random(), mu));
 
-    source.setReceiver(system);
+    source.setReceivers(Collections.singletonList(system));
 
     AgentBasedSimulationModel agentSimulationMM1 = new AgentBasedSimulationModel(context);
 

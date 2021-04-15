@@ -1,5 +1,6 @@
 package simsys.component.agents;
 
+import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -19,7 +20,7 @@ public class SourceAgent extends AbstractAgent implements Sender {
 
   private final RandomVariable randomVariable;
   // recipient array?
-  private Receiver receiver;
+  private List<Receiver> receivers;
 
   @Autowired
   public SourceAgent(SimulationContext simulationContext, RandomVariable randomVariable) {
@@ -32,18 +33,18 @@ public class SourceAgent extends AbstractAgent implements Sender {
   public void wakeUp() {
     LOGGER.debug("Source wake up... send a demand to the system. Current time: " + this.context.getCurrentTime());
     double delay = this.randomVariable.nextValue();
-    send(this.receiver);
+    send();
     sleep(delay);
   }
 
 
-  public void setReceiver(Receiver receiver) {
-    this.receiver = receiver;
+  public void setReceivers(List<Receiver> receivers) {
+    this.receivers = receivers;
   }
 
   @Override
-  public void send(Receiver receiver) {
-    receiver.receive();
+  public void send() {
+    receivers.forEach(Receiver::receive);
   }
 
 }

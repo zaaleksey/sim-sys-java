@@ -3,10 +3,8 @@ package simsys.core.agent;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import lombok.extern.slf4j.Slf4j;
@@ -17,7 +15,6 @@ import simsys.core.context.SimulationContext;
 import simsys.core.event.HandledEvent;
 import simsys.core.event.handler.StatisticStateHandler;
 
-// Wrapper-adapter for agent as event
 @Slf4j
 public class AgentEventImpl implements AgentEvent {
 
@@ -55,7 +52,6 @@ public class AgentEventImpl implements AgentEvent {
     String initialState = getInitialState();
 
     // create statistic handler for all states
-    // created for all agents, even if there is no statistic state (fix)
     StatisticStateHandler statisticHandler =
         new StatisticStateHandler(this.agent, this.simulationContext);
 

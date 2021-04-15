@@ -1,8 +1,11 @@
 package simsys.component.agents;
 
-@FunctionalInterface
+import java.util.List;
+
 public interface Sender {
 
-  void send(Receiver receiver);
+  void setReceivers(List<Receiver> receivers);
+
+  void send();
 
 }
