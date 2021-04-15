@@ -40,7 +40,7 @@ public class CoreConfig {
   }
 
   public static void main(String[] args) {
-    ApplicationContext context = new AnnotationConfigApplicationContext(CoreConfig.class);
+    new AnnotationConfigApplicationContext(CoreConfig.class);
   }
 
 }
