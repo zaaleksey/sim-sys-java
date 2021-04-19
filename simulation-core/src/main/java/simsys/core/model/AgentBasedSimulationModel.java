@@ -13,13 +13,20 @@ public class AgentBasedSimulationModel extends AbstractSimulationModel {
 
   public AgentBasedSimulationModel(SimulationContext simulationContext) {
     this.simulationContext = simulationContext;
-    agents = new ArrayList<>();
+    this.agents = new ArrayList<>();
   }
 
   public void addAgent(Agent agent) {
-    agents.add(agent);
-    AgentEvent event = new AgentEventImpl(simulationContext, agent);
-    this.simulationContext.getEventProvider().add(event);
+    this.agents.add(agent);
+//    AgentEvent event = new AgentEventImpl(this.simulationContext, agent);
+    new AgentEventImpl(this.simulationContext, agent);
+  }
+
+  public void addAgents(List<Agent> agents) {
+    this.agents.addAll(agents);
+    for (Agent agent : agents) {
+      new AgentEventImpl(this.simulationContext, agent);
+    }
   }
 
 }

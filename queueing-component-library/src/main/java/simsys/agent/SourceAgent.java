@@ -1,6 +1,5 @@
 package simsys.agent;
 
-import java.util.Set;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import simsys.core.agent.AbstractAgent;

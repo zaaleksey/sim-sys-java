@@ -18,14 +18,12 @@ public abstract class AbstractSimulationModel implements SimulationModel {
     while (!this.stopCondition.test(this.simulationContext)) {
       step();
 
-      LOGGER.debug("\n");
       List<Event> events = simulationContext.getEventProvider().getAllEvents();
       Collections.sort(events);
       for (Event event : events) {
         LOGGER.debug(event.getClass().getName() + " act.time : " + event.getActivateTime());
       }
-      LOGGER.debug("\n");
-
+      System.out.println();
     }
   }
 
@@ -36,7 +34,7 @@ public abstract class AbstractSimulationModel implements SimulationModel {
     this.simulationContext.updateDeltaTimeLastTwoEvents();
     event.activate();
 
-    LOGGER.debug("The current time: " + this.simulationContext.getCurrentTime());
+    LOGGER.debug("STEP: The current time: " + this.simulationContext.getCurrentTime() + "\n");
   }
 
   public Predicate<SimulationContext> getStopCondition() {
