@@ -22,7 +22,11 @@ public class SystemAgent extends AbstractAgent {
   private static final String BUSY_STATE = "BUSY";
 
   private Demand processingDemand;
+  // annotation processing Statistics are not working yet, we count with our hands
+  @Statistic
   public double averageServiceTime = 0;
+  // annotation processing Statistics are not working yet, we count with our hands
+  @Statistic
   public double countOfDemands = 0;
 
   public SystemAgent(SimulationContext simulationContext, Queue queue, RandomVariable randomVariable) {
@@ -34,6 +38,13 @@ public class SystemAgent extends AbstractAgent {
   @Action(states = {EMPTY_STATE, BUSY_STATE})
   public void action() {
     double delay = this.randomVariable.nextValue();
+
+    if (this.processingDemand != null) {
+      this.processingDemand.setLeavingTime(this.simulationContext.getCurrentTime());
+      this.countOfDemands++;
+      this.averageServiceTime += this.processingDemand.getLeavingTime() - this.processingDemand.getArrivalTime();
+      this.processingDemand = null;
+    }
 
     if (this.currentState.equals(EMPTY_STATE)) {
       if (this.queue.size() == 0) {
@@ -47,9 +58,6 @@ public class SystemAgent extends AbstractAgent {
       //move the demand to sever
       this.processingDemand = queue.remove();
       this.processingDemand.setServiceStartTime(this.simulationContext.getCurrentTime());
-      this.processingDemand.setLeavingTime(this.simulationContext.getCurrentTime() + delay);
-      this.countOfDemands++;
-      this.averageServiceTime += this.processingDemand.getLeavingTime() - this.processingDemand.getArrivalTime();
 
       if (this.queue.size() == 0) {
         moveToStateAfterTimeout(EMPTY_STATE, delay);
@@ -65,6 +73,7 @@ public class SystemAgent extends AbstractAgent {
         ". Number of demands in queue: " + this.queue.size());
   }
 
+  // annotation processing Statistics are not working yet, we count with our hands
   @Statistic
   private int getNumberDemandInSystem() {
     return this.queue.size() + 1;
