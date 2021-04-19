@@ -6,11 +6,12 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.ObjectUtils.Null;
 import org.springframework.util.ReflectionUtils;
 import simsys.core.annotation.Action;
 import simsys.core.annotation.State;
+import simsys.core.annotation.Trigger;
 import simsys.core.context.SimulationContext;
 import simsys.core.event.HandledEvent;
 import simsys.core.event.handler.StatisticStateHandler;
@@ -18,25 +19,13 @@ import simsys.core.event.handler.StatisticStateHandler;
 @Slf4j
 public class AgentEventImpl implements AgentEvent {
 
-  protected Agent agent;
   protected SimulationContext simulationContext;
+  protected Agent agent;
 
-  private Set<String> states;
   private Map<String, HandledEvent> eventResolver;
 
-  public AgentEventImpl(Agent agent, SimulationContext simulationContext) {
-    this.agent = agent;
+  public AgentEventImpl(SimulationContext simulationContext, Agent agent) {
     this.simulationContext = simulationContext;
-    agentDefinition();
-  }
-
-  @Override
-  public Agent getAgent() {
-    return this.agent;
-  }
-
-  @Override
-  public void setAgent(Agent agent) {
     this.agent = agent;
     agentDefinition();
   }
@@ -62,7 +51,7 @@ public class AgentEventImpl implements AgentEvent {
         if (annotation.annotationType().equals(Action.class)) {
           String[] statesFromAnnotation = ((Action) annotation).states();
           for (String state : statesFromAnnotation) {
-            if (!this.states.contains(state)) {
+            if (!this.agent.getStates().contains(state)) {
               throw new IllegalStateException("There is no a state with name "
                   + state);
             }
@@ -87,6 +76,14 @@ public class AgentEventImpl implements AgentEvent {
         method.setAccessible(true);
         LOGGER.debug("Invoke method: " + method.getName());
         ReflectionUtils.invokeMethod(method, this.agent);
+
+        if (method.isAnnotationPresent(Trigger.class)) {
+//      TODO: необходимо достать SystemAgent из аннотации Trigger и вызвать у него метод
+//       с именем methodName.
+//       Вопрос: как получить объект SystemAgent, чтобы вызвать у него метод
+         System.out.println("YEEES, TRIGGER!!! " + method.getName());
+        }
+
         Object nextState = ReflectionUtils.getField(nextStateField, this.agent);
         ReflectionUtils.setField(currentStateFiled, this.agent, nextState);
 
@@ -106,16 +103,11 @@ public class AgentEventImpl implements AgentEvent {
     this.simulationContext.getEventProvider().add(eventResolver.get(initialState));
     ReflectionUtils.setField(currentStateFiled, this.agent, initialState);
 
-    LOGGER.debug("Print states and corresponding actions");
-    for (Map.Entry<String, HandledEvent> pair : eventResolver.entrySet()) {
-      LOGGER.debug(pair.getKey() + ": " + pair.getValue());
-    }
-    LOGGER.debug("*******************************************\n");
-
+//    printStateAndCorrespondingActions();
   }
 
   private void defineAllAgentStates() {
-    this.states = new HashSet<>();
+    this.agent.setStates(new HashSet<>());
 
     Field[] fields = this.agent.getClass().getDeclaredFields();
     for (Field field : fields) {
@@ -124,7 +116,7 @@ public class AgentEventImpl implements AgentEvent {
         if (annotation.annotationType().equals(State.class)) {
           field.setAccessible(true);
           String stateName = (String) ReflectionUtils.getField(field, this.agent);
-          states.add(stateName);
+          this.agent.getStates().add(stateName);
         }
       }
     }
@@ -161,6 +153,25 @@ public class AgentEventImpl implements AgentEvent {
     return field;
   }
 
+  private void printStateAndCorrespondingActions() {
+    LOGGER.debug("Print states and corresponding actions");
+    for (Map.Entry<String, HandledEvent> pair : eventResolver.entrySet()) {
+      LOGGER.debug(pair.getKey() + ": " + pair.getValue());
+    }
+    LOGGER.debug("*******************************************\n");
+  }
+
+  @Override
+  public Agent getAgent() {
+    return this.agent;
+  }
+
+  @Override
+  public void setAgent(Agent agent) {
+    this.agent = agent;
+    agentDefinition();
+  }
+
   @Override
   public double getActivateTime() {
     return 0;
@@ -175,5 +186,4 @@ public class AgentEventImpl implements AgentEvent {
   public void activate() {
 
   }
-
 }

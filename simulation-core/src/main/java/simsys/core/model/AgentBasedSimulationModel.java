@@ -18,7 +18,7 @@ public class AgentBasedSimulationModel extends AbstractSimulationModel {
 
   public void addAgent(Agent agent) {
     agents.add(agent);
-    AgentEvent event = new AgentEventImpl(agent, this.simulationContext);
+    AgentEvent event = new AgentEventImpl(simulationContext, agent);
     this.simulationContext.getEventProvider().add(event);
   }
 

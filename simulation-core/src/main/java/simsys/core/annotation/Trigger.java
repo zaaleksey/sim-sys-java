@@ -11,7 +11,8 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Trigger {
-  Class<?> clazz();
+  // can trigger method more than one class (the main thing is that the methods have the same name)
+  Class<?>[] clazz();
   String methodName();
   Class<?>[] args() default {};
 }

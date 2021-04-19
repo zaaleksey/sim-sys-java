@@ -2,17 +2,15 @@ package simsys.core.agent;
 
 import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
-import simsys.core.annotation.TimeTrigger;
 import simsys.core.context.SimulationContext;
 
 public abstract class AbstractAgent implements Agent {
 
-  protected SimulationContext context;
+  protected SimulationContext simulationContext;
 
   protected Set<String> states;
   protected String currentState;
   protected String nextState;
-  @TimeTrigger
   protected double nextActivationTime;
 
   @Override
@@ -21,8 +19,13 @@ public abstract class AbstractAgent implements Agent {
   }
 
   @Override
-  public Set<String> getAllStates() {
+  public Set<String> getStates() {
     return this.states;
+  }
+
+  @Override
+  public void setStates(Set<String> states) {
+    this.states = states;
   }
 
   @Override
@@ -34,25 +37,24 @@ public abstract class AbstractAgent implements Agent {
   @Override
   public void sleep(double delay) {
     this.nextState = this.currentState;
-    this.nextActivationTime = this.context.getCurrentTime() + delay;
+    this.nextActivationTime = this.simulationContext.getCurrentTime() + delay;
   }
 
   @Override
   public void moveToState(String state) {
     this.nextState = state;
-    this.nextActivationTime = this.context.getCurrentTime();
+    this.nextActivationTime = this.simulationContext.getCurrentTime();
   }
 
   @Override
   public void moveToStateAfterTimeout(String state, double delay) {
     this.nextState = state;
-    this.nextActivationTime = this.context.getCurrentTime() + delay;
+    this.nextActivationTime = this.simulationContext.getCurrentTime() + delay;
   }
 
   @Override
-  @Autowired
-  public void setContext(SimulationContext context) {
-    this.context = context;
+  public void setContext(SimulationContext simulationContext) {
+    this.simulationContext = simulationContext;
   }
 
 }

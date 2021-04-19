@@ -17,18 +17,17 @@ public abstract class AbstractSimulationModel implements SimulationModel {
   public void run() {
     while (!this.stopCondition.test(this.simulationContext)) {
       step();
-      System.out.println();
 
-      System.out.println();
+      LOGGER.debug("\n");
       List<Event> events = simulationContext.getEventProvider().getAllEvents();
       Collections.sort(events);
       for (Event event : events) {
-        System.out.println(event.getClass().getName() + " act.time : " + event.getActivateTime());
+        LOGGER.debug(event.getClass().getName() + " act.time : " + event.getActivateTime());
       }
-      System.out.println();
+      LOGGER.debug("\n");
+
     }
   }
-
 
   @Override
   public void step() {
@@ -42,6 +41,10 @@ public abstract class AbstractSimulationModel implements SimulationModel {
 
   public Predicate<SimulationContext> getStopCondition() {
     return this.stopCondition;
+  }
+
+  public void setSimulationContext(SimulationContext simulationContext) {
+    this.simulationContext = simulationContext;
   }
 
   public void setStopCondition(Predicate<SimulationContext> stopCondition) {

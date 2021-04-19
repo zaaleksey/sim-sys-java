@@ -1,9 +1,11 @@
 package simsys.examples.agent;
 
-import java.util.Collections;
 import java.util.Random;
-import simsys.component.agents.SourceAgent;
-import simsys.component.agents.SystemAgent;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import simsys.agent.SourceAgent;
+import simsys.agent.SystemAgent;
+import simsys.core.CoreConfig;
 import simsys.core.condition.TimeStopCondition;
 import simsys.core.context.SimulationContext;
 import simsys.core.context.SimulationContextImpl;
@@ -21,11 +23,9 @@ public class AgentSimulationMM1 {
     double lambda = 1;
     SourceAgent source = new SourceAgent(context, new ExponentialRandomVariable(new Random(), lambda));
 
-    Queue queue = new QueueFIFO();
     double mu = 2;
+    Queue queue = new QueueFIFO();
     SystemAgent system = new SystemAgent(context, queue, new ExponentialRandomVariable(new Random(), mu));
-
-    source.setReceivers(Collections.singletonList(system));
 
     AgentBasedSimulationModel agentSimulationMM1 = new AgentBasedSimulationModel(context);
 

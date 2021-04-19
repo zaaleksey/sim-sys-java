@@ -8,7 +8,9 @@ public interface Agent {
 
   String currentState();
 
-  Set<String> getAllStates();
+  Set<String> getStates();
+
+  void setStates(Set<String> states);
 
   void sleep();
 

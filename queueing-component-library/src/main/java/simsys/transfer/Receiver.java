@@ -1,4 +1,4 @@
-package simsys.component.agents;
+package simsys.transfer;
 
 public interface Receiver {
 

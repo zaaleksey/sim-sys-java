@@ -1,4 +1,4 @@
-package simsys.component.agents;
+package simsys.agent;
 
 import lombok.extern.slf4j.Slf4j;
 import simsys.core.agent.AbstractAgent;
@@ -6,12 +6,11 @@ import simsys.core.annotation.Action;
 import simsys.core.annotation.State;
 import simsys.core.context.SimulationContext;
 import simsys.entity.demand.Demand;
-import simsys.entity.demand.SimpleDemand;
 import simsys.entity.queue.Queue;
 import simsys.random.RandomVariable;
 
 @Slf4j
-public class SystemAgent extends AbstractAgent implements Receiver {
+public class SystemAgent extends AbstractAgent {
 
   @State(initial = true)
   private static final String EMPTY_STATE = "EMPTY";
@@ -21,8 +20,8 @@ public class SystemAgent extends AbstractAgent implements Receiver {
   private final Queue queue;
   private final RandomVariable randomVariable;
 
-  public SystemAgent(SimulationContext context, Queue queue, RandomVariable randomVariable) {
-    this.context = context;
+  public SystemAgent(SimulationContext simulationContext, Queue queue, RandomVariable randomVariable) {
+    this.simulationContext = simulationContext;
     this.queue = queue;
     this.randomVariable = randomVariable;
   }
@@ -52,17 +51,10 @@ public class SystemAgent extends AbstractAgent implements Receiver {
 
   }
 
-  @Override
-  public void receive() {
-    Demand demand = new SimpleDemand(this.nextActivationTime);
+  private void acceptDemand(Demand demand) {
     this.queue.add(demand);
-    LOGGER.debug("The system accepts the new demand. "
-        + "Number of demands in system: " + this.queue.size());
-
-    if (this.currentState.equals(EMPTY_STATE)) {
-      this.nextActivationTime = this.context.getCurrentTime();
-    }
-
+    LOGGER.debug("The system accepts the new demand. " +
+        "Number of demands in queue: " + this.queue.size());
   }
 
 }
