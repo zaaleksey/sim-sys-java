@@ -9,7 +9,6 @@ import simsys.core.context.SimulationContext;
 import simsys.core.event.Event;
 import simsys.core.event.HandledEvent;
 import simsys.core.event.handler.TimeoutHandler;
-import simsys.core.exception.ImpossibleEventTime;
 import simsys.core.model.SimulationModelImpl;
 import simsys.entity.demand.Demand;
 import simsys.entity.demand.SimpleDemand;
@@ -21,8 +20,6 @@ import simsys.random.RandomVariable;
 @Slf4j
 public class SimpleQueueingSystem {
 
-  //don't use global variable!!!
-  //only for very fast examples
   static final RandomVariable serviceTimes = new ExponentialRandomVariable(new Random(), 4);
   static Demand processingDemand;
   static double averageServiceTime = 0;
@@ -107,20 +104,16 @@ public class SimpleQueueingSystem {
   }
 
   public static void simpleQueueingSystems() {
-//    SimulationContext simulationContext = SimulationContextImpl.getEmptyInstance();
     SimulationContext simulationContext =
         new AnnotationConfigApplicationContext(CoreConfig.class).getBean(SimulationContext.class);
 
     SimulationModelImpl model = new SimulationModelImpl(simulationContext);
 
+    double lambda = 2;
     Queue queue = new QueueFIFO();
-    Event event = createDemandEvent(2, queue, simulationContext);
+    Event event = createDemandEvent(lambda, queue, simulationContext);
 
-    try {
-      simulationContext.getEventProvider().add(event);
-    } catch (ImpossibleEventTime impossibleEventTime) {
-      impossibleEventTime.printStackTrace();
-    }
+    simulationContext.getEventProvider().add(event);
     model.setStopCondition(new TimeStopCondition(1000));
     model.run();
   }

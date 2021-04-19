@@ -5,26 +5,32 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
-import jdk.internal.net.http.common.Demand;
+import java.util.concurrent.atomic.AtomicReference;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.ReflectionUtils;
 import simsys.core.annotation.Action;
 import simsys.core.annotation.State;
 import simsys.core.annotation.Trigger;
 import simsys.core.context.SimulationContext;
+import simsys.core.event.Event;
 import simsys.core.event.HandledEvent;
 import simsys.core.event.handler.StatisticStateHandler;
+import simsys.core.model.AgentBasedSimulationModel;
+import simsys.core.parcel.Parcel;
 
 @Slf4j
 public class AgentEventImpl implements AgentEvent {
 
+  protected AgentBasedSimulationModel simulationModel;
   protected SimulationContext simulationContext;
   protected Agent agent;
 
   private Map<String, HandledEvent> eventResolver;
 
-  public AgentEventImpl(SimulationContext simulationContext, Agent agent) {
+  public AgentEventImpl(AgentBasedSimulationModel simulationModel,SimulationContext simulationContext, Agent agent) {
+    this.simulationModel = simulationModel;
     this.simulationContext = simulationContext;
     setAgent(agent);
   }
@@ -78,31 +84,42 @@ public class AgentEventImpl implements AgentEvent {
     for (Map.Entry<String, Method> response : methodResolver.entrySet()) {
       HandledEvent event = eventResolver.get(response.getKey());
       Method method = response.getValue();
+      AtomicReference<Parcel> parcel = new AtomicReference<>();
+
       event
           .addHandler(statisticHandler)
           .addHandler(e -> {
         method.setAccessible(true);
         LOGGER.debug("Invoke method: " + method.getName());
-        if (method.isAnnotationPresent(Trigger.class)) {
-          System.out.println("YEEES, TRIGGER!!! " + method.getName());
 
-          Trigger triggerAnnotation = method.getAnnotation(Trigger.class);
-          Class<?>[] clazz = triggerAnnotation.clazz();
-          String methodName = triggerAnnotation.methodName();
-
-          // обернуть все что будет передаваться через триггер в класс Package (посылка) ???
-          ReflectionUtils.invokeMethod(method, this.agent);
-          System.out.println();
-
-        } else {
-          ReflectionUtils.invokeMethod(method, this.agent);
-        }
+        parcel.set((Parcel) ReflectionUtils.invokeMethod(method, this.agent));
 
         Object nextState = ReflectionUtils.getField(nextStateField, this.agent);
         ReflectionUtils.setField(currentStateFiled, this.agent, nextState);
 
-        // it means the next state is defined = makes sense
-        // we need create the next event
+
+        if (method.isAnnotationPresent(Trigger.class)) {
+          Trigger triggerAnnotation = method.getAnnotation(Trigger.class);
+          Class<?> clazz = triggerAnnotation.clazz();
+          String methodName = triggerAnnotation.methodName();
+          Class<?>[] args = triggerAnnotation.args();
+
+          List<Agent> agentList = this.simulationModel.getAgentsByClass(clazz);
+
+          for (Agent agent : agentList) {
+            Method triggerMethod = ReflectionUtils.findMethod(agent.getClass(), methodName, args);
+            assert triggerMethod != null;
+            triggerMethod.setAccessible(true);
+            ReflectionUtils.invokeMethod(triggerMethod, agent, parcel.get());
+          }
+
+          for (Event evt : this.simulationContext.getEventProvider().getAllEvents()) {
+            if (evt.getActivateTime() == Double.POSITIVE_INFINITY) {
+              evt.setActivateTime(this.simulationContext.getCurrentTime());
+            }
+          }
+        }
+
         if (nextState != null) {
           HandledEvent nextEvent = eventResolver.get(nextState);
           Object nextActivationTime = ReflectionUtils
@@ -117,7 +134,7 @@ public class AgentEventImpl implements AgentEvent {
     this.simulationContext.getEventProvider().add(eventResolver.get(initialState));
     ReflectionUtils.setField(currentStateFiled, this.agent, initialState);
 
-    printStateAndCorrespondingActions();
+//    printStateAndCorrespondingActions();
   }
 
   private void defineAllStatesInAgent() {

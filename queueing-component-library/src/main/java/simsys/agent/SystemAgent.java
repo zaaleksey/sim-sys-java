@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import simsys.core.agent.AbstractAgent;
 import simsys.core.annotation.Action;
 import simsys.core.annotation.State;
+import simsys.core.annotation.Statistic;
 import simsys.core.context.SimulationContext;
 import simsys.entity.demand.Demand;
 import simsys.entity.queue.Queue;
@@ -12,13 +13,17 @@ import simsys.random.RandomVariable;
 @Slf4j
 public class SystemAgent extends AbstractAgent {
 
+  private final Queue queue;
+  private final RandomVariable randomVariable;
+
   @State(initial = true)
   private static final String EMPTY_STATE = "EMPTY";
   @State
   private static final String BUSY_STATE = "BUSY";
 
-  private final Queue queue;
-  private final RandomVariable randomVariable;
+  private Demand processingDemand;
+  public double averageServiceTime = 0;
+  public double countOfDemands = 0;
 
   public SystemAgent(SimulationContext simulationContext, Queue queue, RandomVariable randomVariable) {
     this.simulationContext = simulationContext;
@@ -28,7 +33,6 @@ public class SystemAgent extends AbstractAgent {
 
   @Action(states = {EMPTY_STATE, BUSY_STATE})
   public void action() {
-    LOGGER.debug("System action... Current state: " + this.currentState);
     double delay = this.randomVariable.nextValue();
 
     if (this.currentState.equals(EMPTY_STATE)) {
@@ -40,21 +44,30 @@ public class SystemAgent extends AbstractAgent {
     }
 
     if (this.currentState.equals(BUSY_STATE)) {
-      this.queue.remove();
+      //move the demand to sever
+      this.processingDemand = queue.remove();
+      this.processingDemand.setServiceStartTime(this.simulationContext.getCurrentTime());
+      this.processingDemand.setLeavingTime(this.simulationContext.getCurrentTime() + delay);
+      this.countOfDemands++;
+      this.averageServiceTime += this.processingDemand.getLeavingTime() - this.processingDemand.getArrivalTime();
+
       if (this.queue.size() == 0) {
         moveToStateAfterTimeout(EMPTY_STATE, delay);
       } else {
         moveToStateAfterTimeout(BUSY_STATE, delay);
       }
     }
-    LOGGER.debug("Number of demands in system:" + this.queue.size());
-
   }
 
   private void acceptDemand(Demand demand) {
     this.queue.add(demand);
-    LOGGER.debug("The system accepts the new demand. " +
-        "Number of demands in queue: " + this.queue.size());
+    LOGGER.debug("The system accepts the new demand with ID: " + demand.getId() +
+        ". Number of demands in queue: " + this.queue.size());
+  }
+
+  @Statistic
+  private int getNumberDemandInSystem() {
+    return this.queue.size() + 1;
   }
 
 }

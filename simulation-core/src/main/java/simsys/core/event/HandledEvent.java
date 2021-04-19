@@ -28,8 +28,8 @@ public class HandledEvent extends AbstractEvent {
     for (EventHandler<HandledEvent> handler : this.handlers) {
       try {
         handler.handle(this);
-      } catch (ImpossibleEventTime | IllegalAccessException impossibleEventTime) {
-        impossibleEventTime.printStackTrace();
+      } catch (ImpossibleEventTime | IllegalAccessException | NoSuchMethodException exception) {
+        exception.printStackTrace();
       }
     }
   }

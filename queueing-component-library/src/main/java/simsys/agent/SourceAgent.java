@@ -26,12 +26,12 @@ public class SourceAgent extends AbstractAgent {
   }
 
   @Action(states = {SLEEP_STATE})
-  @Trigger(clazz = {SystemAgent.class}, methodName = "acceptDemand")
+  @Trigger(clazz = SystemAgent.class, methodName = "acceptDemand", args = {Demand.class})
   public Demand sendDemand() {
     Demand demand = new SimpleDemand(this.simulationContext.getCurrentTime());
-    double delay = this.randomVariable.nextValue();
     LOGGER.debug("Source wake up... send a demand to the system. Demand ID: " +
         demand.getId() + ". Current time: " + this.simulationContext.getCurrentTime());
+    double delay = this.randomVariable.nextValue();
     sleep(delay);
     return demand;
   }
