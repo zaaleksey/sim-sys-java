@@ -1,8 +1,9 @@
 package simsys.examples.agent;
 
+import java.util.Arrays;
 import java.util.Random;
-import simsys.component.agents.SourceAgent;
-import simsys.component.agents.SystemAgent;
+import simsys.agent.SourceAgent;
+import simsys.agent.SystemAgent;
 import simsys.core.condition.TimeStopCondition;
 import simsys.core.context.SimulationContext;
 import simsys.core.context.SimulationContextImpl;
@@ -20,20 +21,18 @@ public class AgentSimulationMM1 {
     double lambda = 1;
     SourceAgent source = new SourceAgent(context, new ExponentialRandomVariable(new Random(), lambda));
 
-    Queue queue = new QueueFIFO();
     double mu = 2;
+    Queue queue = new QueueFIFO();
     SystemAgent system = new SystemAgent(context, queue, new ExponentialRandomVariable(new Random(), mu));
 
-    source.setReceiver(system);
-
     AgentBasedSimulationModel agentSimulationMM1 = new AgentBasedSimulationModel(context);
-
-    agentSimulationMM1.setStopCondition(new TimeStopCondition(50));
-
-    agentSimulationMM1.addAgent(source);
-    agentSimulationMM1.addAgent(system);
-
+    agentSimulationMM1.setStopCondition(new TimeStopCondition(50000));
+    agentSimulationMM1.addAgents(Arrays.asList(source, system));
     agentSimulationMM1.run();
 
+    // correct answer  = 1/(mu - lambda) = 1
+    System.out.println("Average service time is " + system.averageServiceTime / system.countOfDemands);
+
   }
+
 }

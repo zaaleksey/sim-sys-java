@@ -3,34 +3,36 @@ package simsys.core.agent;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
+import java.util.concurrent.atomic.AtomicReference;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.ReflectionUtils;
 import simsys.core.annotation.Action;
 import simsys.core.annotation.State;
+import simsys.core.annotation.Trigger;
 import simsys.core.context.SimulationContext;
+import simsys.core.event.Event;
 import simsys.core.event.HandledEvent;
 import simsys.core.event.handler.StatisticStateHandler;
+import simsys.core.model.AgentBasedSimulationModel;
+import simsys.core.parcel.Parcel;
 
-// Wrapper-adapter for agent as event
 @Slf4j
 public class AgentEventImpl implements AgentEvent {
 
-  protected Agent agent;
+  protected AgentBasedSimulationModel simulationModel;
   protected SimulationContext simulationContext;
+  protected Agent agent;
 
-  private Set<String> states;
   private Map<String, HandledEvent> eventResolver;
 
-  public AgentEventImpl(Agent agent, SimulationContext simulationContext) {
-    this.agent = agent;
+  public AgentEventImpl(AgentBasedSimulationModel simulationModel,SimulationContext simulationContext, Agent agent) {
+    this.simulationModel = simulationModel;
     this.simulationContext = simulationContext;
-    agentDefinition();
+    setAgent(agent);
   }
 
   @Override
@@ -41,23 +43,29 @@ public class AgentEventImpl implements AgentEvent {
   @Override
   public void setAgent(Agent agent) {
     this.agent = agent;
-    agentDefinition();
+    defineAllStatesInAgent();
+    agentHandling();
   }
 
-  public void agentDefinition() {
+  private void defineAllStatesInAgent() {
+    this.agent.setStates(new HashSet<>());
+
+    Field[] fields = this.agent.getClass().getDeclaredFields();
+    for (Field field : fields) {
+      if (field.isAnnotationPresent(State.class)) {
+        field.setAccessible(true);
+        String stateName = (String) ReflectionUtils.getField(field, this.agent);
+        this.agent.getStates().add(stateName);
+      }
+    }
+  }
+
+  private void agentHandling() {
     LOGGER.debug("Agent name: " + this.agent.getClass().getName());
 
     // create map State->Method
     this.eventResolver = new HashMap<>();
     Map<String, Method> methodResolver = new HashMap<>();
-
-    defineAllAgentStates();
-    String initialState = getInitialState();
-
-    // create statistic handler for all states
-    // created for all agents, even if there is no statistic state (fix)
-    StatisticStateHandler statisticHandler =
-        new StatisticStateHandler(this.agent, this.simulationContext);
 
     Method[] methods = this.agent.getClass().getDeclaredMethods();
     for (Method method : methods) {
@@ -66,7 +74,7 @@ public class AgentEventImpl implements AgentEvent {
         if (annotation.annotationType().equals(Action.class)) {
           String[] statesFromAnnotation = ((Action) annotation).states();
           for (String state : statesFromAnnotation) {
-            if (!this.states.contains(state)) {
+            if (!this.agent.getStates().contains(state)) {
               throw new IllegalStateException("There is no a state with name "
                   + state);
             }
@@ -77,64 +85,83 @@ public class AgentEventImpl implements AgentEvent {
       }
     }
 
-    Field currentStateFiled = getField("currentState");
-    Field nextStateField = getField("nextState");
-    Field nextActivationTimeField = getField("nextActivationTime");
+    Field currentStateFiled = getFieldByName("currentState");
+    Field nextStateField = getFieldByName("nextState");
+    Field nextActivationTimeField = getFieldByName("nextActivationTime");
+
+    // create statistic handler for all states
+    StatisticStateHandler statisticHandler =
+        new StatisticStateHandler(this.agent, this.simulationContext);
 
     // we create event per method
     for (Map.Entry<String, Method> response : methodResolver.entrySet()) {
       HandledEvent event = eventResolver.get(response.getKey());
       Method method = response.getValue();
+      AtomicReference<Parcel> parcel = new AtomicReference<>();
+
       event
           .addHandler(statisticHandler)
           .addHandler(e -> {
-        method.setAccessible(true);
-        LOGGER.debug("Invoke method: " + method.getName());
-        ReflectionUtils.invokeMethod(method, this.agent);
-        Object nextState = ReflectionUtils.getField(nextStateField, this.agent);
-        ReflectionUtils.setField(currentStateFiled, this.agent, nextState);
+            LOGGER.debug("Invoke method: " + method.getName());
+            method.setAccessible(true);
+            parcel.set((Parcel) ReflectionUtils.invokeMethod(method, this.agent));
 
+            Object nextState = ReflectionUtils.getField(nextStateField, this.agent);
+            ReflectionUtils.setField(currentStateFiled, this.agent, nextState);
 
-        // it means the next state is defined = makes sense
-        // we need create the next event
-        if (nextState != null) {
-          HandledEvent nextEvent = eventResolver.get(nextState);
-          Object nextActivationTime = ReflectionUtils
-              .getField(nextActivationTimeField, this.agent);
-          nextEvent.setActivateTime((double) nextActivationTime);
-          this.simulationContext.getEventProvider().add(nextEvent);
-        }
+            if (method.isAnnotationPresent(Trigger.class)) {
+              processingAnnotationTrigger(method, parcel.get());
+            }
+
+            if (nextState != null) {
+              planningNextEvent((String) nextState, nextActivationTimeField);
+            }
       });
     }
 
+    String initialState = getInitialStateFromAgent();
     this.simulationContext.getEventProvider().add(eventResolver.get(initialState));
     ReflectionUtils.setField(currentStateFiled, this.agent, initialState);
-
-    LOGGER.debug("Print states and corresponding actions");
-    for (Map.Entry<String, HandledEvent> pair : eventResolver.entrySet()) {
-      LOGGER.debug(pair.getKey() + ": " + pair.getValue());
-    }
-    LOGGER.debug("*******************************************\n");
-
   }
 
-  private void defineAllAgentStates() {
-    this.states = new HashSet<>();
+  private Field getFieldByName(String nameField) {
+    Field field = ReflectionUtils.findField(this.agent.getClass(), nameField);
+    assert field != null;
+    field.setAccessible(true);
+    return field;
+  }
 
-    Field[] fields = this.agent.getClass().getDeclaredFields();
-    for (Field field : fields) {
-      Annotation[] annotations = field.getDeclaredAnnotations();
-      for (Annotation annotation : annotations) {
-        if (annotation.annotationType().equals(State.class)) {
-          field.setAccessible(true);
-          String stateName = (String) ReflectionUtils.getField(field, this.agent);
-          states.add(stateName);
-        }
+  private void processingAnnotationTrigger(Method method, Parcel parcel) {
+    Trigger triggerAnnotation = method.getAnnotation(Trigger.class);
+    Class<?> clazz = triggerAnnotation.clazz();
+    String methodName = triggerAnnotation.methodName();
+    Class<?>[] args = triggerAnnotation.args();
+
+    List<Agent> agentList = this.simulationModel.getAgentsByClass(clazz);
+
+    for (Agent agent : agentList) {
+      Method triggerMethod = ReflectionUtils.findMethod(agent.getClass(), methodName, args);
+      assert triggerMethod != null;
+      triggerMethod.setAccessible(true);
+      ReflectionUtils.invokeMethod(triggerMethod, agent, parcel);
+    }
+
+    for (Event evt : this.simulationContext.getEventProvider().getAllEvents()) {
+      if (evt.getActivateTime() == Double.POSITIVE_INFINITY) {
+        evt.setActivateTime(this.simulationContext.getCurrentTime());
       }
     }
   }
 
-  private String getInitialState() {
+  private void planningNextEvent(String nextState, Field nextActivationTimeField) {
+    HandledEvent nextEvent = eventResolver.get(nextState);
+    Object nextActivationTime = ReflectionUtils
+        .getField(nextActivationTimeField, this.agent);
+    nextEvent.setActivateTime((double) nextActivationTime);
+    this.simulationContext.getEventProvider().add(nextEvent);
+  }
+
+  private String getInitialStateFromAgent() {
     String initialState = null;
     Field[] fields = this.agent.getClass().getDeclaredFields();
     for (Field field : fields) {
@@ -150,19 +177,19 @@ public class AgentEventImpl implements AgentEvent {
     }
 
     if (initialState == null) {
-      throw new IllegalStateException("There is no initial state");
+      throw new IllegalStateException("There is no initial state!");
     }
 
-    LOGGER.debug("Found the initial state of the agent: " + initialState);
+    LOGGER.debug("Found the initial state of the agent: " + initialState + "\n");
     return initialState;
   }
 
-  private Field getField(String nameField) {
-    Field field = ReflectionUtils
-        .findField(this.agent.getClass(),
-            nameField);
-    field.setAccessible(true);
-    return field;
+  private void printStateAndCorrespondingActions() {
+    LOGGER.debug("Print states and corresponding actions");
+    for (Map.Entry<String, HandledEvent> pair : eventResolver.entrySet()) {
+      LOGGER.debug(pair.getKey() + ": " + pair.getValue());
+    }
+    LOGGER.debug("*******************************************\n");
   }
 
   @Override
@@ -179,5 +206,4 @@ public class AgentEventImpl implements AgentEvent {
   public void activate() {
 
   }
-
 }
