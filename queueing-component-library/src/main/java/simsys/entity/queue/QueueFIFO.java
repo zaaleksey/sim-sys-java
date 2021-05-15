@@ -1,9 +1,7 @@
 package simsys.entity.queue;
 
 import java.util.ArrayDeque;
-import java.util.ArrayList;
 import java.util.Collection;
-import simsys.core.model.AbstractSimulationModel;
 import simsys.entity.demand.Demand;
 
 public class QueueFIFO implements Queue {

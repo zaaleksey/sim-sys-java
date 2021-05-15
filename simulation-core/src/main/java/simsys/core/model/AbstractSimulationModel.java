@@ -15,38 +15,42 @@ public abstract class AbstractSimulationModel implements SimulationModel {
 
   @Override
   public void run() {
-    while (!this.stopCondition.test(this.simulationContext)) {
+    while (!this.stopCondition.test(simulationContext)) {
       step();
 
+      // TODO: make optional
       List<Event> events = simulationContext.getEventProvider().getAllEvents();
       Collections.sort(events);
       for (Event event : events) {
-        LOGGER.debug(event.getClass().getName() + " act.time : " + event.getActivateTime());
+        LOGGER.debug("{} act.time : {}", event.getClass().getName(), event.getActivateTime());
       }
-      System.out.println();
     }
   }
 
   @Override
   public void step() {
-    Event event = this.simulationContext.getEventProvider().getNext();
-    this.simulationContext.getClock().setCurrentTime(event.getActivateTime());
-    this.simulationContext.updateDeltaTimeLastTwoEvents();
+    // TODO: здесь вызываем из simulation context observers
+    //  и считаем статистику - тут знаем время между последовательными событиями
+
+    Event event = simulationContext.getEventProvider().getNext();
+    simulationContext.getClock().setCurrentTime(event.getActivateTime());
+    simulationContext.updateDeltaTimeLastTwoEvents();
     event.activate();
 
-    LOGGER.debug("STEP: The current time: " + this.simulationContext.getCurrentTime() + "\n");
+    LOGGER.debug("STEP: The current time: {} \n",
+        simulationContext.getCurrentTime());
   }
 
   public Predicate<SimulationContext> getStopCondition() {
     return this.stopCondition;
   }
 
-  public void setSimulationContext(SimulationContext simulationContext) {
-    this.simulationContext = simulationContext;
-  }
-
   public void setStopCondition(Predicate<SimulationContext> stopCondition) {
     this.stopCondition = stopCondition;
+  }
+
+  public void setSimulationContext(SimulationContext simulationContext) {
+    this.simulationContext = simulationContext;
   }
 
 }

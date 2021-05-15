@@ -8,6 +8,8 @@ import java.lang.annotation.Target;
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface State {
+
   boolean initial() default false;
+
   boolean statistic() default true;
 }

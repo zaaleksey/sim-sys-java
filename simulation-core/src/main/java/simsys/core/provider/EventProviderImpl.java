@@ -6,9 +6,11 @@ import java.util.Collections;
 import java.util.List;
 import simsys.core.event.Event;
 
+
 public class EventProviderImpl implements EventProvider {
 
-  private final ArrayList<Event> events;
+  private final List<Event> events;
+
 
   public EventProviderImpl(Collection<? extends Event> events) {
     this.events = new ArrayList<>();
@@ -33,6 +35,7 @@ public class EventProviderImpl implements EventProvider {
   @Override
   public Event peek() {
     return Collections.min(this.events);
+
   }
 
   @Override
@@ -44,12 +47,12 @@ public class EventProviderImpl implements EventProvider {
 
   @Override
   public List<Event> getAllEvents() {
-    return this.events;
+    return events;
   }
 
   @Override
   public boolean remove(Event event) {
-    return this.events.remove(event);
+    return events.remove(event);
   }
 
 }

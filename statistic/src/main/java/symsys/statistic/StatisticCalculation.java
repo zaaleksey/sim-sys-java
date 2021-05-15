@@ -1,13 +1,15 @@
 package symsys.statistic;
 
-public class Statistic {
+public class StatisticCalculation {
 
-  private Statistic() { }
+  private StatisticCalculation() {
+  }
 
   public double average(double... values) {
     return getSumOfValues(values) / values.length;
   }
 
+  // TODO: не работает
   public double std(double... values) {
     return (1 / values.length) * getSumOfValues(values);
   }

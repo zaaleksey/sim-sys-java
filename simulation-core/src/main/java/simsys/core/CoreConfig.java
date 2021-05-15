@@ -1,7 +1,6 @@
 package simsys.core;
 
 import java.util.Collections;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -18,6 +17,10 @@ import simsys.core.provider.EventProviderImpl;
 @Configuration
 @ComponentScan()
 public class CoreConfig {
+
+  public static void main(String[] args) {
+    new AnnotationConfigApplicationContext(CoreConfig.class);
+  }
 
   @Bean
   public SimulationContext simulationContext() {
@@ -37,10 +40,6 @@ public class CoreConfig {
   @Bean
   public EventProvider eventProvider() {
     return new EventProviderImpl(Collections.emptyList());
-  }
-
-  public static void main(String[] args) {
-    new AnnotationConfigApplicationContext(CoreConfig.class);
   }
 
 }

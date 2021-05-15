@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import simsys.core.agent.Agent;
-import simsys.core.agent.AgentEvent;
-import simsys.core.agent.AgentEventImpl;
 import simsys.core.context.SimulationContext;
 
 public class AgentBasedSimulationModel extends AbstractSimulationModel {
@@ -19,14 +17,11 @@ public class AgentBasedSimulationModel extends AbstractSimulationModel {
 
   public void addAgent(Agent agent) {
     this.agents.add(agent);
-    new AgentEventImpl(this, this.simulationContext, agent);
   }
 
   public void addAgents(List<Agent> agents) {
     this.agents.addAll(agents);
-    for (Agent agent : agents) {
-      new AgentEventImpl(this, this.simulationContext, agent);
-    }
+    //TODO: проверить на всех уровнях, что агенты имееют разные имена
   }
 
   public List<Agent> getAgentsByClass(Class<?> clazz) {
