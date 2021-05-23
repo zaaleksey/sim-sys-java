@@ -20,4 +20,12 @@ public class StatisticAccumulator {
     accumulator.addAll(values);
   }
 
+  public void add(double value) {
+    accumulator.add(value);
+  }
+
+  // TODO: дописать остальные
+  public double mean() {
+    return accumulator.mean();
+  }
 }

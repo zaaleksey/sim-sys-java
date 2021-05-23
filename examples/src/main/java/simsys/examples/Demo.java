@@ -11,7 +11,7 @@ public class Demo {
     ApplicationContext context = new AnnotationConfigApplicationContext(CoreConfig.class);
 
     System.out.println("\nBeans:");
-    for (String beanName: context.getBeanDefinitionNames()) {
+    for (String beanName : context.getBeanDefinitionNames()) {
       System.out.println(beanName);
     }
 

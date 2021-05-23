@@ -1,7 +1,9 @@
 package simsys.transfer;
 
+import simsys.core.parcel.Parcel;
+
 public interface Receiver {
 
-  void receive();
+  void receive(Parcel parcel);
 
 }
