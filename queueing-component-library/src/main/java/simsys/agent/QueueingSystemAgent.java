@@ -48,6 +48,7 @@ public class QueueingSystemAgent extends AbstractAgent implements Receiver {
   }
 
   @Statistic
+//  TODO: check server
   private int getNumberDemandInSystem() {
     return queue.size() + 1;
   }
