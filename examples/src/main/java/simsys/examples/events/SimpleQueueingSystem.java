@@ -1,6 +1,5 @@
 package simsys.examples.events;
 
-import java.util.Random;
 import lombok.extern.slf4j.Slf4j;
 import simsys.core.condition.TimeStopCondition;
 import simsys.core.context.SimulationContext;
@@ -16,6 +15,18 @@ import simsys.entity.queue.QueueFIFO;
 import simsys.random.ExponentialRandomVariable;
 import simsys.random.RandomVariable;
 
+import java.util.Random;
+
+
+/**
+ * This is an example of a Queuing System type MM1. Arrivals occur at rate λ according to a Poisson process.
+ * Service times are exponentially distributed with rate parameter μ so that 1/μ is the mean service time.
+ * A single server serves customers one at a time from the front of the queue, according to a first-come,
+ * first-served discipline. When the service is complete the customer leaves the queue and the number
+ * of customers in the system reduces by one.
+
+ * Implementation by defining simple events.
+ */
 @Slf4j
 public class SimpleQueueingSystem {
 
@@ -23,7 +34,6 @@ public class SimpleQueueingSystem {
   static Demand processingDemand;
   static double averageServiceTime = 0;
   static double countOfDemands = 0;
-
 
   public static Event createDemandEvent(double lambda, Queue queue, SimulationContext context) {
     HandledEvent createDemand = new HandledEventBuilder(context)
@@ -76,7 +86,7 @@ public class SimpleQueueingSystem {
             LOGGER.debug("We've processed one more demand");
             processingDemand = null;
 
-            //end of service -> try to start service of a new demand
+            // end of service -> try to start service of a new demand
             context.getEventProvider().add(createStartServiceEvent(queue, context));
           }
         }).build();
@@ -86,29 +96,27 @@ public class SimpleQueueingSystem {
   }
 
   public static void simpleQueueingSystems() {
-    SimulationContext simulationContext = SimulationContextImpl.getContext();
-    SimulationModelImpl model = new SimulationModelImpl(simulationContext);
+    SimulationContext context = SimulationContextImpl.getContext();
+    SimulationModelImpl model = new SimulationModelImpl(context);
     double lambda = 2;
 
     Queue queue = new QueueFIFO();
-    Event event = createDemandEvent(lambda, queue, simulationContext);
-    simulationContext.getEventProvider().add(event);
+    Event event = createDemandEvent(lambda, queue, context);
+    context.getEventProvider().add(event);
     model.setStopCondition(new TimeStopCondition(1_000_000));
     model.run();
   }
 
   public static void main(String[] args) {
     long startTime = System.nanoTime();
-
     simpleQueueingSystems();
+    long endTime = System.nanoTime();
 
-    //correct answer  = 1/(mu - lambda) = 0.5
+    // correct answer  = 1/(mu - lambda) = 0.5
     System.out.println("Average service time is " + averageServiceTime / countOfDemands);
 
-    long endTime = System.nanoTime();
     double timeElapsed = endTime - startTime;
     System.out.println("Elapsed time = " + timeElapsed / 1_000_000_000);
-
   }
 
 }

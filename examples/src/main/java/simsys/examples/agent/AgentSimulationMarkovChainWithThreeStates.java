@@ -15,9 +15,9 @@ import simsys.random.ExponentialRandomVariable;
 import simsys.random.RandomVariable;
 
 /**
- * In this example, we consider a continuous Markov chain consisting of three states: A, B and C
- * Initial state: A. Transition rates: q(A, B), q(A, C) = alpha (exponential) q(B, A), q(B, C) =
- * beta (exponential) q(C, A), q(C, B) = gamma (exponential)
+ * In this example, we consider a continuous Markov chain consisting of three states: A, B and C.
+ * Initial state: A. Transition rates: q(A, B), q(A, C) = alpha (exponential); q(B, A), q(B, C) =
+ * beta (exponential); q(C, A), q(C, B) = gamma (exponential).
  */
 public class AgentSimulationMarkovChainWithThreeStates {
 
