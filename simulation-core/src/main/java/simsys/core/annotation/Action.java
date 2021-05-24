@@ -13,5 +13,11 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Action {
 
+  /**
+   * Action name (function name).
+   *
+   * @return the name of the action
+   */
   String name();
+
 }

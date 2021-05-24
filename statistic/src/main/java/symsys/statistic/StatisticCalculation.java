@@ -10,7 +10,8 @@ public class StatisticCalculation {
 
   /**
    * Returns the arithmetic mean of the values. The count must be non-zero.
-   * @param values - a series of values
+   *
+   * @param values a series of values
    * @return the arithmetic mean of the values
    */
   public double mean(double... values) {
@@ -19,7 +20,8 @@ public class StatisticCalculation {
 
   /**
    * Returns the standard deviation. Measure of the amount of variation or dispersion of a set of values.
-   * @param values - a series of values
+   *
+   * @param values a series of values
    * @return the standard deviation
    */
   public double std(double... values) {
@@ -35,7 +37,8 @@ public class StatisticCalculation {
 
   /**
    * Returns the sum of the values.
-   * @param values - a series of values
+   *
+   * @param values a series of values
    * @return the sum of the values
    */
   private double getSumOfValues(double... values) {

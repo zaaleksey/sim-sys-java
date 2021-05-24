@@ -21,15 +21,15 @@ public class SourceAgent extends AbstractAgent {
       RandomVariable interArrivalTimes,
       String sourceName) {
     super(sourceName);
-    this.simulationContext = simulationContext;
+    this.context = simulationContext;
     this.interArrivalTimes = interArrivalTimes;
   }
 
   public void sendDemand() {
-    Demand demand = new SimpleDemand(simulationContext.getCurrentTime());
+    Demand demand = new SimpleDemand(context.getCurrentTime());
     receiver.receive(demand);
     LOGGER.debug("Source wake up... send a demand to the system. Demand ID: {}. Current time: {}",
-        demand.getId(), simulationContext.getCurrentTime());
+        demand.getId(), context.getCurrentTime());
 
     performActionAfterTimeout(this::sendDemand, interArrivalTimes.nextValue());
   }

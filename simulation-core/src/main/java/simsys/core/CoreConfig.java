@@ -18,10 +18,6 @@ import simsys.core.provider.EventProviderImpl;
 @ComponentScan()
 public class CoreConfig {
 
-  public static void main(String[] args) {
-    new AnnotationConfigApplicationContext(CoreConfig.class);
-  }
-
   @Bean
   public SimulationContext simulationContext() {
     return new SimulationContextImpl();

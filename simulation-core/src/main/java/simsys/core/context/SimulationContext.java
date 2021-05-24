@@ -19,11 +19,11 @@ public interface SimulationContext {
   EventProvider getEventProvider();
 
   default double getCurrentTime() {
-    return getClock().getCurrentTime();
+    return getClock().currentTime();
   }
 
   default void updateDeltaTimeLastTwoEvents() {
-    setDeltaTimeLastTwoEvents(getCurrentTime() - getClock().getPreviousTime());
+    setDeltaTimeLastTwoEvents(getCurrentTime() - getClock().previousTime());
   }
 
   // TODO: Можно логировать не только double, а любые абстрактные сущности

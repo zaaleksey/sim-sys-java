@@ -24,14 +24,14 @@ public class QueueingSystemAgent extends AbstractAgent implements Receiver {
       Queue queue, RandomVariable randomVariable,
       String agentName) {
     super(agentName);
-    this.simulationContext = simulationContext;
+    this.context = simulationContext;
     this.queue = queue;
     this.serviceTimeRV = randomVariable;
   }
 
   public void endService() {
     if (this.processingDemand != null) {
-      processingDemand.setLeavingTime(simulationContext.getCurrentTime());
+      processingDemand.setLeavingTime(context.getCurrentTime());
       logValue(SOJOURN_TIME, processingDemand.getLeavingTime() - processingDemand.getArrivalTime());
       processingDemand = null;
 
@@ -42,7 +42,7 @@ public class QueueingSystemAgent extends AbstractAgent implements Receiver {
   public void startService() {
     if (queue.size() > 0 && this.processingDemand == null) {
       processingDemand = queue.remove();
-      processingDemand.setServiceStartTime(simulationContext.getCurrentTime());
+      processingDemand.setServiceStartTime(context.getCurrentTime());
       performActionAfterTimeout(this::endService, serviceTimeRV.nextValue());
     }
   }

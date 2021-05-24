@@ -4,4 +4,5 @@ package simsys.core.context;
 public interface VariableObserver {
 
   double get();
+
 }

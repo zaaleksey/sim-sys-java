@@ -18,7 +18,8 @@ public class StatisticAccumulator {
 
   /**
    * Adds the given value to the dataset.
-   * @param value - a value
+   *
+   * @param value a value
    */
   public void add(double value) {
     accumulator.add(value);
@@ -26,7 +27,8 @@ public class StatisticAccumulator {
 
   /**
    * Adds the given values to the dataset.
-   * @param values - a series of values
+   *
+   * @param values a series of values
    */
   public void addAll(double... values) {
     accumulator.addAll(values);
@@ -34,7 +36,8 @@ public class StatisticAccumulator {
 
   /**
    * Adds the given values to the dataset.
-   * @param values - a series of values
+   *
+   * @param values a series of values
    */
   public void addAll(int... values) {
     accumulator.addAll(values);
@@ -42,7 +45,8 @@ public class StatisticAccumulator {
 
   /**
    * Adds the given values to the dataset.
-   * @param values
+   *
+   * @param values a series of values
    */
   public void addAll(long... values) {
     accumulator.addAll(values);
@@ -50,6 +54,7 @@ public class StatisticAccumulator {
 
   /**
    * Returns the number of values.
+   *
    * @return the number of values
    */
   public long count() {
@@ -59,6 +64,7 @@ public class StatisticAccumulator {
   /**
    * Returns the arithmetic mean of the values. The count must be non-zero.
    * If these values are a sample drawn from a population, this is also an unbiased estimator of the arithmetic mean of the population.
+   *
    * @throws IllegalStateException - if the dataset is empty
    * @return the arithmetic mean of the values
    */
@@ -68,6 +74,7 @@ public class StatisticAccumulator {
 
   /**
    * Returns the sum of the values.
+   *
    * @return the sum of the values
    */
   public final double sum() {
@@ -79,6 +86,7 @@ public class StatisticAccumulator {
    * This is guaranteed to return zero if the dataset contains only exactly one finite value.
    * It is not guaranteed to return zero when the dataset consists of the same value multiple times,
    * due to numerical errors. However, it is guaranteed never to return a negative result.
+   *
    * @throws IllegalStateException - if the dataset is empty
    * @return the population variance of the values
    */
@@ -91,6 +99,7 @@ public class StatisticAccumulator {
    * This is guaranteed to return zero if the dataset contains only exactly one finite value.
    * It is not guaranteed to return zero when the dataset consists of the same value multiple times,
    * due to numerical errors. However, it is guaranteed never to return a negative result.
+   *
    * @throws IllegalStateException - if the dataset is empty
    * @return the population standard deviation of the values
    */
@@ -103,6 +112,7 @@ public class StatisticAccumulator {
    * this is an unbiased estimator of the population variance of the population. The count must be greater than one.
    * This is not guaranteed to return zero when the dataset consists of the same value multiple times,
    * due to numerical errors. However, it is guaranteed never to return a negative result.
+   *
    * @throws IllegalStateException - if the dataset is empty or contains a single value
    * @return the unbiased sample variance of the values
    */
@@ -116,6 +126,7 @@ public class StatisticAccumulator {
    * (the unbiased estimator depends on the distribution). The count must be greater than one.
    * This is not guaranteed to return zero when the dataset consists of the same value multiple times,
    * due to numerical errors. However, it is guaranteed never to return a negative result.
+   *
    * @throws IllegalStateException - if the dataset is empty or contains a single value
    * @return the corrected sample standard deviation of the values
    */
@@ -125,6 +136,7 @@ public class StatisticAccumulator {
 
   /**
    * Returns the lowest value in the dataset. The count must be non-zero.
+   *
    * @throws IllegalStateException - if the dataset is empty
    * @return the lowest value in the dataset
    */
@@ -134,6 +146,7 @@ public class StatisticAccumulator {
 
   /**
    * Returns the highest value in the dataset. The count must be non-zero.
+   *
    * @throws IllegalStateException - if the dataset is empty
    * @return the highest value in the dataset
    */

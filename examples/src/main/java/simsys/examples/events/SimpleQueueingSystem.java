@@ -103,7 +103,7 @@ public class SimpleQueueingSystem {
     Queue queue = new QueueFIFO();
     Event event = createDemandEvent(lambda, queue, context);
     context.getEventProvider().add(event);
-    model.setStopCondition(new TimeStopCondition(1_000_000));
+    model.setStopCondition(new TimeStopCondition(10_000_000));
     model.run();
   }
 

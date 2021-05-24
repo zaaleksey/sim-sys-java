@@ -1,5 +1,8 @@
 package simsys.core.exception;
 
+/**
+ * This exception is thrown when adding an event to the provider with an incorrect activation time.
+ */
 public class ImpossibleEventTime extends RuntimeException {
 
   public ImpossibleEventTime(double eventActionTime, double currentTime) {

@@ -1,28 +1,28 @@
 package simsys.core.clock;
 
 /**
- * Time clock object interface in the simulation model.
+ * Model time clock interface for the simulation model.
  */
 public interface Clock {
 
   /**
-   * Provides the time of the preceding event (for calculating the delta).
+   * Returns the time at which the previous event occurred. (for calculating the delta).
    *
-   * @return time of the previous event
+   * @return the time of the previous event
    */
-  double getPreviousTime();
+  double previousTime();
 
   /**
-   * Provides the current time of the simulation model.
+   * Returns the current time value of the simulation model.
    *
-   * @return current time
+   * @return the current time value of the simulation model
    */
-  double getCurrentTime();
+  double currentTime();
 
   /**
    * Sets the current time of the simulation model at a given time.
    *
-   * @param currentTime - new current time in the model
+   * @param currentTime the new time value of the simulation model
    */
   void setCurrentTime(double currentTime);
 

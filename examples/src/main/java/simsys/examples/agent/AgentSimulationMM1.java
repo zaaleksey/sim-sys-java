@@ -49,7 +49,7 @@ public class AgentSimulationMM1 {
     agentSimulationMM1.run();
     long endTime = System.nanoTime();
     long timeElapsed = endTime - startTime;
-    System.out.println("Elapsed time = " + (double) (timeElapsed) / 1000_000_000);
+    System.out.println("Elapsed time = " + (double) (timeElapsed) / 1_000_000_000);
 
     // correct answer  = 1/(mu - lambda) = 1
     System.out.println("Average service time is "
