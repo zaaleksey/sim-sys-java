@@ -1,7 +1,7 @@
 package simsys.examples.agent;
 
-import simsys.agent.QueueingSystemAgent;
-import simsys.agent.SourceAgent;
+import simsys.component.system.QueueingSystemAgent;
+import simsys.component.source.SourceAgent;
 import simsys.core.condition.TimeStopCondition;
 import simsys.core.context.SimulationContext;
 import simsys.core.context.SimulationContextImpl;

@@ -1,4 +1,4 @@
-package simsys.agent;
+package simsys.component.system;
 
 import lombok.extern.slf4j.Slf4j;
 import simsys.core.agent.AbstractAgent;
@@ -11,24 +11,29 @@ import simsys.random.RandomVariable;
 import simsys.transfer.Receiver;
 
 @Slf4j
-public class QueueingSystemAgent extends AbstractAgent implements Receiver {
+public class QueueingSystemAgent extends AbstractQueueingSystem {
 
   private static final String SOJOURN_TIME = "SOJOURN_TIME";
-  private final Queue queue;
-  private final RandomVariable serviceTimeRV;
   @Statistic
   public double countOfDemands = 0;
   private Demand processingDemand;
 
-  public QueueingSystemAgent(SimulationContext simulationContext,
+  public QueueingSystemAgent(SimulationContext context,
       Queue queue, RandomVariable randomVariable,
       String agentName) {
-    super(agentName);
-    this.context = simulationContext;
-    this.queue = queue;
-    this.serviceTimeRV = randomVariable;
+    super(context, queue, randomVariable, agentName);
   }
 
+  @Override
+  public void startService() {
+    if (queue.size() > 0 && processingDemand == null) {
+      processingDemand = queue.remove();
+      processingDemand.setServiceStartTime(context.getCurrentTime());
+      performActionAfterTimeout(this::endService, serviceTimeRV.nextValue());
+    }
+  }
+
+  @Override
   public void endService() {
     if (processingDemand != null) {
       processingDemand.setLeavingTime(context.getCurrentTime());
@@ -39,23 +44,15 @@ public class QueueingSystemAgent extends AbstractAgent implements Receiver {
     }
   }
 
-  public void startService() {
-    if (queue.size() > 0 && processingDemand == null) {
-      processingDemand = queue.remove();
-      processingDemand.setServiceStartTime(context.getCurrentTime());
-      performActionAfterTimeout(this::endService, serviceTimeRV.nextValue());
-    }
+  @Override
+  public void receive(Parcel parcel) {
+    queue.add((Demand) parcel);
+    performAction(this::startService);
   }
 
   @Statistic
   private int getNumberDemandInSystem() {
     int processingDemandNumber = (processingDemand == null) ? 0 : 1;
     return queue.size() + processingDemandNumber;
-  }
-
-  @Override
-  public void receive(Parcel parcel) {
-    queue.add((Demand) parcel);
-    performAction(this::startService);
   }
 }

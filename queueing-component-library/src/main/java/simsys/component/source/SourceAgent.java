@@ -1,4 +1,4 @@
-package simsys.agent;
+package simsys.component.source;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -11,11 +11,10 @@ import simsys.transfer.Receiver;
 
 @Slf4j
 @Component
-public class SourceAgent extends AbstractAgent {
+public class SourceAgent extends AbstractAgent implements Source {
 
   private final RandomVariable interArrivalTimes;
   private Receiver receiver;
-
 
   public SourceAgent(SimulationContext simulationContext,
       RandomVariable interArrivalTimes,
@@ -25,6 +24,7 @@ public class SourceAgent extends AbstractAgent {
     this.interArrivalTimes = interArrivalTimes;
   }
 
+  @Override
   public void sendDemand() {
     Demand demand = new SimpleDemand(context.getCurrentTime());
     receiver.receive(demand);
@@ -34,6 +34,7 @@ public class SourceAgent extends AbstractAgent {
     performActionAfterTimeout(this::sendDemand, interArrivalTimes.nextValue());
   }
 
+  @Override
   public void setReceiver(Receiver receiver) {
     this.receiver = receiver;
   }

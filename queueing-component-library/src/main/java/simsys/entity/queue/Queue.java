@@ -7,9 +7,9 @@ public interface Queue {
 
   int size();
 
-  void add(Demand demand);
+  boolean add(Demand demand);
 
-  void addAll(Collection<Demand> demands);
+  boolean addAll(Collection<Demand> demands);
 
   Demand peek();
 
