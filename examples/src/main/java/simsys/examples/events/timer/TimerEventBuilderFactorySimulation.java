@@ -6,7 +6,6 @@ import simsys.core.context.SimulationContext;
 import simsys.core.context.SimulationContextImpl;
 import simsys.core.event.HandledEvent;
 import simsys.core.event.HandledEventBuilderFactory;
-import simsys.core.exception.ImpossibleEventTime;
 import simsys.core.model.SimulationModelImpl;
 import simsys.random.ExponentialRandomVariable;
 

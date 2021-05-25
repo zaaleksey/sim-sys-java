@@ -11,7 +11,7 @@ public class EmptyStopCondition implements Predicate<SimulationContext> {
 
   /**
    * Evaluates this predicate on the given argument.
-   *
+   * The condition for the presence of elements in the provider.
    *
    * @param context the context of the simulation model
    * @return {@code true} if the event provider is empty,

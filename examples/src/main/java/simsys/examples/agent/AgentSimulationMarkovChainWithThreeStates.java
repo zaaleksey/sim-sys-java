@@ -1,8 +1,5 @@
 package simsys.examples.agent;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Random;
 import simsys.core.agent.AbstractAgent;
 import simsys.core.agent.Agent;
 import simsys.core.annotation.State;
@@ -13,6 +10,10 @@ import simsys.core.context.SimulationContextImpl;
 import simsys.core.model.AgentBasedSimulationModel;
 import simsys.random.ExponentialRandomVariable;
 import simsys.random.RandomVariable;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Random;
 
 /**
  * In this example, we consider a continuous Markov chain consisting of three states: A, B and C.

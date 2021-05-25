@@ -1,7 +1,5 @@
 package simsys.examples.agent;
 
-import java.util.Arrays;
-import java.util.Random;
 import simsys.agent.QueueingSystemAgent;
 import simsys.agent.SourceAgent;
 import simsys.core.condition.TimeStopCondition;
@@ -11,6 +9,9 @@ import simsys.core.model.AgentBasedSimulationModel;
 import simsys.entity.queue.Queue;
 import simsys.entity.queue.QueueFIFO;
 import simsys.random.ExponentialRandomVariable;
+
+import java.util.Arrays;
+import java.util.Random;
 
 /**
  * This is an example of a Queuing System type MM1. Arrivals occur at rate λ according to a Poisson process.

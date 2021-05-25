@@ -1,10 +1,5 @@
 package simsys.core.agent;
 
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Method;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.function.Function;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.ReflectionUtils;
 import simsys.core.annotation.Action;
@@ -12,6 +7,12 @@ import simsys.core.context.SimulationContext;
 import simsys.core.event.HandledEvent;
 import simsys.core.event.HandledEvent.HandledEventBuilder;
 import symsys.statistic.StatisticAccumulator;
+
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Method;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Function;
 
 /**
  * Abstract implementation of the Agent interface with the implementation of basic methods.

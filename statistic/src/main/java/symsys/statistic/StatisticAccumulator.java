@@ -1,15 +1,20 @@
 package symsys.statistic;
 
 import com.google.common.math.StatsAccumulator;
+
 import javax.annotation.concurrent.NotThreadSafe;
 
 /**
- * This object accumulates double values and tracks some basic statistics over all the values added
- * so far. The values may be added singly or in groups.
+ * A mutable object which accumulates double values and tracks some basic statistics over all the
+ * values added so far. The values may be added singly or in groups. This class is not thread safe.
  */
 @NotThreadSafe
 public class StatisticAccumulator {
 
+  /**
+   * A mutable object which accumulates double values and tracks some basic statistics over all the
+   * values added so far.
+   */
   private StatsAccumulator accumulator;
 
   public StatisticAccumulator() {

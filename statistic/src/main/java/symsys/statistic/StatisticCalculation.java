@@ -6,6 +6,7 @@ package symsys.statistic;
 public class StatisticCalculation {
 
   private StatisticCalculation() {
+
   }
 
   /**

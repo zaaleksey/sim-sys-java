@@ -30,7 +30,7 @@ public class QueueingSystemAgent extends AbstractAgent implements Receiver {
   }
 
   public void endService() {
-    if (this.processingDemand != null) {
+    if (processingDemand != null) {
       processingDemand.setLeavingTime(context.getCurrentTime());
       logValue(SOJOURN_TIME, processingDemand.getLeavingTime() - processingDemand.getArrivalTime());
       processingDemand = null;
@@ -40,7 +40,7 @@ public class QueueingSystemAgent extends AbstractAgent implements Receiver {
   }
 
   public void startService() {
-    if (queue.size() > 0 && this.processingDemand == null) {
+    if (queue.size() > 0 && processingDemand == null) {
       processingDemand = queue.remove();
       processingDemand.setServiceStartTime(context.getCurrentTime());
       performActionAfterTimeout(this::endService, serviceTimeRV.nextValue());
@@ -48,14 +48,13 @@ public class QueueingSystemAgent extends AbstractAgent implements Receiver {
   }
 
   @Statistic
-//  TODO: check server
   private int getNumberDemandInSystem() {
-    return queue.size() + 1;
+    int processingDemandNumber = (processingDemand == null) ? 0 : 1;
+    return queue.size() + processingDemandNumber;
   }
 
   @Override
   public void receive(Parcel parcel) {
-    // pass demand as arg
     queue.add((Demand) parcel);
     performAction(this::startService);
   }
