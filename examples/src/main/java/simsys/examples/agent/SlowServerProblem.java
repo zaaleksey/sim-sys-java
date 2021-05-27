@@ -39,7 +39,6 @@ public class SlowServerProblem {
             "QueueingSystemWithTwoServer", learningRate, rewardDecay, eGreedy, warmUpDuration);
 
     source.setReceiver(queueing);
-
     var model = new AgentBasedSimulationModel(context);
     model.setStopCondition(new TimeStopCondition(simulationDuration));
     model.addAgents(Arrays.asList(source, queueing));
