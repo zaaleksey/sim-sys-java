@@ -7,6 +7,8 @@ public interface Queue {
 
   int size();
 
+  int capacity();
+
   boolean add(Demand demand);
 
   boolean addAll(Collection<Demand> demands);

@@ -46,7 +46,6 @@ public class HandledEvent extends AbstractEvent {
    */
   @Override
   public final void activate() {
-
     for (EventHandler<HandledEvent> handler : this.handlers) {
       try {
         handler.handle(this);

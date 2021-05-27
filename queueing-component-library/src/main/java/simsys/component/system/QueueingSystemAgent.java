@@ -44,12 +44,6 @@ public class QueueingSystemAgent extends AbstractQueueingSystem {
     }
   }
 
-  @Override
-  public void receive(Parcel parcel) {
-    queue.add((Demand) parcel);
-    performAction(this::startService);
-  }
-
   @Statistic
   private int getNumberDemandInSystem() {
     int processingDemandNumber = (processingDemand == null) ? 0 : 1;

@@ -38,6 +38,11 @@ public class QueueFIFO implements Queue {
   }
 
   @Override
+  public int capacity() {
+    return capacity;
+  }
+
+  @Override
   public boolean add(Demand demand) {
     if (size() <= capacity) {
       demandQueue.add(demand);
