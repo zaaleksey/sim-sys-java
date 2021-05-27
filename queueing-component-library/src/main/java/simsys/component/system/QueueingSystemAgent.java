@@ -1,14 +1,11 @@
 package simsys.component.system;
 
 import lombok.extern.slf4j.Slf4j;
-import simsys.core.agent.AbstractAgent;
 import simsys.core.annotation.Statistic;
 import simsys.core.context.SimulationContext;
-import simsys.core.parcel.Parcel;
 import simsys.entity.demand.Demand;
 import simsys.entity.queue.Queue;
 import simsys.random.RandomVariable;
-import simsys.transfer.Receiver;
 
 @Slf4j
 public class QueueingSystemAgent extends AbstractQueueingSystem {

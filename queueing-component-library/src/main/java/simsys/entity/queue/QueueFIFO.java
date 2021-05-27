@@ -1,9 +1,8 @@
 package simsys.entity.queue;
 
-import simsys.entity.demand.Demand;
-
 import java.util.ArrayDeque;
 import java.util.Collection;
+import simsys.entity.demand.Demand;
 
 public class QueueFIFO implements Queue {
 
@@ -44,7 +43,7 @@ public class QueueFIFO implements Queue {
 
   @Override
   public boolean add(Demand demand) {
-    if (size() <= capacity) {
+    if (size() < capacity) {
       demandQueue.add(demand);
       return true;
     }
@@ -54,7 +53,9 @@ public class QueueFIFO implements Queue {
   @Override
   public boolean addAll(Collection<Demand> demands) {
     for (Demand demand : demands) {
-      if (!add(demand)) return false;
+      if (!add(demand)) {
+        return false;
+      }
     }
     return true;
   }
