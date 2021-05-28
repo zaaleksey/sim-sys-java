@@ -35,6 +35,6 @@ ____
 
 ## Module
 
-The modules that make up the system at the moment:
-![Module](https://github.com/AlexZavr/SimSysJava/raw/dev/documents/Module.png)
+<!-- The modules that make up the system at the moment: -->
+<!-- ![Module](https://github.com/AlexZavr/SimSysJava/raw/dev/documents/Module.png) -->
 
