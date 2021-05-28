@@ -1,6 +1,8 @@
 package simsys.entity.demand;
 
-public abstract class Demand {
+import simsys.core.parcel.Parcel;
+
+public abstract class Demand implements Parcel {
 
   private static long COUNTER = 0;
 
@@ -9,10 +11,8 @@ public abstract class Demand {
   protected double arrivalTime;
   protected double serviceStartTime;
   protected double leavingTime;
-  // The time from the arrival of the requirement to the network until its departure
   protected double networkTime;
 
-  //TODO: put in constructor creationTime?
   public Demand() {
     COUNTER++;
     id = COUNTER;

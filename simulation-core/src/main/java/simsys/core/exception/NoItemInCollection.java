@@ -1,5 +1,8 @@
 package simsys.core.exception;
 
+/**
+ * This exception is thrown if no item was found in the collection.
+ */
 public class NoItemInCollection extends Exception {
 
   public NoItemInCollection(String id) {

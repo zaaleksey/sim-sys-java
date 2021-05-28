@@ -6,132 +6,117 @@ import simsys.core.context.SimulationContext;
 import simsys.core.context.SimulationContextImpl;
 import simsys.core.event.Event;
 import simsys.core.event.HandledEvent;
-import simsys.core.event.handler.TimeoutHandler;
-import simsys.core.exception.ImpossibleEventTime;
+import simsys.core.event.HandledEvent.HandledEventBuilder;
 import simsys.core.model.SimulationModelImpl;
 import simsys.entity.demand.Demand;
 import simsys.entity.demand.SimpleDemand;
 import simsys.entity.queue.Queue;
 import simsys.entity.queue.QueueFIFO;
-import simsys.random.ExponentialRV;
+import simsys.random.ExponentialRandomVariable;
 import simsys.random.RandomVariable;
 
 import java.util.Random;
 
+
+/**
+ * This is an example of a Queuing System type MM1. Arrivals occur at rate λ according to a Poisson process.
+ * Service times are exponentially distributed with rate parameter μ so that 1/μ is the mean service time.
+ * A single server serves customers one at a time from the front of the queue, according to a first-come,
+ * first-served discipline. When the service is complete the customer leaves the queue and the number
+ * of customers in the system reduces by one.
+
+ * Implementation by defining simple events.
+ */
 @Slf4j
 public class SimpleQueueingSystem {
 
-  //don't use global variable!!!
-  //only for very fast examples
-  static private final RandomVariable serviceTimes = new ExponentialRV(new Random(), 4);
+  static final RandomVariable serviceTimes = new ExponentialRandomVariable(new Random(), 4);
   static Demand processingDemand;
   static double averageServiceTime = 0;
   static double countOfDemands = 0;
 
-
   public static Event createDemandEvent(double lambda, Queue queue, SimulationContext context) {
-    //we create some event and make this periodic
-    HandledEvent createDemand = new HandledEvent();
-    TimeoutHandler timeout = new TimeoutHandler(new ExponentialRV(new Random(), lambda));
-    timeout.setSimulationContext(context);
-    createDemand.addHandler(timeout);
-    //just a very simple logger
-    createDemand.addHandler(event ->
-        {
-          LOGGER.info("Create demand event");
-          LOGGER.info("Queue size = " + queue.size());
-        }
-    );
-
-    // also we add some logic - creating of new demands and move to the queue
-    //here we need think about dependency between events, so arrive -> start service
-    //it's very nice create an event activated by a condition
-    //but here we'll use a simple way
-    createDemand.addHandler(event -> {
-      Demand demand = new SimpleDemand(context.getCurrentTime());
-      queue.add(demand);
-      //the simple and stupid way - to create an service event in place
-      context.getEventProvider().add(createStartServiceEvent(queue, context));
-    });
-
+    HandledEvent createDemand = new HandledEventBuilder(context)
+        .periodic(new ExponentialRandomVariable(new Random(), lambda))
+        .addHandler(event -> {
+          LOGGER.debug("Create demand event");
+          LOGGER.debug("Queue size = {}", queue.size());
+        })
+        .addHandler(event -> {
+          Demand demand = new SimpleDemand(context.getCurrentTime());
+          queue.add(demand);
+          context.getEventProvider().add(createStartServiceEvent(queue, context));
+        }).build();
     return createDemand;
   }
 
-
-  //this way have one more disadvantages - we create a new Event each time
-  //we need reuse events
   public static Event createStartServiceEvent(Queue queue, SimulationContext context) {
-    HandledEvent serviceEvent = new HandledEvent();
+    HandledEvent serviceEvent = new HandledEventBuilder(context)
+        .addHandler(event -> {
+          LOGGER.debug("Start service event");
+          if (!queue.isEmpty() && processingDemand == null) {
+            Demand demand = queue.remove();
+            demand.setServiceStartTime(context.getCurrentTime());
+            //move the demand to sever
+            processingDemand = demand;
+
+            double delay = serviceTimes.nextValue();
+            double endServiceTime = context.getCurrentTime() + delay;
+            //add endServiceEvent
+            context.getEventProvider().add(createEndServiceEvent(endServiceTime, queue, context));
+          }
+        }).build();
+
     serviceEvent.setActivateTime(context.getCurrentTime());
-
-    serviceEvent.addHandler(event -> {
-      LOGGER.info("Start service event");
-      if (!queue.isEmpty() && processingDemand == null) {
-        Demand demand = queue.poll();
-        demand.setServiceStartTime(context.getCurrentTime());
-        //move the demand to sever
-        processingDemand = demand;
-
-        double delay = serviceTimes.nextValue();
-        double endServiceTime = context.getCurrentTime() + delay;
-        //add endServiceEvent
-        context.getEventProvider().add(createEndServiceEvent(endServiceTime, queue, context));
-      }
-    });
-
     return serviceEvent;
   }
-
 
   public static Event createEndServiceEvent(double activationTime, Queue queue,
       SimulationContext context) {
 
-    HandledEvent endServiceEvent = new HandledEvent();
+    HandledEvent endServiceEvent = new HandledEventBuilder(context)
+        .addHandler(event -> {
+          LOGGER.debug("End service event");
+          if (processingDemand != null) {
+            processingDemand.setLeavingTime(context.getCurrentTime());
+            countOfDemands++;
+            averageServiceTime +=
+                processingDemand.getLeavingTime() - processingDemand.getArrivalTime();
+
+            LOGGER.debug("We've processed one more demand");
+            processingDemand = null;
+
+            // end of service -> try to start service of a new demand
+            context.getEventProvider().add(createStartServiceEvent(queue, context));
+          }
+        }).build();
+
     endServiceEvent.setActivateTime(activationTime);
-
-    endServiceEvent.addHandler(event -> {
-      LOGGER.info("End service event");
-      if (processingDemand != null) {
-        processingDemand.setLeavingTime(context.getCurrentTime());
-        countOfDemands++;
-        averageServiceTime += processingDemand.getLeavingTime() - processingDemand.getArrivalTime();
-
-        LOGGER.info("We've processed one more demand");
-        processingDemand = null;
-
-        //end of service -> try to start service of a new demand
-        context.getEventProvider().add(createStartServiceEvent(queue, context));
-
-      }
-    });
-
     return endServiceEvent;
   }
 
-
   public static void simpleQueueingSystems() {
-    SimulationContext context = SimulationContextImpl.getEmptyInstance();
+    SimulationContext context = SimulationContextImpl.getContext();
     SimulationModelImpl model = new SimulationModelImpl(context);
+    double lambda = 2;
 
     Queue queue = new QueueFIFO();
-    Event event = createDemandEvent(2, queue, context);
-
-    try {
-      context.getEventProvider().add(event);
-    } catch (ImpossibleEventTime impossibleEventTime) {
-      impossibleEventTime.printStackTrace();
-    }
-    model.setStopCondition(new TimeStopCondition(1000));
+    Event event = createDemandEvent(lambda, queue, context);
+    context.getEventProvider().add(event);
+    model.setStopCondition(new TimeStopCondition(10_000_000));
     model.run();
   }
 
-
   public static void main(String[] args) {
+    long startTime = System.nanoTime();
     simpleQueueingSystems();
+    long endTime = System.nanoTime();
 
-    //correct answer  = 1/(mu - lambda) = 0.5
+    // correct answer  = 1/(mu - lambda) = 0.5
     System.out.println("Average service time is " + averageServiceTime / countOfDemands);
 
+    double timeElapsed = endTime - startTime;
+    System.out.println("Elapsed time = " + timeElapsed / 1_000_000_000);
   }
 
 }

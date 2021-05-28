@@ -3,6 +3,7 @@
   xmlns="http://maven.apache.org/POM/4.0.0"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <artifactId>simulation-core</artifactId>
+
   <dependencies>
 
     <dependency>
@@ -13,18 +14,21 @@
 
 
     <dependency>
-      <groupId>org.apache.commons</groupId>
       <artifactId>commons-lang3</artifactId>
+      <groupId>org.apache.commons</groupId>
       <version>3.0.1</version>
     </dependency>
-
-    <!-- https://mvnrepository.com/artifact/org.springframework/spring-core -->
     <dependency>
+      <artifactId>spring-context</artifactId>
       <groupId>org.springframework</groupId>
-      <artifactId>spring-core</artifactId>
-      <version>5.2.7.RELEASE</version>
+      <version>5.3.5</version>
     </dependency>
-
+    <dependency>
+      <artifactId>statistic</artifactId>
+      <groupId>simulation</groupId>
+      <scope>compile</scope>
+      <version>1.0-SNAPSHOT</version>
+    </dependency>
 
   </dependencies>
 

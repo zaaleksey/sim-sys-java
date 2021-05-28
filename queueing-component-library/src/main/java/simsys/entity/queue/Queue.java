@@ -6,10 +6,16 @@ import simsys.entity.demand.Demand;
 public interface Queue {
 
   int size();
-  void add(Demand demand);
-  void addAll(Collection<Demand> demands);
+
+  int capacity();
+
+  boolean add(Demand demand);
+
+  boolean addAll(Collection<Demand> demands);
+
   Demand peek();
-  Demand poll();
+
+  Demand remove();
 
   default boolean isEmpty() {
     return size() == 0;

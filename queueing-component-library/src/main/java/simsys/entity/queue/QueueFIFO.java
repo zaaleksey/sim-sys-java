@@ -1,20 +1,33 @@
 package simsys.entity.queue;
 
-import java.util.ArrayList;
+import java.util.ArrayDeque;
 import java.util.Collection;
-import simsys.core.model.AbstractSimulationModel;
 import simsys.entity.demand.Demand;
 
-public class QueueFIFO extends AbstractSimulationModel implements Queue {
+public class QueueFIFO implements Queue {
 
-  private ArrayList<Demand> demandQueue;
+  private int capacity;
+  private ArrayDeque<Demand> demandQueue;
 
   public QueueFIFO() {
-    this.demandQueue = new ArrayList<>();
+    this.capacity = Integer.MAX_VALUE;
+    this.demandQueue = new ArrayDeque<>();
+  }
+
+  public QueueFIFO(int capacity) {
+    this.capacity = capacity;
+    this.demandQueue = new ArrayDeque<>();
   }
 
   public QueueFIFO(Collection<? extends Demand> demands) {
-    this.demandQueue = new ArrayList<>();
+    this.capacity = Integer.MAX_VALUE;
+    this.demandQueue = new ArrayDeque<>();
+    this.demandQueue.addAll(demands);
+  }
+
+  public QueueFIFO(int capacity, Collection<? extends Demand> demands) {
+    this.capacity = capacity;
+    this.demandQueue = new ArrayDeque<>();
     this.demandQueue.addAll(demands);
   }
 
@@ -24,25 +37,37 @@ public class QueueFIFO extends AbstractSimulationModel implements Queue {
   }
 
   @Override
-  public void add(Demand demand) {
-    demandQueue.add(demand);
+  public int capacity() {
+    return capacity;
   }
 
   @Override
-  public void addAll(Collection<Demand> demands) {
-    demandQueue.addAll(demands);
+  public boolean add(Demand demand) {
+    if (size() < capacity) {
+      demandQueue.add(demand);
+      return true;
+    }
+    return false;
+  }
+
+  @Override
+  public boolean addAll(Collection<Demand> demands) {
+    for (Demand demand : demands) {
+      if (!add(demand)) {
+        return false;
+      }
+    }
+    return true;
   }
 
   @Override
   public Demand peek() {
-    return demandQueue.get(0);
+    return demandQueue.peek();
   }
 
   @Override
-  public Demand poll() {
-    Demand demand = peek();
-    demandQueue.remove(0);
-    return demand;
+  public Demand remove() {
+    return demandQueue.remove();
   }
 
 }
