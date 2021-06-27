@@ -36,33 +36,28 @@ public class SimpleQueueingSystem {
   static double countOfDemands = 0;
 
   public static Event createDemandEvent(double lambda, Queue queue, SimulationContext context) {
+
     HandledEvent createDemand = new HandledEventBuilder(context)
         .periodic(new ExponentialRandomVariable(new Random(), lambda))
-        .addHandler(event -> {
-          LOGGER.debug("Create demand event");
-          LOGGER.debug("Queue size = {}", queue.size());
-        })
         .addHandler(event -> {
           Demand demand = new SimpleDemand(context.getCurrentTime());
           queue.add(demand);
           context.getEventProvider().add(createStartServiceEvent(queue, context));
         }).build();
+
     return createDemand;
   }
 
   public static Event createStartServiceEvent(Queue queue, SimulationContext context) {
+
     HandledEvent serviceEvent = new HandledEventBuilder(context)
         .addHandler(event -> {
-          LOGGER.debug("Start service event");
           if (!queue.isEmpty() && processingDemand == null) {
             Demand demand = queue.remove();
             demand.setServiceStartTime(context.getCurrentTime());
-            //move the demand to sever
             processingDemand = demand;
-
             double delay = serviceTimes.nextValue();
             double endServiceTime = context.getCurrentTime() + delay;
-            //add endServiceEvent
             context.getEventProvider().add(createEndServiceEvent(endServiceTime, queue, context));
           }
         }).build();
@@ -76,17 +71,12 @@ public class SimpleQueueingSystem {
 
     HandledEvent endServiceEvent = new HandledEventBuilder(context)
         .addHandler(event -> {
-          LOGGER.debug("End service event");
           if (processingDemand != null) {
             processingDemand.setLeavingTime(context.getCurrentTime());
             countOfDemands++;
             averageServiceTime +=
                 processingDemand.getLeavingTime() - processingDemand.getArrivalTime();
-
-            LOGGER.debug("We've processed one more demand");
             processingDemand = null;
-
-            // end of service -> try to start service of a new demand
             context.getEventProvider().add(createStartServiceEvent(queue, context));
           }
         }).build();

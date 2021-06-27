@@ -6,12 +6,12 @@ import simsys.core.annotation.Action;
 import simsys.core.context.SimulationContext;
 import simsys.core.event.HandledEvent;
 import simsys.core.event.HandledEvent.HandledEventBuilder;
+import simsys.core.exception.AgentsCollision;
 import symsys.statistic.StatisticAccumulator;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Function;
 
 /**
@@ -19,7 +19,8 @@ import java.util.function.Function;
  */
 @Slf4j
 public abstract class AbstractAgent implements Agent {
-  //TODO: check for the name of the agent when added to the context, since it forms the name when logging
+
+  private static final List<String> agentNamesInModel = new ArrayList<>();
 
   /**
    * The context of the simulation model.
@@ -33,7 +34,12 @@ public abstract class AbstractAgent implements Agent {
   protected Map<String, Function<Double, Void>> monitors;
 
   public AbstractAgent(String agentName) {
-    this.agentName = agentName;
+    if (!agentNamesInModel.contains(agentName)) {
+      agentNamesInModel.add(agentName);
+      this.agentName = agentName;
+    } else {
+      throw new AgentsCollision(agentName);
+    }
   }
 
   /**

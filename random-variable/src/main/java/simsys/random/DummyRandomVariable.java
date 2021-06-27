@@ -1,7 +1,7 @@
 package simsys.random;
 
 
-// TODO: we can use this RV for test purposes
+// we can use this RV for test purposes
 public class DummyRandomVariable implements RandomVariable {
 
   private double[] values;
