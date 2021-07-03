@@ -11,7 +11,6 @@ import java.util.HashMap;
  *
  * @param <T> type of components of this environment
  */
-// TODO: зачем нам Environment, EnvironmentImpl, Entity и SimulationComponent если с ними никто не взаимодействует???
 public class EnvironmentImpl<T extends SimulationComponent> implements Environment<T> {
 
   /**

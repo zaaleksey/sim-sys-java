@@ -20,8 +20,6 @@ import java.util.function.Function;
 @Slf4j
 public abstract class AbstractAgent implements Agent {
 
-  private static final List<String> agentNamesInModel = new ArrayList<>();
-
   /**
    * The context of the simulation model.
    */
@@ -34,12 +32,7 @@ public abstract class AbstractAgent implements Agent {
   protected Map<String, Function<Double, Void>> monitors;
 
   public AbstractAgent(String agentName) {
-    if (!agentNamesInModel.contains(agentName)) {
-      agentNamesInModel.add(agentName);
-      this.agentName = agentName;
-    } else {
-      throw new AgentsCollision(agentName);
-    }
+    this.agentName = agentName;
   }
 
   /**

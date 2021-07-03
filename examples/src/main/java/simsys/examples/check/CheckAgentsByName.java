@@ -1,4 +1,4 @@
-package simsys.examples.agent;
+package simsys.examples.check;
 
 import java.util.Arrays;
 import java.util.Random;

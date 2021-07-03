@@ -6,6 +6,7 @@ import simsys.core.context.SimulationContext;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import simsys.core.exception.AgentsCollision;
 
 /**
  * Implementation of the simulation model by agents. Inherits the abstract class {@code AbstractSimulationModel}.
@@ -23,23 +24,38 @@ public class AgentBasedSimulationModel extends AbstractSimulationModel {
   }
 
   /**
-   * Adding an agent to the list.
-   *
-   * @param agent agent to add to the list
-   */
-  public void addAgent(Agent agent) {
-    // TODO: check for the name of the agent when added to the context, since it forms the name when logging
-    this.agents.add(agent);
-  }
-
-  /**
    * Adding a collection of agents.
    *
    * @param agents collection of agents to add
    */
   public void addAgents(List<Agent> agents) {
-    // TODO: check for the name of the agent when added to the context, since it forms the name when logging
-    this.agents.addAll(agents);
+    for (Agent agent : agents) {
+      addAgent(agent);
+    }
+  }
+
+  /**
+   * Adding an agent to the list.
+   *
+   * @param agent agent to add to the list
+   */
+  public void addAgent(Agent agent) {
+    if (possibleAgentName(agent.getName())) {
+      this.agents.add(agent);
+    } else {
+      throw new AgentsCollision(agent.getName());
+    }
+  }
+
+  private boolean possibleAgentName(String agentName) {
+    if (agentName == null) throw new NullPointerException("The agent name must be defined");
+
+    for (Agent agent : this.agents) {
+      if (agentName.equals(agent.getName())){
+        return false;
+      }
+    }
+    return true;
   }
 
   /**
@@ -52,7 +68,7 @@ public class AgentBasedSimulationModel extends AbstractSimulationModel {
    */
   public List<Agent> getAgentsByClass(Class<?> clazz) {
     List<Agent> agentsList = new ArrayList<>();
-    for (Agent agent : agents) {
+    for (Agent agent : this.agents) {
       if (agent.getClass() == clazz) {
         agentsList.add(agent);
       }
@@ -69,7 +85,7 @@ public class AgentBasedSimulationModel extends AbstractSimulationModel {
    * @return a list with agents
    */
   public List<Agent> getAgents() {
-    return agents;
+    return this.agents;
   }
 
 }
