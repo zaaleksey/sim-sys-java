@@ -48,7 +48,8 @@ public class AgentBasedSimulationModel extends AbstractSimulationModel {
   }
 
   private boolean possibleAgentName(String agentName) {
-    if (agentName == null) throw new NullPointerException("The agent name must be defined");
+    if (agentName == null)
+      throw new NullPointerException("The agent name must be defined");
 
     for (Agent agent : this.agents) {
       if (agentName.equals(agent.getName())){

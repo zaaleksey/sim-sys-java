@@ -15,6 +15,7 @@ import java.util.function.Predicate;
 @Slf4j
 public abstract class AbstractSimulationModel implements SimulationModel {
 
+  private boolean log = false;
   /**
    * The context of the simulation model with the objects necessary for simulation.
    */
@@ -31,13 +32,18 @@ public abstract class AbstractSimulationModel implements SimulationModel {
   public void run() {
     while (!this.stopCondition.test(simulationContext)) {
       step();
+      logStep();
+    }
+  }
 
-      // TODO: make optional
-      List<Event> events = simulationContext.getEventProvider().getAllEvents();
-      Collections.sort(events);
-      for (Event event : events) {
-        LOGGER.debug("{} act.time : {}", event.getClass().getName(), event.getActivateTime());
-      }
+  private void logStep() {
+    if (!log)
+      return;
+
+    List<Event> events = simulationContext.getEventProvider().getAllEvents();
+    Collections.sort(events);
+    for (Event event : events) {
+      LOGGER.debug("{} act.time : {}", event.getClass().getName(), event.getActivateTime());
     }
   }
 
@@ -86,4 +92,7 @@ public abstract class AbstractSimulationModel implements SimulationModel {
     this.simulationContext = simulationContext;
   }
 
+  public void setLog(boolean log) {
+    this.log = log;
+  }
 }
