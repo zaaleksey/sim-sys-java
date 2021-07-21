@@ -1,6 +1,7 @@
 package simsys.examples.events.timer;
 
 
+import java.util.Random;
 import simsys.core.condition.TimeStopCondition;
 import simsys.core.context.SimulationContext;
 import simsys.core.context.SimulationContextImpl;
@@ -9,11 +10,9 @@ import simsys.core.event.handler.TimeoutHandler;
 import simsys.core.model.SimulationModelImpl;
 import simsys.random.ExponentialRandomVariable;
 
-import java.util.Random;
-
 /**
- * Implementing a simple timer through a event (HandledEvent) and its handler (TimeoutHandler).
- * The timer is activated at intervals that are distributed exponentially with some rate.
+ * Implementing a simple timer through a event (HandledEvent) and its handler (TimeoutHandler). The
+ * timer is activated at intervals that are distributed exponentially with some rate.
  */
 public class TimerEventSimulation {
 
@@ -22,11 +21,11 @@ public class TimerEventSimulation {
 
     HandledEvent periodic = new HandledEvent();
     TimeoutHandler timeout = new TimeoutHandler(
-            new ExponentialRandomVariable(new Random(), 1));
+        new ExponentialRandomVariable(new Random(), 1));
     timeout.setSimulationContext(context);
 
     periodic.addHandler(event ->
-            System.out.println("Message from periodic event: " + event.getActivateTime()));
+        System.out.println("Message from periodic event: " + event.getActivateTime()));
     periodic.addHandler(timeout);
 
     context.getEventProvider().add(periodic);

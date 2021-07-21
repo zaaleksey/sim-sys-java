@@ -1,16 +1,15 @@
 package simsys.core.model;
 
+import java.util.Collections;
+import java.util.List;
+import java.util.function.Predicate;
 import lombok.extern.slf4j.Slf4j;
 import simsys.core.context.SimulationContext;
 import simsys.core.event.Event;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.function.Predicate;
-
 /**
- * Abstract interface implementation {@code SimulationModel}.
- * Implements the default {@code run} and {@code step} methods of the simulation model.
+ * Abstract interface implementation {@code SimulationModel}. Implements the default {@code run} and
+ * {@code step} methods of the simulation model.
  */
 @Slf4j
 public abstract class AbstractSimulationModel implements SimulationModel {
@@ -37,8 +36,9 @@ public abstract class AbstractSimulationModel implements SimulationModel {
   }
 
   private void logStep() {
-    if (!log)
+    if (!log) {
       return;
+    }
 
     List<Event> events = simulationContext.getEventProvider().getAllEvents();
     Collections.sort(events);
@@ -48,8 +48,8 @@ public abstract class AbstractSimulationModel implements SimulationModel {
   }
 
   /**
-   * An event with the nearest activation time is received from the provider.
-   * This event is being processed. The variables responsible for the simulation time are updated.
+   * An event with the nearest activation time is received from the provider. This event is being
+   * processed. The variables responsible for the simulation time are updated.
    */
   @Override
   public void step() {

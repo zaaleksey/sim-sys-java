@@ -1,6 +1,8 @@
 package simsys.core.context;
 
 
+import java.util.HashMap;
+import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import simsys.core.CoreConfig;
@@ -8,9 +10,6 @@ import simsys.core.clock.Clock;
 import simsys.core.environment.Environment;
 import simsys.core.provider.EventProvider;
 import symsys.statistic.StatisticAccumulator;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Basic interface implementation SimulationContext. All basic methods implemented
@@ -54,8 +53,8 @@ public class SimulationContextImpl implements SimulationContext {
   }
 
   /**
-   * Returns the context of the simulation model.
-   * The simulation context is stored in the container of the Spring Application.
+   * Returns the context of the simulation model. The simulation context is stored in the container
+   * of the Spring Application.
    *
    * @return the context of the simulation model
    */
@@ -117,7 +116,7 @@ public class SimulationContextImpl implements SimulationContext {
   /**
    * Logging values for collecting and calculating characteristics.
    *
-   * @param name feature name
+   * @param name  feature name
    * @param value transmitted value for logging
    */
   @Override
@@ -140,8 +139,8 @@ public class SimulationContextImpl implements SimulationContext {
   }
 
   /**
-   * Returns a named collection of statistics as a Map.
-   * Referring to the StatisticAccumulator by Name.
+   * Returns a named collection of statistics as a Map. Referring to the StatisticAccumulator by
+   * Name.
    *
    * @return a collection of statistics
    */
@@ -153,7 +152,7 @@ public class SimulationContextImpl implements SimulationContext {
   /**
    * Adds an observer for a specific variable.
    *
-   * @param name variable name
+   * @param name     variable name
    * @param observer variable observer
    */
   @Override

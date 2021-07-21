@@ -1,10 +1,9 @@
 package simsys.core.event.handler;
 
+import java.util.function.Supplier;
 import simsys.core.context.SimulationContext;
 import simsys.core.event.Event;
 import simsys.random.RandomVariable;
-
-import java.util.function.Supplier;
 
 /**
  * Timeout handler. Handles the event at certain intervals defined by some policy.
@@ -69,9 +68,9 @@ public class TimeoutHandler implements EventHandler {
   }
 
   /**
-   * Handles the event. Sets the event to the next activation time and puts it back into the provider.
-   * The next activation time is determined by some policy (after a certain time interval or a random time interval,
-   * the value of which obeys a certain distribution law).
+   * Handles the event. Sets the event to the next activation time and puts it back into the
+   * provider. The next activation time is determined by some policy (after a certain time interval
+   * or a random time interval, the value of which obeys a certain distribution law).
    *
    * @param event the event to be handled
    */

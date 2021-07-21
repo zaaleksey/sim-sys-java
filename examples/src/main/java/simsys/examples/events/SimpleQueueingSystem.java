@@ -1,5 +1,6 @@
 package simsys.examples.events;
 
+import java.util.Random;
 import lombok.extern.slf4j.Slf4j;
 import simsys.core.condition.TimeStopCondition;
 import simsys.core.context.SimulationContext;
@@ -15,16 +16,14 @@ import simsys.entity.queue.QueueFIFO;
 import simsys.random.ExponentialRandomVariable;
 import simsys.random.RandomVariable;
 
-import java.util.Random;
-
 
 /**
- * This is an example of a Queuing System type MM1. Arrivals occur at rate λ according to a Poisson process.
- * Service times are exponentially distributed with rate parameter μ so that 1/μ is the mean service time.
- * A single server serves customers one at a time from the front of the queue, according to a first-come,
- * first-served discipline. When the service is complete the customer leaves the queue and the number
- * of customers in the system reduces by one.
-
+ * This is an example of a Queuing System type MM1. Arrivals occur at rate λ according to a Poisson
+ * process. Service times are exponentially distributed with rate parameter μ so that 1/μ is the
+ * mean service time. A single server serves customers one at a time from the front of the queue,
+ * according to a first-come, first-served discipline. When the service is complete the customer
+ * leaves the queue and the number of customers in the system reduces by one.
+ * <p>
  * Implementation by defining simple events.
  */
 @Slf4j

@@ -1,11 +1,10 @@
 package simsys.core.provider;
 
-import simsys.core.event.Event;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import simsys.core.event.Event;
 
 
 /**
@@ -24,7 +23,8 @@ public class EventProviderImpl implements EventProvider {
     this.events.addAll(events);
   }
 
-  /** Returns the number of events in the provider.
+  /**
+   * Returns the number of events in the provider.
    *
    * @return the number of events in the provider
    */
@@ -53,8 +53,9 @@ public class EventProviderImpl implements EventProvider {
     this.events.addAll(events);
   }
 
-  /** Returns an event with the closest activation time without removing the event from the provider.
-   *  To do this, use the min method of the Collections interface.
+  /**
+   * Returns an event with the closest activation time without removing the event from the provider.
+   * To do this, use the min method of the Collections interface.
    *
    * @return an event with the closest activation time
    */
@@ -67,7 +68,7 @@ public class EventProviderImpl implements EventProvider {
    * Returns an event with the closest activation time, removing the event from the provider.
    *
    * @return an event with the closest activation time
-   * @see #peek() 
+   * @see #peek()
    * @see #remove(Event)
    */
   @Override
@@ -91,8 +92,8 @@ public class EventProviderImpl implements EventProvider {
    * Removing an event from a provider.
    *
    * @param event event to be deleted
-   * @return {@code true} if this provider contained an event passed as a parameter,
-   * otherwise {@code false}
+   * @return {@code true} if this provider contained an event passed as a parameter, otherwise
+   * {@code false}
    */
   @Override
   public boolean remove(Event event) {

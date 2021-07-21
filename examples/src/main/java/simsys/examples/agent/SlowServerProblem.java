@@ -1,5 +1,7 @@
 package simsys.examples.agent;
 
+import java.util.Arrays;
+import java.util.Random;
 import simsys.component.source.SourceAgent;
 import simsys.component.system.QueueingSystemWithTwoServer;
 import simsys.core.condition.TimeStopCondition;
@@ -10,38 +12,39 @@ import simsys.entity.queue.Queue;
 import simsys.entity.queue.QueueFIFO;
 import simsys.random.ExponentialRandomVariable;
 
-import java.util.Arrays;
-import java.util.Random;
-
 public class SlowServerProblem {
 
-    public static void main(String[] args) {
-        SimulationContext context = SimulationContextImpl.getContext();
-        Random r = new Random();
-        double lambda = 3;
-        SourceAgent source = new SourceAgent(context,
-                new ExponentialRandomVariable(r, lambda),
-                "Source");
+  public static void main(String[] args) {
+    SimulationContext context = SimulationContextImpl.getContext();
+    Random r = new Random();
+    double lambda = 3;
+    SourceAgent source = new SourceAgent(context,
+        new ExponentialRandomVariable(r, lambda),
+        "Source");
 
-        int capacity = 10;
-        Queue queue = new QueueFIFO(capacity);
-        QueueingSystemWithTwoServer queueing = new QueueingSystemWithTwoServer(context,
-                queue, new ExponentialRandomVariable(r, 0), "QueueingSystemWithTwoServer");
+    int capacity = 10;
+    Queue queue = new QueueFIFO(capacity);
+    QueueingSystemWithTwoServer queueing = new QueueingSystemWithTwoServer(context,
+        queue, new ExponentialRandomVariable(r, 0), "QueueingSystemWithTwoServer");
 
-        source.setReceiver(queueing);
+    source.setReceiver(queueing);
 
-        AgentBasedSimulationModel agentSimulationMM1 = new AgentBasedSimulationModel(context);
-        agentSimulationMM1.setStopCondition(new TimeStopCondition(10_000_000));
-        agentSimulationMM1.addAgents(Arrays.asList(source, queueing));
-        source.sendDemand();
+    AgentBasedSimulationModel agentSimulationMM1 = new AgentBasedSimulationModel(context);
+    agentSimulationMM1.setStopCondition(new TimeStopCondition(10_000_000));
+    agentSimulationMM1.addAgents(Arrays.asList(source, queueing));
+    source.sendDemand();
 
-        long startTime = System.nanoTime();
-        agentSimulationMM1.run();
-        long endTime = System.nanoTime();
-        long timeElapsed = endTime - startTime;
-        System.out.println("Elapsed time = " + (double) (timeElapsed) / 1_000_000_000);
-        System.out.println("Average service time on a FAST server is " + queueing.getServerStatistic("SOJOURN_TIME").get(0).mean());
-        System.out.println("Average service time on a SLOW server is " + queueing.getServerStatistic("SOJOURN_TIME").get(1).mean());
-    }
+    long startTime = System.nanoTime();
+    agentSimulationMM1.run();
+    long endTime = System.nanoTime();
+    long timeElapsed = endTime - startTime;
+    System.out.println("Elapsed time = " + (double) (timeElapsed) / 1_000_000_000);
+    System.out.println(
+        "Average service time on a FAST server is " + queueing.getServerStatistic("SOJOURN_TIME")
+            .get(0).mean());
+    System.out.println(
+        "Average service time on a SLOW server is " + queueing.getServerStatistic("SOJOURN_TIME")
+            .get(1).mean());
+  }
 
 }

@@ -3,8 +3,8 @@ package simsys.core.event;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * The interface of events that occur in the simulation model.
- * Implements the Comparable interface that allows you to compare events with each other by the time of their occurrence.
+ * The interface of events that occur in the simulation model. Implements the Comparable interface
+ * that allows you to compare events with each other by the time of their occurrence.
  */
 public interface Event extends Comparable<Event> {
 
@@ -28,16 +28,16 @@ public interface Event extends Comparable<Event> {
   void activate();
 
   /**
-   * Delays activation of an event indefinitely.
-   * Sets the activation time of this event to {@code Double.POSITIVE_INFINITY}.
+   * Delays activation of an event indefinitely. Sets the activation time of this event to {@code
+   * Double.POSITIVE_INFINITY}.
    */
   default void postpone() {
     setActivateTime(Double.POSITIVE_INFINITY);
   }
 
   /**
-   * Delays the activation of this event for a while. The activation delay time is transmitted by the parameter.
-   * Returns the new activation time for this event.
+   * Delays the activation of this event for a while. The activation delay time is transmitted by
+   * the parameter. Returns the new activation time for this event.
    *
    * @param duration the delay time for the activation of this event
    * @return the new activation time for this event
@@ -51,8 +51,8 @@ public interface Event extends Comparable<Event> {
    * Comparison of events by their activation time.
    *
    * @param event the event to be compared
-   * @return a negative integer, zero, or a positive integer as this event
-   * is less than, equal to, or greater than the specified event.
+   * @return a negative integer, zero, or a positive integer as this event is less than, equal to,
+   * or greater than the specified event.
    */
   @Override
   default int compareTo(@NotNull Event event) {

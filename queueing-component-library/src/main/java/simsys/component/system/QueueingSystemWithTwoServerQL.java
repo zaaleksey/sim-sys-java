@@ -1,5 +1,8 @@
 package simsys.component.system;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Random;
 import org.apache.commons.lang3.ArrayUtils;
 import simsys.core.context.SimulationContext;
 import simsys.core.parcel.Parcel;
@@ -7,10 +10,6 @@ import simsys.entity.demand.Demand;
 import simsys.entity.queue.Queue;
 import simsys.random.ExponentialRandomVariable;
 import simsys.random.RandomVariable;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Random;
 
 public class QueueingSystemWithTwoServerQL extends AbstractQueueingSystem {
 
@@ -52,8 +51,8 @@ public class QueueingSystemWithTwoServerQL extends AbstractQueueingSystem {
   private double lastTimeDecision = 0;
 
   public QueueingSystemWithTwoServerQL(SimulationContext context, Queue queue,
-                                       RandomVariable randomVariable, String agentName,
-                                       double learningRate, double rewardDecay, double eGreedy, double warmUpDuration) {
+      RandomVariable randomVariable, String agentName,
+      double learningRate, double rewardDecay, double eGreedy, double warmUpDuration) {
     super(context, queue, randomVariable, agentName);
 
     r = new Random();

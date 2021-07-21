@@ -24,7 +24,6 @@ public class CheckAgentsByName {
         new ExponentialRandomVariable(r, lambda),
         "Source");
 
-
     AgentBasedSimulationModel agentSimulationMM1 = new AgentBasedSimulationModel(context);
     agentSimulationMM1.setStopCondition(new TimeStopCondition(10));
     agentSimulationMM1.addAgents(Arrays.asList(originalSource, imitatorSource));

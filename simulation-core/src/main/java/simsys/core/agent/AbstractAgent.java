@@ -1,18 +1,17 @@
 package simsys.core.agent;
 
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Method;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Function;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.ReflectionUtils;
 import simsys.core.annotation.Action;
 import simsys.core.context.SimulationContext;
 import simsys.core.event.HandledEvent;
 import simsys.core.event.HandledEvent.HandledEventBuilder;
-import simsys.core.exception.AgentsCollision;
 import symsys.statistic.StatisticAccumulator;
-
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Method;
-import java.util.*;
-import java.util.function.Function;
 
 /**
  * Abstract implementation of the Agent interface with the implementation of basic methods.
@@ -38,7 +37,7 @@ public abstract class AbstractAgent implements Agent {
   /**
    * Logging values for collecting and calculating characteristics.
    *
-   * @param name feature name
+   * @param name  feature name
    * @param value transmitted value for logging
    */
   public void logValue(String name, double value) {
@@ -100,7 +99,8 @@ public abstract class AbstractAgent implements Agent {
   }
 
   /**
-   * Performing actions passed as a parameter. Calls performActionAfterTimeout method with zero delay.
+   * Performing actions passed as a parameter. Calls performActionAfterTimeout method with zero
+   * delay.
    *
    * @param action action to be performed
    */
@@ -110,11 +110,11 @@ public abstract class AbstractAgent implements Agent {
   }
 
   /**
-   * Performing actions passed as a parameter, after a delay. The action is wrapped in a handled event and
-   * is scheduled to run.
+   * Performing actions passed as a parameter, after a delay. The action is wrapped in a handled
+   * event and is scheduled to run.
    *
    * @param action action to be performed
-   * @param delay perform an action delay
+   * @param delay  perform an action delay
    */
   @Override
   public void performActionAfterTimeout(AgentAction action, double delay) {

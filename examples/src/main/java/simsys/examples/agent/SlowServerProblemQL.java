@@ -1,5 +1,10 @@
 package simsys.examples.agent;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.Arrays;
+import java.util.Random;
 import simsys.component.source.SourceAgent;
 import simsys.component.system.QueueingSystemWithTwoServerQL;
 import simsys.core.condition.TimeStopCondition;
@@ -9,12 +14,6 @@ import simsys.core.model.AgentBasedSimulationModel;
 import simsys.entity.queue.Queue;
 import simsys.entity.queue.QueueFIFO;
 import simsys.random.ExponentialRandomVariable;
-
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.Arrays;
-import java.util.Random;
 
 public class SlowServerProblemQL {
 

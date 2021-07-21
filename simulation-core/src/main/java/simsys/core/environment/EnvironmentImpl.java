@@ -1,10 +1,9 @@
 package simsys.core.environment;
 
+import java.util.HashMap;
 import lombok.SneakyThrows;
 import simsys.core.component.SimulationComponent;
 import simsys.core.exception.NoItemInCollection;
-
-import java.util.HashMap;
 
 /**
  * Basic implementation of the simulation Environment.
@@ -33,9 +32,10 @@ public class EnvironmentImpl<T extends SimulationComponent> implements Environme
   }
 
   /**
-   * Adds a component by id to the simulation environment. The component is added to the collection HashMap.
+   * Adds a component by id to the simulation environment. The component is added to the collection
+   * HashMap.
    *
-   * @param id component id
+   * @param id        component id
    * @param component added component
    */
   @Override

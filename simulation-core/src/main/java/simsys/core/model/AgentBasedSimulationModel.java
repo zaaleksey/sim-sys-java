@@ -1,15 +1,15 @@
 package simsys.core.model;
 
-import simsys.core.agent.Agent;
-import simsys.core.context.SimulationContext;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import simsys.core.agent.Agent;
+import simsys.core.context.SimulationContext;
 import simsys.core.exception.AgentsCollision;
 
 /**
- * Implementation of the simulation model by agents. Inherits the abstract class {@code AbstractSimulationModel}.
+ * Implementation of the simulation model by agents. Inherits the abstract class {@code
+ * AbstractSimulationModel}.
  */
 public class AgentBasedSimulationModel extends AbstractSimulationModel {
 
@@ -48,11 +48,12 @@ public class AgentBasedSimulationModel extends AbstractSimulationModel {
   }
 
   private boolean possibleAgentName(String agentName) {
-    if (agentName == null)
+    if (agentName == null) {
       throw new NullPointerException("The agent name must be defined");
+    }
 
     for (Agent agent : this.agents) {
-      if (agentName.equals(agent.getName())){
+      if (agentName.equals(agent.getName())) {
         return false;
       }
     }
@@ -60,8 +61,9 @@ public class AgentBasedSimulationModel extends AbstractSimulationModel {
   }
 
   /**
-   * Returns the agent by its class. Finds all agents with a certain class and adds them to the list.
-   * Returns this list of agents if agents were found, otherwise throws an exception {@code NoSuchElementException}.
+   * Returns the agent by its class. Finds all agents with a certain class and adds them to the
+   * list. Returns this list of agents if agents were found, otherwise throws an exception {@code
+   * NoSuchElementException}.
    *
    * @param clazz agent class
    * @return a list containing agents that belong to the given class

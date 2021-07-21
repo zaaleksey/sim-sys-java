@@ -18,7 +18,7 @@ public interface Agent {
    * Performing actions passed as a parameter, after a delay.
    *
    * @param action action to be performed
-   * @param delay perform an action delay
+   * @param delay  perform an action delay
    */
   void performActionAfterTimeout(AgentAction action, double delay);
 
