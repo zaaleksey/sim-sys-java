@@ -1,7 +1,6 @@
 package simsys.examples.events.timer;
 
 
-import java.util.Random;
 import simsys.core.condition.TimeStopCondition;
 import simsys.core.context.SimulationContext;
 import simsys.core.context.SimulationContextImpl;
@@ -27,7 +26,7 @@ public class TimerEventBuilderFactorySimulation {
 
     HandledEvent randomPeriodic = eventBuilderFactory
         .create()
-        .periodic(new ExponentialRandomVariable(new Random(), 1))
+        .periodic(new ExponentialRandomVariable(1))
         .addHandler(event -> System.out
             .println("Message from periodic random event: " + event.getActivateTime()))
         .build();

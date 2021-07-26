@@ -27,15 +27,14 @@ public class QueueingSystemWithTwoServer extends AbstractQueueingSystem {
       RandomVariable randomVariable, String agentName) {
     super(context, queue, randomVariable, agentName);
 
-    Random r = new Random(0);
     servers = new HashMap<>();
     processingDemands = new HashMap<>();
 
     servers.put(FAST_SERVER,
-        new Server(context, queue, new ExponentialRandomVariable(r, FAST_SERVER_RATE),
+        new Server(context, queue, new ExponentialRandomVariable(FAST_SERVER_RATE),
             FAST_SERVER));
     servers.put(SLOW_SERVER,
-        new Server(context, queue, new ExponentialRandomVariable(r, SLOW_SERVER_RATE),
+        new Server(context, queue, new ExponentialRandomVariable(SLOW_SERVER_RATE),
             SLOW_SERVER));
     processingDemands.put(FAST_SERVER, null);
     processingDemands.put(SLOW_SERVER, null);

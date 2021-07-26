@@ -1,22 +1,20 @@
 package simsys.random;
 
-import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class UniformRandomVariable implements RandomVariable {
 
-  private final Random random;
   private final double startOfRange;
   private final double endOfRange;
 
-  public UniformRandomVariable(Random random, double startOfRange, double endOfRange) {
-    this.random = random;
+  public UniformRandomVariable(double startOfRange, double endOfRange) {
     this.startOfRange = startOfRange;
     this.endOfRange = endOfRange;
   }
 
   @Override
   public double nextValue() {
-    return this.startOfRange + random.nextDouble() * (this.endOfRange - this.startOfRange);
+    return startOfRange + ThreadLocalRandom.current().nextDouble() * (endOfRange - startOfRange);
   }
 
 }

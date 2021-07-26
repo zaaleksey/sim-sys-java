@@ -1,6 +1,5 @@
 package simsys.examples.events;
 
-import java.util.Random;
 import lombok.extern.slf4j.Slf4j;
 import simsys.core.condition.TimeStopCondition;
 import simsys.core.context.SimulationContext;
@@ -29,7 +28,8 @@ import simsys.random.RandomVariable;
 @Slf4j
 public class SimpleQueueingSystem {
 
-  static final RandomVariable serviceTimes = new ExponentialRandomVariable(new Random(), 4);
+  static final double RATE = 4;
+  static final RandomVariable serviceTimes = new ExponentialRandomVariable(RATE);
   static Demand processingDemand;
   static double averageServiceTime = 0;
   static double countOfDemands = 0;
@@ -37,7 +37,7 @@ public class SimpleQueueingSystem {
   public static Event createDemandEvent(double lambda, Queue queue, SimulationContext context) {
 
     HandledEvent createDemand = new HandledEventBuilder(context)
-        .periodic(new ExponentialRandomVariable(new Random(), lambda))
+        .periodic(new ExponentialRandomVariable(lambda))
         .addHandler(event -> {
           Demand demand = new SimpleDemand(context.getCurrentTime());
           queue.add(demand);

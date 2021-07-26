@@ -1,7 +1,6 @@
 package simsys.examples.agent;
 
 import java.util.Arrays;
-import java.util.Random;
 import simsys.component.source.SourceAgent;
 import simsys.component.system.QueueingSystemAgent;
 import simsys.core.condition.TimeStopCondition;
@@ -25,16 +24,15 @@ public class AgentSimulationMM1 {
 
   public static void main(String[] args) {
     SimulationContext context = SimulationContextImpl.getContext();
-    Random r = new Random(0);
     double lambda = 1;
     SourceAgent source = new SourceAgent(context,
-        new ExponentialRandomVariable(r, lambda),
+        new ExponentialRandomVariable(lambda),
         "Source");
 
     double mu = 2;
     Queue queue = new QueueFIFO();
     QueueingSystemAgent queueingSystem = new QueueingSystemAgent(context, queue,
-        new ExponentialRandomVariable(r, mu),
+        new ExponentialRandomVariable(mu),
         "Server"
     );
 
