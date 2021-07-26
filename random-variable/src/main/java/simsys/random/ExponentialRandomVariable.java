@@ -1,20 +1,18 @@
 package simsys.random;
 
-import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class ExponentialRandomVariable implements RandomVariable {
 
-  private final Random random;
   private final double rate;
 
-  public ExponentialRandomVariable(Random random, double rate) {
-    this.random = random;
+  public ExponentialRandomVariable(double rate) {
     this.rate = rate;
   }
 
   @Override
   public double nextValue() {
-    return -1.0 / rate * Math.log(random.nextDouble());
+    return -1.0 / rate * Math.log(ThreadLocalRandom.current().nextDouble());
   }
 
 }

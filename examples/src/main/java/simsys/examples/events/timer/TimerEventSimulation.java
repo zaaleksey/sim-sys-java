@@ -1,7 +1,6 @@
 package simsys.examples.events.timer;
 
 
-import java.util.Random;
 import simsys.core.condition.TimeStopCondition;
 import simsys.core.context.SimulationContext;
 import simsys.core.context.SimulationContextImpl;
@@ -21,7 +20,7 @@ public class TimerEventSimulation {
 
     HandledEvent periodic = new HandledEvent();
     TimeoutHandler timeout = new TimeoutHandler(
-        new ExponentialRandomVariable(new Random(), 1));
+        new ExponentialRandomVariable(1));
     timeout.setSimulationContext(context);
 
     periodic.addHandler(event ->

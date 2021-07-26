@@ -1,7 +1,6 @@
 package simsys.examples.agent;
 
 import java.util.Arrays;
-import java.util.Random;
 import simsys.component.source.SourceAgent;
 import simsys.component.system.QueueingSystemWithTwoServer;
 import simsys.core.condition.TimeStopCondition;
@@ -16,16 +15,15 @@ public class SlowServerProblem {
 
   public static void main(String[] args) {
     SimulationContext context = SimulationContextImpl.getContext();
-    Random r = new Random();
     double lambda = 3;
     SourceAgent source = new SourceAgent(context,
-        new ExponentialRandomVariable(r, lambda),
+        new ExponentialRandomVariable(lambda),
         "Source");
 
     int capacity = 10;
     Queue queue = new QueueFIFO(capacity);
     QueueingSystemWithTwoServer queueing = new QueueingSystemWithTwoServer(context,
-        queue, new ExponentialRandomVariable(r, 0), "QueueingSystemWithTwoServer");
+        queue, new ExponentialRandomVariable(0), "QueueingSystemWithTwoServer");
 
     source.setReceiver(queueing);
 
