@@ -1,5 +1,8 @@
 package simsys.component.system;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.concurrent.ThreadLocalRandom;
 import org.apache.commons.lang3.ArrayUtils;
 import simsys.core.context.SimulationContext;
 import simsys.core.parcel.Parcel;
@@ -7,10 +10,6 @@ import simsys.entity.demand.Demand;
 import simsys.entity.queue.Queue;
 import simsys.random.ExponentialRandomVariable;
 import simsys.random.RandomVariable;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Random;
 
 public class QueueingSystemWithTwoServerQL extends AbstractQueueingSystem {
 
@@ -39,9 +38,6 @@ public class QueueingSystemWithTwoServerQL extends AbstractQueueingSystem {
   private double epsilon;
 
 
-  private final Random r;
-
-
   private double accumulatedRewardBetweenMakingDecisions;
   private int lastAction;
   private int stateBeforeLastAction;
@@ -52,11 +48,9 @@ public class QueueingSystemWithTwoServerQL extends AbstractQueueingSystem {
   private double lastTimeDecision = 0;
 
   public QueueingSystemWithTwoServerQL(SimulationContext context, Queue queue,
-                                       RandomVariable randomVariable, String agentName,
-                                       double learningRate, double rewardDecay, double eGreedy, double warmUpDuration) {
+      RandomVariable randomVariable, String agentName,
+      double learningRate, double rewardDecay, double eGreedy, double warmUpDuration) {
     super(context, queue, randomVariable, agentName);
-
-    r = new Random();
 
     this.alpha = learningRate;
     this.gamma = rewardDecay;
@@ -65,8 +59,8 @@ public class QueueingSystemWithTwoServerQL extends AbstractQueueingSystem {
 
     this.stateNumber = queue.capacity() + 1;
 
-    this.slowServerRV = new ExponentialRandomVariable(r, SLOW_SERVER_RATE);
-    this.fastServerRV = new ExponentialRandomVariable(r, FAST_SERVER_RATE);
+    this.slowServerRV = new ExponentialRandomVariable(SLOW_SERVER_RATE);
+    this.fastServerRV = new ExponentialRandomVariable(FAST_SERVER_RATE);
 
     accumulatedRewardBetweenMakingDecisions = 0;
     lastAction = 1;
@@ -203,8 +197,9 @@ public class QueueingSystemWithTwoServerQL extends AbstractQueueingSystem {
   }
 
   private int makeDecision(int state) {
-    if (r.nextDouble() < epsilon || context.getCurrentTime() < warmUpDuration) {
-      return r.nextInt(ACTION_NUMBER);
+    if (ThreadLocalRandom.current().nextDouble() < epsilon
+        || context.getCurrentTime() < warmUpDuration) {
+      return ThreadLocalRandom.current().nextInt(ACTION_NUMBER);
     } else {
       return argMax(qTable[state]);
     }

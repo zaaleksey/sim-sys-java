@@ -1,20 +1,20 @@
 package simsys.core.model;
 
+import java.util.Collections;
+import java.util.List;
+import java.util.function.Predicate;
 import lombok.extern.slf4j.Slf4j;
 import simsys.core.context.SimulationContext;
 import simsys.core.event.Event;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.function.Predicate;
-
 /**
- * Abstract interface implementation {@code SimulationModel}.
- * Implements the default {@code run} and {@code step} methods of the simulation model.
+ * Abstract interface implementation {@code SimulationModel}. Implements the default {@code run} and
+ * {@code step} methods of the simulation model.
  */
 @Slf4j
 public abstract class AbstractSimulationModel implements SimulationModel {
 
+  private boolean log = false;
   /**
    * The context of the simulation model with the objects necessary for simulation.
    */
@@ -31,19 +31,25 @@ public abstract class AbstractSimulationModel implements SimulationModel {
   public void run() {
     while (!this.stopCondition.test(simulationContext)) {
       step();
+      logStep();
+    }
+  }
 
-      // TODO: make optional
-      List<Event> events = simulationContext.getEventProvider().getAllEvents();
-      Collections.sort(events);
-      for (Event event : events) {
-        LOGGER.debug("{} act.time : {}", event.getClass().getName(), event.getActivateTime());
-      }
+  private void logStep() {
+    if (!log) {
+      return;
+    }
+
+    List<Event> events = simulationContext.getEventProvider().getAllEvents();
+    Collections.sort(events);
+    for (Event event : events) {
+      LOGGER.debug("{} act.time : {}", event.getClass().getName(), event.getActivateTime());
     }
   }
 
   /**
-   * An event with the nearest activation time is received from the provider.
-   * This event is being processed. The variables responsible for the simulation time are updated.
+   * An event with the nearest activation time is received from the provider. This event is being
+   * processed. The variables responsible for the simulation time are updated.
    */
   @Override
   public void step() {
@@ -86,4 +92,7 @@ public abstract class AbstractSimulationModel implements SimulationModel {
     this.simulationContext = simulationContext;
   }
 
+  public void setLog(boolean log) {
+    this.log = log;
+  }
 }

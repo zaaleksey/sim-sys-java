@@ -7,27 +7,27 @@
   <dependencies>
 
     <dependency>
-      <artifactId>random-variable</artifactId>
       <groupId>simulation</groupId>
+      <artifactId>random-variable</artifactId>
       <version>1.0-SNAPSHOT</version>
     </dependency>
 
+    <dependency>
+      <groupId>simulation</groupId>
+      <artifactId>statistic</artifactId>
+      <version>1.0-SNAPSHOT</version>
+    </dependency>
 
     <dependency>
       <artifactId>commons-lang3</artifactId>
       <groupId>org.apache.commons</groupId>
       <version>3.0.1</version>
     </dependency>
+
     <dependency>
       <artifactId>spring-context</artifactId>
       <groupId>org.springframework</groupId>
       <version>5.3.5</version>
-    </dependency>
-    <dependency>
-      <artifactId>statistic</artifactId>
-      <groupId>simulation</groupId>
-      <scope>compile</scope>
-      <version>1.0-SNAPSHOT</version>
     </dependency>
 
   </dependencies>
@@ -38,7 +38,6 @@
     <groupId>simulation</groupId>
     <version>1.0-SNAPSHOT</version>
   </parent>
-
 
   <version>1.0-SNAPSHOT</version>
 

@@ -1,5 +1,9 @@
 package simsys.examples.agent;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.Arrays;
 import simsys.component.source.SourceAgent;
 import simsys.component.system.QueueingSystemWithTwoServerQL;
 import simsys.core.condition.TimeStopCondition;
@@ -10,23 +14,16 @@ import simsys.entity.queue.Queue;
 import simsys.entity.queue.QueueFIFO;
 import simsys.random.ExponentialRandomVariable;
 
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.Arrays;
-import java.util.Random;
-
 public class SlowServerProblemQL {
 
   public static void main(String[] args) {
     SimulationContext context = SimulationContextImpl.getContext();
-    Random r = new Random();
     double simulationDuration = 1000000;
     double warmUpDuration = simulationDuration * 0;
 
     double lambda = 3;
     SourceAgent source = new SourceAgent(context,
-        new ExponentialRandomVariable(r, lambda),
+        new ExponentialRandomVariable(lambda),
         "Source");
 
     double learningRate = 0.1;
@@ -36,7 +33,7 @@ public class SlowServerProblemQL {
     int capacity = 10;
     Queue queue = new QueueFIFO(capacity);
     QueueingSystemWithTwoServerQL queueing =
-        new QueueingSystemWithTwoServerQL(context, queue, new ExponentialRandomVariable(r, 0),
+        new QueueingSystemWithTwoServerQL(context, queue, new ExponentialRandomVariable(0),
             "QueueingSystemWithTwoServer", learningRate, rewardDecay, eGreedy, warmUpDuration);
 
     source.setReceiver(queueing);

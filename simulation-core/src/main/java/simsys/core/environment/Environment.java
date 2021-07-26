@@ -1,8 +1,7 @@
 package simsys.core.environment;
 
-import simsys.core.component.SimulationComponent;
-
 import java.util.Map;
+import simsys.core.component.SimulationComponent;
 
 /**
  * Simulation environment interface. Contains all components of the model.
@@ -21,7 +20,7 @@ public interface Environment<T extends SimulationComponent> {
   /**
    * Adds a component by id to the simulation environment.
    *
-   * @param id component id
+   * @param id        component id
    * @param component added component
    */
   void addComponent(String id, T component);

@@ -1,11 +1,11 @@
 package simsys.core.condition;
 
+import java.util.function.Predicate;
 import simsys.core.context.SimulationContext;
 
-import java.util.function.Predicate;
-
 /**
- * The condition for stopping the simulation model when the simulation clock reaches a certain value.
+ * The condition for stopping the simulation model when the simulation clock reaches a certain
+ * value.
  */
 public class TimeStopCondition implements Predicate<SimulationContext> {
 
@@ -19,12 +19,12 @@ public class TimeStopCondition implements Predicate<SimulationContext> {
   }
 
   /**
-   * Evaluates this predicate on the given argument.
-   * The condition for the current time of the simulation model to reach the duration of the simulation.
+   * Evaluates this predicate on the given argument. The condition for the current time of the
+   * simulation model to reach the duration of the simulation.
    *
    * @param context the context of the simulation model
-   * @return {@code true} if the current time has reached the simulation duration,
-   * otherwise {@code false}
+   * @return {@code true} if the current time has reached the simulation duration, otherwise {@code
+   * false}
    */
   @Override
   public boolean test(SimulationContext context) {

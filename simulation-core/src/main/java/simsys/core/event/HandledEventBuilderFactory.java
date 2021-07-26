@@ -33,14 +33,15 @@ public class HandledEventBuilderFactory implements Factory<HandledEvent.HandledE
   }
 
   /**
-   * Method for creating a handled event builder.
-   * Adds preprocessing and postprocessing to an builder.
+   * Method for creating a handled event builder. Adds preprocessing and postprocessing to an
+   * builder.
    *
    * @return handled event builder
    */
   @Override
   public HandledEvent.HandledEventBuilder create() {
-    HandledEvent.HandledEventBuilder builder = new HandledEvent.HandledEventBuilder(simulationContext);
+    HandledEvent.HandledEventBuilder builder = new HandledEvent.HandledEventBuilder(
+        simulationContext);
     builder.addAfterHandler(afterHandler)
         .addBeforeHandler(beforeHandler);
     return builder;

@@ -1,7 +1,6 @@
-package simsys.examples.agent;
+package simsys.examples.check;
 
 import java.util.Arrays;
-import java.util.Random;
 import simsys.component.source.SourceAgent;
 import simsys.core.condition.TimeStopCondition;
 import simsys.core.context.SimulationContext;
@@ -12,18 +11,16 @@ import simsys.random.ExponentialRandomVariable;
 public class CheckAgentsByName {
 
   public static void main(String[] args) {
-    Random r = new Random(0);
     SimulationContext context = SimulationContextImpl.getContext();
     double lambda = 1;
 
     SourceAgent originalSource = new SourceAgent(context,
-        new ExponentialRandomVariable(r, lambda),
+        new ExponentialRandomVariable(lambda),
         "Source");
 
     SourceAgent imitatorSource = new SourceAgent(context,
-        new ExponentialRandomVariable(r, lambda),
+        new ExponentialRandomVariable(lambda),
         "Source");
-
 
     AgentBasedSimulationModel agentSimulationMM1 = new AgentBasedSimulationModel(context);
     agentSimulationMM1.setStopCondition(new TimeStopCondition(10));

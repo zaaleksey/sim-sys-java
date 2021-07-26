@@ -20,7 +20,8 @@ public class StatisticCalculation {
   }
 
   /**
-   * Returns the standard deviation. Measure of the amount of variation or dispersion of a set of values.
+   * Returns the standard deviation. Measure of the amount of variation or dispersion of a set of
+   * values.
    *
    * @param values a series of values
    * @return the standard deviation

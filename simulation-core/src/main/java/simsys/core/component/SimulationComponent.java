@@ -1,9 +1,8 @@
 package simsys.core.component;
 
+import java.util.Collection;
 import simsys.core.context.SimulationContext;
 import simsys.core.event.Event;
-
-import java.util.Collection;
 
 /**
  * An interface that is a component of the simulation model.

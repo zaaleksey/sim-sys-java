@@ -1,13 +1,14 @@
 package simsys.core.model;
 
 /**
- * Simulation model interface. The main logic of simulation is contained in the classes that implement this interface.
+ * Simulation model interface. The main logic of simulation is contained in the classes that
+ * implement this interface.
  */
 public interface SimulationModel {
 
   /**
-   * The method responsible for running the simulation of the bottom model.
-   * The main simulation cycle will be described in this method.
+   * The method responsible for running the simulation of the bottom model. The main simulation
+   * cycle will be described in this method.
    */
   void run();
 

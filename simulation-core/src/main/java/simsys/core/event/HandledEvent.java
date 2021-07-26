@@ -1,17 +1,17 @@
 package simsys.core.event;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Supplier;
 import simsys.core.context.SimulationContext;
 import simsys.core.event.handler.EventHandler;
 import simsys.core.event.handler.TimeoutHandler;
 import simsys.core.exception.ImpossibleEventTime;
 import simsys.random.RandomVariable;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.function.Supplier;
-
 /**
- * Implementing an abstract event. A ready event has handlers that will sequentially process this event.
+ * Implementing an abstract event. A ready event has handlers that will sequentially process this
+ * event.
  */
 public class HandledEvent extends AbstractEvent {
 
@@ -41,8 +41,8 @@ public class HandledEvent extends AbstractEvent {
   }
 
   /**
-   * Event activation method. Describes the logic for handling the event.
-   * Sequential call of all handlers of this event.
+   * Event activation method. Describes the logic for handling the event. Sequential call of all
+   * handlers of this event.
    */
   @Override
   public final void activate() {
@@ -185,8 +185,8 @@ public class HandledEvent extends AbstractEvent {
     }
 
     /**
-     * Builds a handled event. Configures parameters and handlers for this event.
-     * Returns a constructed event.
+     * Builds a handled event. Configures parameters and handlers for this event. Returns a
+     * constructed event.
      *
      * @return a handled event
      */

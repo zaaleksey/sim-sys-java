@@ -1,15 +1,14 @@
 package simsys.core.context;
 
+import java.util.Map;
 import simsys.core.clock.Clock;
 import simsys.core.environment.Environment;
 import simsys.core.provider.EventProvider;
 import symsys.statistic.StatisticAccumulator;
 
-import java.util.Map;
-
 /**
- * An interface for implementing the context of the simulation model.
- * Contains basic objects for discrete event simulation and methods for working with them.
+ * An interface for implementing the context of the simulation model. Contains basic objects for
+ * discrete event simulation and methods for working with them.
  */
 public interface SimulationContext {
 
@@ -65,10 +64,11 @@ public interface SimulationContext {
   }
 
   // TODO: Можно логировать не только double, а любые абстрактные сущности
+
   /**
    * Logging values for collecting and calculating characteristics.
    *
-   * @param name feature name
+   * @param name  feature name
    * @param value transmitted value for logging
    */
   void logVariable(String name, double value);
@@ -82,8 +82,8 @@ public interface SimulationContext {
   StatisticAccumulator getStatisticForVariable(String name);
 
   /**
-   * Returns a named collection of statistics as a Map.
-   * Referring to the StatisticAccumulator by Name.
+   * Returns a named collection of statistics as a Map. Referring to the StatisticAccumulator by
+   * Name.
    *
    * @return a collection of statistics
    */
@@ -92,7 +92,7 @@ public interface SimulationContext {
   /**
    * Adds an observer for a specific variable.
    *
-   * @param name variable name
+   * @param name     variable name
    * @param observer variable observer
    */
   void addObserverForVariable(String name, VariableObserver observer);

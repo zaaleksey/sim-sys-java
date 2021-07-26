@@ -1,5 +1,8 @@
 package simsys.examples.agent;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.concurrent.ThreadLocalRandom;
 import simsys.core.agent.AbstractAgent;
 import simsys.core.agent.Agent;
 import simsys.core.annotation.State;
@@ -11,10 +14,6 @@ import simsys.core.model.AgentBasedSimulationModel;
 import simsys.random.ExponentialRandomVariable;
 import simsys.random.RandomVariable;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Random;
-
 /**
  * In this example, we consider a continuous Markov chain consisting of three states: A, B and C.
  * Initial state: A. Transition rates: q(A, B), q(A, C) = alpha (exponential); q(B, A), q(B, C) =
@@ -25,11 +24,10 @@ public class AgentSimulationMarkovChainWithThreeStates {
   public static void main(String[] args) {
 
     Agent markovAgent = new AbstractAgent("Simple Agent") {
-      private final Random random = new Random();
 
-      final RandomVariable alpha = new ExponentialRandomVariable(random, 1);
-      final RandomVariable beta = new ExponentialRandomVariable(random, 2);
-      final RandomVariable gamma = new ExponentialRandomVariable(random, 3);
+      final RandomVariable alpha = new ExponentialRandomVariable(1);
+      final RandomVariable beta = new ExponentialRandomVariable(2);
+      final RandomVariable gamma = new ExponentialRandomVariable(3);
 
       @Statistic
       @State(initial = true)
@@ -44,7 +42,7 @@ public class AgentSimulationMarkovChainWithThreeStates {
             MOVE_FROM_STATE_B, MOVE_FROM_STATE_C));
         //states.remove(currentState());
 
-        int nextState = random.nextInt(3);
+        int nextState = ThreadLocalRandom.current().nextInt(3);
         //System.out.println("Current State --> " + currentState() + ". Next state --> " + nextState);
 
         performActionAfterTimeout(this::actionForStateA, delay);

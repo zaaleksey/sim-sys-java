@@ -4,8 +4,8 @@ import simsys.transfer.Receiver;
 
 public interface Source {
 
-    void sendDemand();
+  void sendDemand();
 
-    void setReceiver(Receiver receiver);
+  void setReceiver(Receiver receiver);
 
 }
