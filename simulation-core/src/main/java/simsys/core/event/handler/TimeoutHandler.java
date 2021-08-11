@@ -1,5 +1,6 @@
 package simsys.core.event.handler;
 
+import java.util.Objects;
 import java.util.function.Supplier;
 import simsys.core.context.SimulationContext;
 import simsys.core.event.Event;
@@ -79,6 +80,7 @@ public class TimeoutHandler implements EventHandler {
    */
   @Override
   public void handle(Event event) {
+    Objects.requireNonNull(event);
     event.setActivateTime(activateTimes.get());
     simulationContext.getEventProvider().add(event);
   }

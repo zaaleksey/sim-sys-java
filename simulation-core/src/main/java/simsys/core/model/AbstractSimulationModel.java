@@ -17,17 +17,17 @@ import simsys.core.event.Event;
 public abstract class AbstractSimulationModel implements SimulationModel {
 
   /**
-   * TODO: doc
+   * Model simulation duration.
    */
   private final double simulationDuration;
+  /**
+   * Flag that determines the need for logging.
+   */
+  private boolean log = false;
   /**
    * The context of the simulation model with the objects necessary for simulation.
    */
   protected SimulationContext simulationContext;
-  /**
-   * TODO: doc
-   */
-  private boolean log = false;
 
   /**
    * Predicate with the condition of stopping the simulation cycle.
@@ -58,7 +58,8 @@ public abstract class AbstractSimulationModel implements SimulationModel {
   }
 
   /**
-   * TODO: doc logging
+   * Logging the step of the simulation model. Poor performance due to constant sorting of the event
+   * collection.
    */
   private void logStep() {
     List<Event> events = simulationContext.getEventProvider().getAllEvents();
@@ -87,20 +88,11 @@ public abstract class AbstractSimulationModel implements SimulationModel {
   }
 
   /**
-   * Returns the condition for stopping the simulation.
-   *
-   * @return the condition for stopping the simulation
-   */
-  public Predicate<SimulationContext> getStopCondition() {
-    return stopCondition;
-  }
-
-  /**
    * Sets the condition for stopping the simulation.
    *
    * @param stopCondition the condition for stopping the simulation
    */
-  public void setStopCondition(Predicate<SimulationContext> stopCondition) {
+  public void defineStopCondition(Predicate<SimulationContext> stopCondition) {
     this.stopCondition = stopCondition;
   }
 

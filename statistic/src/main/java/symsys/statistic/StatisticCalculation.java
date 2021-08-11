@@ -1,5 +1,7 @@
 package symsys.statistic;
 
+import java.util.Arrays;
+
 /**
  * This object calculates some basic statistics for the entire set of values.
  */
@@ -10,31 +12,26 @@ public class StatisticCalculation {
   }
 
   /**
-   * Returns the arithmetic mean of the values. The count must be non-zero.
-   *
-   * @param values a series of values
-   * @return the arithmetic mean of the values
-   */
-  public double mean(double... values) {
-    return getSumOfValues(values) / values.length;
-  }
-
-  /**
    * Returns the standard deviation. Measure of the amount of variation or dispersion of a set of
    * values.
    *
    * @param values a series of values
    * @return the standard deviation
    */
-  public double std(double... values) {
+  public static double std(double... values) {
     double mean = mean(values);
-
-    double sum = 0.0;
-    for (double x : values) {
-      sum += Math.pow((x - mean), 2);
-    }
-
+    double sum = Arrays.stream(values).map(v -> Math.pow((v - mean), 2)).sum();
     return Math.sqrt(sum / (values.length - 1));
+  }
+
+  /**
+   * Returns the arithmetic mean of the values. The count must be non-zero.
+   *
+   * @param values a series of values
+   * @return the arithmetic mean of the values
+   */
+  public static double mean(double... values) {
+    return getSumOfValues(values) / values.length;
   }
 
   /**
@@ -43,12 +40,8 @@ public class StatisticCalculation {
    * @param values a series of values
    * @return the sum of the values
    */
-  private double getSumOfValues(double... values) {
-    double sum = 0;
-    for (double v : values) {
-      sum += v;
-    }
-    return sum;
+  private static double getSumOfValues(double... values) {
+    return Arrays.stream(values).sum();
   }
 
 }

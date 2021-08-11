@@ -3,6 +3,7 @@ package simsys.core.context;
 
 import java.util.HashMap;
 import java.util.Map;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import simsys.core.CoreConfig;
@@ -64,7 +65,7 @@ public class SimulationContextImpl implements SimulationContext {
    *
    * @return the context of the simulation model
    */
-  public static SimulationContext getContext() {
+  public static @NotNull SimulationContext getContext() {
     return new AnnotationConfigApplicationContext(CoreConfig.class)
         .getBean(SimulationContext.class);
   }

@@ -1,6 +1,7 @@
 package simsys.random;
 
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.stream.DoubleStream;
 
 public class ErlangRandomVariable implements RandomVariable {
 
@@ -18,18 +19,13 @@ public class ErlangRandomVariable implements RandomVariable {
   }
 
   private double getProductUniform01() {
-    double product = 1;
-    double[] arr = new double[count];
+    return DoubleStream.generate(ThreadLocalRandom.current()::nextDouble)
+        .limit(count)
+        .reduce(1, this::multiplication);
+  }
 
-    for (int i = 0; i < count; i++) {
-      arr[i] = ThreadLocalRandom.current().nextDouble();
-    }
-
-    for (int i = 0; i < count; i++) {
-      product *= arr[i];
-    }
-
-    return product;
+  private double multiplication(double x, double y) {
+    return x * y;
   }
 
 }

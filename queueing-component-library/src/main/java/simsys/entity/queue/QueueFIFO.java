@@ -2,12 +2,15 @@ package simsys.entity.queue;
 
 import java.util.ArrayDeque;
 import java.util.Collection;
+import java.util.Objects;
+import lombok.extern.slf4j.Slf4j;
 import simsys.entity.demand.Demand;
 
+@Slf4j
 public class QueueFIFO implements Queue {
 
-  private int capacity;
-  private ArrayDeque<Demand> demandQueue;
+  private final int capacity;
+  private final ArrayDeque<Demand> demandQueue;
 
   public QueueFIFO() {
     this.capacity = Integer.MAX_VALUE;
@@ -43,17 +46,21 @@ public class QueueFIFO implements Queue {
 
   @Override
   public boolean add(Demand demand) {
+    Objects.requireNonNull(demand);
     if (size() < capacity) {
       demandQueue.add(demand);
       return true;
     }
+
     return false;
   }
 
   @Override
   public boolean addAll(Collection<Demand> demands) {
+    Objects.requireNonNull(demands);
     for (Demand demand : demands) {
       if (!add(demand)) {
+        LOGGER.debug("Queue overflow. The items were lost!");
         return false;
       }
     }
