@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.function.Predicate;
 import lombok.extern.slf4j.Slf4j;
 import me.tongfei.progressbar.ProgressBar;
+import me.tongfei.progressbar.ProgressBarBuilder;
+import me.tongfei.progressbar.ProgressBarStyle;
 import simsys.core.condition.TimeStopCondition;
 import simsys.core.context.SimulationContext;
 import simsys.core.event.Event;
@@ -45,7 +47,11 @@ public abstract class AbstractSimulationModel implements SimulationModel {
    */
   @Override
   public void run() {
-    try (ProgressBar progressBar = new ProgressBar("Simulation:", (long) simulationDuration)) {
+    try (ProgressBar progressBar = new ProgressBarBuilder()
+        .setTaskName("Simulation progress:")
+        .setInitialMax((long) simulationDuration)
+        .setStyle(ProgressBarStyle.UNICODE_BLOCK)
+        .build()) {
       while (!stopCondition.test(simulationContext)) {
         step();
         progressBar.stepTo((long) simulationContext.getCurrentTime());
