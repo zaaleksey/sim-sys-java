@@ -104,7 +104,7 @@ public class SimpleQueueingSystem {
     // correct answer  = 1/(mu - lambda) = 0.5
     System.out.println("Average service time is " + averageServiceTime / countOfDemands);
 
-    double timeElapsed = endTime - startTime;
+    long timeElapsed = endTime - startTime;
     System.out.println("Elapsed time = " + timeElapsed / 1_000_000_000);
   }
 

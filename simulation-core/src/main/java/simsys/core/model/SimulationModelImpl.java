@@ -8,6 +8,9 @@ import simsys.core.context.SimulationContext;
  */
 public class SimulationModelImpl extends AbstractSimulationModel {
 
+  /**
+   * @param simulationContext simulation context
+   */
   public SimulationModelImpl(SimulationContext simulationContext) {
     this.simulationContext = simulationContext;
   }

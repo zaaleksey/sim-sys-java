@@ -54,6 +54,9 @@ public class TimeoutHandler implements EventHandler {
     };
   }
 
+  /**
+   * @param activateTimes activate times
+   */
   public TimeoutHandler(Supplier<Double> activateTimes) {
     this.activateTimes = activateTimes;
   }

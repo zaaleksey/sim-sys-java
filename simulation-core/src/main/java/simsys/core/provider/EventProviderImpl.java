@@ -18,6 +18,9 @@ public class EventProviderImpl implements EventProvider {
   private final List<Event> events;
 
 
+  /**
+   * @param events collection events
+   */
   public EventProviderImpl(Collection<? extends Event> events) {
     this.events = new ArrayList<>();
     this.events.addAll(events);

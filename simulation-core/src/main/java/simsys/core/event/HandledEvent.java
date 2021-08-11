@@ -6,7 +6,7 @@ import java.util.function.Supplier;
 import simsys.core.context.SimulationContext;
 import simsys.core.event.handler.EventHandler;
 import simsys.core.event.handler.TimeoutHandler;
-import simsys.core.exception.ImpossibleEventTime;
+import simsys.core.exception.ImpossibleEventTimeException;
 import simsys.random.RandomVariable;
 
 /**
@@ -49,7 +49,7 @@ public class HandledEvent extends AbstractEvent {
     for (EventHandler<HandledEvent> handler : this.handlers) {
       try {
         handler.handle(this);
-      } catch (ImpossibleEventTime exception) {
+      } catch (ImpossibleEventTimeException exception) {
         exception.printStackTrace();
       }
     }
@@ -89,6 +89,9 @@ public class HandledEvent extends AbstractEvent {
      */
     private Double startTime;
 
+    /**
+     * @param simulationContext simulation context
+     */
     public HandledEventBuilder(SimulationContext simulationContext) {
       this.simulationContext = simulationContext;
       this.handlers = new ArrayList<>();

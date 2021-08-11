@@ -40,6 +40,9 @@ public class SimulationContextImpl implements SimulationContext {
    * Collection for storing variable observers.
    */
   protected Map<String, VariableObserver> observers;
+  /**
+   *
+   */
   protected Map<String, Double> observedVariablesMean;
 
   /**
@@ -47,6 +50,9 @@ public class SimulationContextImpl implements SimulationContext {
    */
   private double deltaTimeLastTwoEvents;
 
+  /**
+   *
+   */
   public SimulationContextImpl() {
     deltaTimeLastTwoEvents = 0;
     logMap = new HashMap<>();
@@ -121,9 +127,11 @@ public class SimulationContextImpl implements SimulationContext {
    */
   @Override
   public void logVariable(String name, double value) {
-    if (!logMap.containsKey(name)) {
-      logMap.put(name, new StatisticAccumulator());
-    }
+//    replace this
+//    if (!logMap.containsKey(name)) {
+//      logMap.put(name, new StatisticAccumulator());
+//    }
+    logMap.computeIfAbsent(name, key -> new StatisticAccumulator());
     logMap.get(name).add(value);
   }
 

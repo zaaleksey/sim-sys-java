@@ -60,7 +60,7 @@ public interface SimulationContext {
    * Function to update the time value between the last two events.
    */
   default void updateDeltaTimeLastTwoEvents() {
-    setDeltaTimeLastTwoEvents(getCurrentTime() - getClock().previousTime());
+    setDeltaTimeLastTwoEvents(getClock().deltaTime());
   }
 
   // TODO: Можно логировать не только double, а любые абстрактные сущности

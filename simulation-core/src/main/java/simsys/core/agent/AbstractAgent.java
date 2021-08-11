@@ -28,9 +28,15 @@ public abstract class AbstractAgent implements Agent {
    * Agent name. Agent name must be unique within the context.
    */
   protected String agentName;
+  /**
+   *
+   */
   protected Map<String, Function<Double, Void>> monitors;
 
-  public AbstractAgent(String agentName) {
+  /**
+   * @param agentName agent name
+   */
+  protected AbstractAgent(String agentName) {
     this.agentName = agentName;
   }
 
@@ -54,10 +60,19 @@ public abstract class AbstractAgent implements Agent {
     return context.getStatisticForVariable(withName(name));
   }
 
+  /**
+   * @param suffix    suffix
+   * @param separator separator
+   * @return name
+   */
   protected String withName(String suffix, String separator) {
     return agentName + separator + suffix;
   }
 
+  /**
+   * @param suffix suffix
+   * @return name
+   */
   protected String withName(String suffix) {
     return withName(suffix, ":");
   }
@@ -93,6 +108,9 @@ public abstract class AbstractAgent implements Agent {
     System.out.println("Current time = " + context.getCurrentTime());
   }
 
+  /**
+   *
+   */
   protected void logInternalVariables() {
     // TODO: implement method. log all internal variables marked with Stat annotation
     //  do it over time (like the average number of customers) maybe need add additional method to context
@@ -120,10 +138,8 @@ public abstract class AbstractAgent implements Agent {
   public void performActionAfterTimeout(AgentAction action, double delay) {
 
     HandledEvent event = new HandledEventBuilder(context)
-        .addHandler(e -> {
-              action.run();
-            }
-        ).build();
+        .addHandler(e -> action.run())
+        .build();
     event.setActivateTime(context.getCurrentTime() + delay);
     context.getEventProvider().add(event);
   }

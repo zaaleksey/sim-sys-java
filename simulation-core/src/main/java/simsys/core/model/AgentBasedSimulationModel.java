@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import simsys.core.agent.Agent;
 import simsys.core.context.SimulationContext;
-import simsys.core.exception.AgentsCollision;
+import simsys.core.exception.AgentsCollisionException;
 
 /**
  * Implementation of the simulation model by agents. Inherits the abstract class {@code
@@ -18,6 +18,9 @@ public class AgentBasedSimulationModel extends AbstractSimulationModel {
    */
   protected List<Agent> agents;
 
+  /**
+   * @param simulationContext simulation context
+   */
   public AgentBasedSimulationModel(SimulationContext simulationContext) {
     this.simulationContext = simulationContext;
     this.agents = new ArrayList<>();
@@ -43,10 +46,14 @@ public class AgentBasedSimulationModel extends AbstractSimulationModel {
     if (possibleAgentName(agent.getName())) {
       this.agents.add(agent);
     } else {
-      throw new AgentsCollision(agent.getName());
+      throw new AgentsCollisionException(agent.getName());
     }
   }
 
+  /**
+   * @param agentName agent name
+   * @return true or false
+   */
   private boolean possibleAgentName(String agentName) {
     if (agentName == null) {
       throw new NullPointerException("The agent name must be defined");

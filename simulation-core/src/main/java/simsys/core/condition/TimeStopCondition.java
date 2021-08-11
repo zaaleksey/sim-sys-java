@@ -14,6 +14,9 @@ public class TimeStopCondition implements Predicate<SimulationContext> {
    */
   private final double simulationDuration;
 
+  /**
+   * @param simulationDuration simulationDuration
+   */
   public TimeStopCondition(double simulationDuration) {
     this.simulationDuration = simulationDuration;
   }

@@ -18,7 +18,7 @@ public class SlowServerProblemQL {
 
   public static void main(String[] args) {
     SimulationContext context = SimulationContextImpl.getContext();
-    double simulationDuration = 1000000;
+    double simulationDuration = 10_000_000;
     double warmUpDuration = simulationDuration * 0;
 
     double lambda = 3;
