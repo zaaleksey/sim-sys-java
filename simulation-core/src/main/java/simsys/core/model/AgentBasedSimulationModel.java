@@ -21,7 +21,8 @@ public class AgentBasedSimulationModel extends AbstractSimulationModel {
   /**
    * @param simulationContext simulation context
    */
-  public AgentBasedSimulationModel(SimulationContext simulationContext) {
+  public AgentBasedSimulationModel(double simulationDuration, SimulationContext simulationContext) {
+    super(simulationDuration);
     this.simulationContext = simulationContext;
     this.agents = new ArrayList<>();
   }

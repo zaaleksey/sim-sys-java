@@ -7,7 +7,6 @@ import simsys.core.agent.AbstractAgent;
 import simsys.core.agent.Agent;
 import simsys.core.annotation.State;
 import simsys.core.annotation.Statistic;
-import simsys.core.condition.TimeStopCondition;
 import simsys.core.context.SimulationContext;
 import simsys.core.context.SimulationContextImpl;
 import simsys.core.model.AgentBasedSimulationModel;
@@ -31,23 +30,33 @@ public class AgentSimulationMarkovChainWithThreeStates {
 
       @Statistic
       @State(initial = true)
-      private final String MOVE_FROM_STATE_A = "A";
+      private static final String MOVE_FROM_STATE_A = "A";
       @State
-      private final String MOVE_FROM_STATE_B = "B";
+      private static final String MOVE_FROM_STATE_B = "B";
       @State
-      private final String MOVE_FROM_STATE_C = "C";
+      private static final String MOVE_FROM_STATE_C = "C";
 
       private void defineAndMoveToNextState(double delay) {
         ArrayList<String> states = new ArrayList<>(Arrays.asList(MOVE_FROM_STATE_A,
             MOVE_FROM_STATE_B, MOVE_FROM_STATE_C));
-        //states.remove(currentState());
 
-        int nextState = ThreadLocalRandom.current().nextInt(3);
-        //System.out.println("Current State --> " + currentState() + ". Next state --> " + nextState);
+        int nextState = ThreadLocalRandom.current().nextInt(states.size());
 
-        performActionAfterTimeout(this::actionForStateA, delay);
+        switch (states.get(nextState)) {
+          case MOVE_FROM_STATE_A:
+            performActionAfterTimeout(this::actionForStateA, delay);
+            break;
+          case MOVE_FROM_STATE_B:
+            performActionAfterTimeout(this::actionForStateB, delay);
+            break;
+          case MOVE_FROM_STATE_C:
+            performActionAfterTimeout(this::actionForStateC, delay);
+            break;
+          default:
+
+        }
+
       }
-
 
       // One function = one state (only for demo purposes)
       public void actionForStateA() {
@@ -67,8 +76,9 @@ public class AgentSimulationMarkovChainWithThreeStates {
 
     markovAgent.setContext(context);
 
-    AgentBasedSimulationModel simulation = new AgentBasedSimulationModel(context);
-    simulation.setStopCondition(new TimeStopCondition(10000));
+    double simulationDuration = 10_000_000;
+    AgentBasedSimulationModel simulation = new AgentBasedSimulationModel(simulationDuration,
+        context);
 
     simulation.addAgent(markovAgent);
     simulation.run();

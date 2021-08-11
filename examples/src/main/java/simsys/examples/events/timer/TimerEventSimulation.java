@@ -10,7 +10,7 @@ import simsys.core.model.SimulationModelImpl;
 import simsys.random.ExponentialRandomVariable;
 
 /**
- * Implementing a simple timer through a event (HandledEvent) and its handler (TimeoutHandler). The
+ * Implementing a simple timer through an event (HandledEvent) and its handler (TimeoutHandler). The
  * timer is activated at intervals that are distributed exponentially with some rate.
  */
 public class TimerEventSimulation {
@@ -29,8 +29,8 @@ public class TimerEventSimulation {
 
     context.getEventProvider().add(periodic);
 
-    SimulationModelImpl model = new SimulationModelImpl(context);
-    model.setStopCondition(new TimeStopCondition(1_000));
+    double simulationDuration = 10_000_000;
+    SimulationModelImpl model = new SimulationModelImpl(simulationDuration, context);
     model.run();
   }
 

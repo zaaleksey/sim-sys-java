@@ -11,6 +11,7 @@ import simsys.random.ExponentialRandomVariable;
 public class CheckAgentsByName {
 
   public static void main(String[] args) {
+    double simulationDuration = 10_000_000;
     SimulationContext context = SimulationContextImpl.getContext();
     double lambda = 1;
 
@@ -22,8 +23,8 @@ public class CheckAgentsByName {
         new ExponentialRandomVariable(lambda),
         "Source");
 
-    AgentBasedSimulationModel agentSimulationMM1 = new AgentBasedSimulationModel(context);
-    agentSimulationMM1.setStopCondition(new TimeStopCondition(10));
+    AgentBasedSimulationModel agentSimulationMM1 = new AgentBasedSimulationModel(simulationDuration,
+        context);
     agentSimulationMM1.addAgents(Arrays.asList(originalSource, imitatorSource));
   }
 }

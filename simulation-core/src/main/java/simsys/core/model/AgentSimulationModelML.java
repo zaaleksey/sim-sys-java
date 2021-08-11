@@ -12,8 +12,8 @@ public class AgentSimulationModelML extends AgentBasedSimulationModel {
   /**
    * @param simulationContext simulation context
    */
-  public AgentSimulationModelML(SimulationContext simulationContext) {
-    super(simulationContext);
+  public AgentSimulationModelML(double simulationDuration, SimulationContext simulationContext) {
+    super(simulationDuration, simulationContext);
   }
 
   /**

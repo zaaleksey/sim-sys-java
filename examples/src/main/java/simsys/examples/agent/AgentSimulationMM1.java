@@ -3,7 +3,6 @@ package simsys.examples.agent;
 import java.util.Arrays;
 import simsys.component.source.SourceAgent;
 import simsys.component.system.QueueingSystemAgent;
-import simsys.core.condition.TimeStopCondition;
 import simsys.core.context.SimulationContext;
 import simsys.core.context.SimulationContextImpl;
 import simsys.core.model.AgentBasedSimulationModel;
@@ -23,6 +22,7 @@ import simsys.random.ExponentialRandomVariable;
 public class AgentSimulationMM1 {
 
   public static void main(String[] args) {
+    double simulationDuration = 10_000_000;
     SimulationContext context = SimulationContextImpl.getContext();
     double lambda = 1;
     SourceAgent source = new SourceAgent(context,
@@ -38,8 +38,8 @@ public class AgentSimulationMM1 {
 
     source.setReceiver(queueingSystem);
 
-    AgentBasedSimulationModel agentSimulationMM1 = new AgentBasedSimulationModel(context);
-    agentSimulationMM1.setStopCondition(new TimeStopCondition(10_000_000));
+    AgentBasedSimulationModel agentSimulationMM1 = new AgentBasedSimulationModel(simulationDuration,
+        context);
     agentSimulationMM1.addAgents(Arrays.asList(source, queueingSystem));
     source.sendDemand();
 

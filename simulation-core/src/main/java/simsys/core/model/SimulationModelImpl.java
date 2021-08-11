@@ -9,9 +9,11 @@ import simsys.core.context.SimulationContext;
 public class SimulationModelImpl extends AbstractSimulationModel {
 
   /**
-   * @param simulationContext simulation context
+   * @param simulationDuration total simulation time of the model
+   * @param simulationContext  simulation context
    */
-  public SimulationModelImpl(SimulationContext simulationContext) {
+  public SimulationModelImpl(double simulationDuration, SimulationContext simulationContext) {
+    super(simulationDuration);
     this.simulationContext = simulationContext;
   }
 

@@ -4,6 +4,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.function.Predicate;
 import lombok.extern.slf4j.Slf4j;
+import me.tongfei.progressbar.ProgressBar;
+import simsys.core.condition.TimeStopCondition;
 import simsys.core.context.SimulationContext;
 import simsys.core.event.Event;
 
@@ -15,33 +17,48 @@ import simsys.core.event.Event;
 public abstract class AbstractSimulationModel implements SimulationModel {
 
   /**
-   *
+   * TODO: doc
    */
-  private boolean log = false;
+  private final double simulationDuration;
   /**
    * The context of the simulation model with the objects necessary for simulation.
    */
   protected SimulationContext simulationContext;
   /**
+   * TODO: doc
+   */
+  private boolean log = false;
+
+  /**
    * Predicate with the condition of stopping the simulation cycle.
    */
   protected Predicate<SimulationContext> stopCondition;
+
+  protected AbstractSimulationModel(double simulationDuration) {
+    this.simulationDuration = simulationDuration;
+
+    stopCondition = new TimeStopCondition(simulationDuration);
+  }
 
   /**
    * The {@code step} method is executed until the stop condition is reached.
    */
   @Override
   public void run() {
-    while (!this.stopCondition.test(simulationContext)) {
-      step();
+    try (ProgressBar progressBar = new ProgressBar("Simulation:", (long) simulationDuration)) {
+      while (!stopCondition.test(simulationContext)) {
+        step();
+        progressBar.stepTo((long) simulationContext.getCurrentTime());
 
-      if (log)
-        logStep();
+        if (log) {
+          logStep();
+        }
+      }
     }
   }
 
   /**
-   * logging
+   * TODO: doc logging
    */
   private void logStep() {
     List<Event> events = simulationContext.getEventProvider().getAllEvents();
@@ -96,9 +113,6 @@ public abstract class AbstractSimulationModel implements SimulationModel {
     this.simulationContext = simulationContext;
   }
 
-  /**
-   * @param log log
-   */
   public void setLog(boolean log) {
     this.log = log;
   }

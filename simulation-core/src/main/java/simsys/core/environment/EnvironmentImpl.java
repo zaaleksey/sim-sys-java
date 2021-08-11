@@ -51,13 +51,13 @@ public class EnvironmentImpl<T extends SimulationComponent> implements Environme
    *
    * @param id id component
    * @return the component
-//   * @throws NoItemInCollection if no component was found in the collection by id
    */
   @SneakyThrows
   @Override
   public T getComponent(String id) {
-    if (simulationComponents.get(id) == null)
+    if (simulationComponents.get(id) == null) {
       throw new NoItemInCollectionException(id);
+    }
     return (T) simulationComponents.get(id);
   }
 
