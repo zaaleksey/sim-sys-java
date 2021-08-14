@@ -6,7 +6,7 @@ import simsys.core.exception.TimeErrorException;
 /**
  * Basic abstract implementation of the Clock interface.
  */
-public abstract class AbstractClock implements Clock{
+public abstract class AbstractClock implements Clock {
 
   /**
    * The current time value of the simulation model.
@@ -37,6 +37,5 @@ public abstract class AbstractClock implements Clock{
 
     this.currentTime = currentTime;
   }
-
 
 }

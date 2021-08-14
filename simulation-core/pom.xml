@@ -35,9 +35,11 @@
       <groupId>me.tongfei</groupId>
       <version>0.9.2</version>
     </dependency>
+
   </dependencies>
 
   <modelVersion>4.0.0</modelVersion>
+
   <parent>
     <artifactId>simulation-framework-parent</artifactId>
     <groupId>simulation</groupId>

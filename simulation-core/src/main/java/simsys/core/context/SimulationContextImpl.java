@@ -10,7 +10,7 @@ import simsys.core.CoreConfig;
 import simsys.core.clock.Clock;
 import simsys.core.environment.Environment;
 import simsys.core.provider.EventProvider;
-import symsys.statistic.StatisticAccumulator;
+import simsys.statistic.StatisticAccumulator;
 
 /**
  * Basic interface implementation SimulationContext. All basic methods implemented

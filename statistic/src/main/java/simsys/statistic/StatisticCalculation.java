@@ -1,4 +1,4 @@
-package symsys.statistic;
+package simsys.statistic;
 
 import java.util.Arrays;
 

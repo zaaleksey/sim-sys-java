@@ -11,7 +11,7 @@ import simsys.core.annotation.Action;
 import simsys.core.context.SimulationContext;
 import simsys.core.event.HandledEvent;
 import simsys.core.event.HandledEvent.HandledEventBuilder;
-import symsys.statistic.StatisticAccumulator;
+import simsys.statistic.StatisticAccumulator;
 
 /**
  * Abstract implementation of the Agent interface with the implementation of basic methods.
