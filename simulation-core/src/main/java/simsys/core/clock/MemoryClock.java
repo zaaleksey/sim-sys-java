@@ -22,6 +22,16 @@ public final class MemoryClock extends AbstractClock {
   }
 
   /**
+   * Returns the time delta.
+   *
+   * @return the time delta
+   */
+  @Override
+  public double deltaTime() {
+    return currentTime - previousTime;
+  }
+
+  /**
    * Sets the current time of the simulation model at a given time. Also remembers the time of the
    * previous activation of the event.
    *
@@ -31,16 +41,6 @@ public final class MemoryClock extends AbstractClock {
   public void setCurrentTime(double currentTime) {
     previousTime = this.currentTime;
     super.setCurrentTime(currentTime);
-  }
-
-  /**
-   * Returns the time delta.
-   *
-   * @return the time delta
-   */
-  @Override
-  public double deltaTime() {
-    return currentTime - previousTime;
   }
 
 }

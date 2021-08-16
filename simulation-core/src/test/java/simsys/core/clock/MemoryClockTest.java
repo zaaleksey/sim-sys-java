@@ -18,16 +18,18 @@ class MemoryClockTest {
 
   @Test
   void checkingIfCurrentTimeIsSetCorrectly() {
-    double time = ThreadLocalRandom.current().nextDouble();
-    clock.setCurrentTime(time);
-    assertEquals(time, clock.currentTime());
+    double time = 0;
+    for (int i = 0; i < 20; i++) {
+      time += ThreadLocalRandom.current().nextDouble();
+      clock.setCurrentTime(time);
+      assertEquals(time, clock.currentTime());
+    }
   }
 
   @Test
   void checkingCorrectnessCalculationOFDeltaTime() {
     double time = ThreadLocalRandom.current().nextDouble();
     clock.setCurrentTime(time);
-    assertEquals(time, clock.currentTime()); //    test checkingIfCurrentTimeIsSetCorrectly()
     clock.setCurrentTime(time + ThreadLocalRandom.current().nextDouble());
     assertEquals(clock.currentTime() - time, clock.deltaTime());
   }
@@ -38,6 +40,11 @@ class MemoryClockTest {
       clock.setCurrentTime(Double.MAX_VALUE);
       clock.setCurrentTime(Double.MIN_VALUE);
     });
+  }
+
+  @Test
+  void throwingExceptionWhenSettingNegativeTimeValue() {
+    assertThrows(TimeErrorException.class, () -> clock.setCurrentTime(-1));
   }
 
 }
