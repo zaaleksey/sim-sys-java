@@ -1,8 +1,8 @@
 package simsys.examples.agent;
 
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.concurrent.ThreadLocalRandom;
 import simsys.core.agent.AbstractAgent;
 import simsys.core.agent.Agent;
 import simsys.core.annotation.State;
@@ -24,6 +24,7 @@ public class AgentSimulationMarkovChainWithThreeStates {
 
     Agent markovAgent = new AbstractAgent("Simple Agent") {
 
+      final SecureRandom rnd = new SecureRandom();
       final RandomVariable alpha = new ExponentialRandomVariable(1);
       final RandomVariable beta = new ExponentialRandomVariable(2);
       final RandomVariable gamma = new ExponentialRandomVariable(3);
@@ -40,7 +41,7 @@ public class AgentSimulationMarkovChainWithThreeStates {
         ArrayList<String> states = new ArrayList<>(Arrays.asList(MOVE_FROM_STATE_A,
             MOVE_FROM_STATE_B, MOVE_FROM_STATE_C));
 
-        int nextState = ThreadLocalRandom.current().nextInt(states.size());
+        int nextState = rnd.nextInt(states.size());
 
         switch (states.get(nextState)) {
           case MOVE_FROM_STATE_A:

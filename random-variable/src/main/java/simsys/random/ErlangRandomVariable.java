@@ -1,16 +1,18 @@
 package simsys.random;
 
-import java.util.concurrent.ThreadLocalRandom;
+import java.security.SecureRandom;
 import java.util.stream.DoubleStream;
 
 public class ErlangRandomVariable implements RandomVariable {
 
   private final int count;
   private final double rate;
+  private final SecureRandom random;
 
   public ErlangRandomVariable(int count, double rate) {
     this.count = count;
     this.rate = rate;
+    this.random = new SecureRandom();
   }
 
   @Override
@@ -19,7 +21,7 @@ public class ErlangRandomVariable implements RandomVariable {
   }
 
   private double getProductUniform01() {
-    return DoubleStream.generate(ThreadLocalRandom.current()::nextDouble)
+    return DoubleStream.generate(random::nextDouble)
         .limit(count)
         .reduce(1, this::multiplication);
   }
