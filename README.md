@@ -1,7 +1,8 @@
 # sim-sys-java
 
+[![Build](https://github.com/AlexeyZavarzin/sim-sys-java/actions/workflows/build.yml/badge.svg)](https://github.com/AlexeyZavarzin/sim-sys-java/actions/workflows/build.yml)
+[![SonarCloud](https://github.com/AlexeyZavarzin/sim-sys-java/actions/workflows/sonar.yml/badge.svg)](https://github.com/AlexeyZavarzin/sim-sys-java/actions/workflows/sonar.yml)
 [![CodeQL](https://github.com/AlexeyZavarzin/sim-sys-java/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/AlexeyZavarzin/sim-sys-java/actions/workflows/codeql-analysis.yml)
-[![Maven](https://github.com/AlexeyZavarzin/sim-sys-java/actions/workflows/maven.yml/badge.svg)](https://github.com/AlexeyZavarzin/sim-sys-java/actions/workflows/maven.yml)
 
 
 ____
