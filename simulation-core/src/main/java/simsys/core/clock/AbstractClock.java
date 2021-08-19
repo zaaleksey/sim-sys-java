@@ -31,8 +31,9 @@ public abstract class AbstractClock implements Clock {
   @SneakyThrows
   @Override
   public void setCurrentTime(double currentTime) {
-    if (currentTime < 0 || this.currentTime > currentTime) {
-      throw new TimeErrorException(currentTime);
+    if (currentTime < 0.0 || this.currentTime > currentTime) {
+      throw new TimeErrorException(
+          String.format("Unable to set the clock. Incorrect time:%s", currentTime));
     }
 
     this.currentTime = currentTime;

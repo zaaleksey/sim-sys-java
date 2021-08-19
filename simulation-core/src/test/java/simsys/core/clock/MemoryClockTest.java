@@ -44,7 +44,7 @@ class MemoryClockTest {
 
   @Test
   void throwingExceptionWhenSettingNegativeTimeValue() {
-    assertThrows(TimeErrorException.class, () -> clock.setCurrentTime(-1));
+    assertThrows(TimeErrorException.class, () -> clock.setCurrentTime(-1.0));
   }
 
 }

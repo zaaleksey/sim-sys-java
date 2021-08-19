@@ -64,12 +64,10 @@ public class HandledEvent extends AbstractEvent {
      * The context of the simulation model with the objects necessary for simulation.
      */
     private final SimulationContext simulationContext;
-
     /**
      * List of handlers for this event.
      */
     private final ArrayList<EventHandler<HandledEvent>> handlers;
-
     /**
      * List of handlers that will be activated before the event itself is activated.
      */
@@ -78,16 +76,14 @@ public class HandledEvent extends AbstractEvent {
      * List of handlers that will be activated after the activation of the event itself.
      */
     private final ArrayList<EventHandler<HandledEvent>> afterHandlers;
-
-    /**
-     * Timeout handler for the frequency of event activation.
-     */
-    private TimeoutHandler timeoutHandler;
-
     /**
      * Time of the very first activation of the event.
      */
     private Double startTime;
+    /**
+     * Timeout handler for the frequency of event activation.
+     */
+    private TimeoutHandler timeoutHandler;
 
     /**
      * @param simulationContext simulation context
