@@ -6,7 +6,6 @@ import java.util.function.Supplier;
 import simsys.core.context.SimulationContext;
 import simsys.core.event.handler.EventHandler;
 import simsys.core.event.handler.TimeoutHandler;
-import simsys.core.exception.ImpossibleEventTimeException;
 import simsys.random.RandomVariable;
 
 /**
@@ -46,12 +45,8 @@ public class HandledEvent extends AbstractEvent {
    */
   @Override
   public final void activate() {
-    for (EventHandler<HandledEvent> handler : this.handlers) {
-      try {
-        handler.handle(this);
-      } catch (ImpossibleEventTimeException exception) {
-        exception.printStackTrace();
-      }
+    for (EventHandler<HandledEvent> handler : handlers) {
+      handler.handle(this);
     }
   }
 

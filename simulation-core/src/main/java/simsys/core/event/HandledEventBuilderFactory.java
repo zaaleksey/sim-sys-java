@@ -47,7 +47,8 @@ public class HandledEventBuilderFactory implements Factory<HandledEvent.HandledE
   public HandledEvent.HandledEventBuilder create() {
     HandledEvent.HandledEventBuilder builder = new HandledEvent.HandledEventBuilder(
         simulationContext);
-    builder.addAfterHandler(afterHandler)
+    builder
+        .addAfterHandler(afterHandler)
         .addBeforeHandler(beforeHandler);
     return builder;
   }

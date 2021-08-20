@@ -128,10 +128,6 @@ public class SimulationContextImpl implements SimulationContext {
    */
   @Override
   public void logVariable(String name, double value) {
-//    replace this
-//    if (!logMap.containsKey(name)) {
-//      logMap.put(name, new StatisticAccumulator());
-//    }
     logMap.computeIfAbsent(name, key -> new StatisticAccumulator());
     logMap.get(name).add(value);
   }
