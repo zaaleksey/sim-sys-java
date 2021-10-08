@@ -4,14 +4,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 import simsys.component.system.server.Server;
 import simsys.core.context.SimulationContext;
 import simsys.entity.demand.Demand;
 import simsys.entity.queue.Queue;
 import simsys.random.ExponentialRandomVariable;
 import simsys.random.RandomVariable;
-import symsys.statistic.StatisticAccumulator;
+import simsys.statistic.StatisticAccumulator;
 
 public class QueueingSystemWithTwoServer extends AbstractQueueingSystem {
 

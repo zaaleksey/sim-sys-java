@@ -4,7 +4,7 @@ package simsys.random;
 // we can use this RV for test purposes
 public class DummyRandomVariable implements RandomVariable {
 
-  private double[] values;
+  private final double[] values;
   private int index;
 
   public DummyRandomVariable(double[] values) {

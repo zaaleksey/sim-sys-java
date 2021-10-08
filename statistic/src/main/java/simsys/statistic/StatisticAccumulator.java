@@ -1,4 +1,4 @@
-package symsys.statistic;
+package simsys.statistic;
 
 import com.google.common.math.StatsAccumulator;
 import javax.annotation.concurrent.NotThreadSafe;

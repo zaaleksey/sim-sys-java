@@ -4,6 +4,10 @@ import java.util.Collections;
 import java.util.List;
 import java.util.function.Predicate;
 import lombok.extern.slf4j.Slf4j;
+import me.tongfei.progressbar.ProgressBar;
+import me.tongfei.progressbar.ProgressBarBuilder;
+import me.tongfei.progressbar.ProgressBarStyle;
+import simsys.core.condition.TimeStopCondition;
 import simsys.core.context.SimulationContext;
 import simsys.core.event.Event;
 
@@ -14,32 +18,56 @@ import simsys.core.event.Event;
 @Slf4j
 public abstract class AbstractSimulationModel implements SimulationModel {
 
+  /**
+   * Model simulation duration.
+   */
+  private final double simulationDuration;
+  /**
+   * Flag that determines the need for logging.
+   */
   private boolean log = false;
   /**
    * The context of the simulation model with the objects necessary for simulation.
    */
   protected SimulationContext simulationContext;
+
   /**
    * Predicate with the condition of stopping the simulation cycle.
    */
   protected Predicate<SimulationContext> stopCondition;
+
+  protected AbstractSimulationModel(double simulationDuration) {
+    this.simulationDuration = simulationDuration;
+
+    stopCondition = new TimeStopCondition(simulationDuration);
+  }
 
   /**
    * The {@code step} method is executed until the stop condition is reached.
    */
   @Override
   public void run() {
-    while (!this.stopCondition.test(simulationContext)) {
-      step();
-      logStep();
+    try (ProgressBar progressBar = new ProgressBarBuilder()
+        .setTaskName("Simulation progress:")
+        .setInitialMax((long) simulationDuration)
+        .setStyle(ProgressBarStyle.UNICODE_BLOCK)
+        .build()) {
+      while (!stopCondition.test(simulationContext)) {
+        step();
+        progressBar.stepTo((long) simulationContext.getCurrentTime());
+
+        if (log) {
+          logStep();
+        }
+      }
     }
   }
 
+  /**
+   * Logging the step of the simulation model. Poor performance due to constant sorting of the event
+   * collection.
+   */
   private void logStep() {
-    if (!log) {
-      return;
-    }
-
     List<Event> events = simulationContext.getEventProvider().getAllEvents();
     Collections.sort(events);
     for (Event event : events) {
@@ -66,20 +94,11 @@ public abstract class AbstractSimulationModel implements SimulationModel {
   }
 
   /**
-   * Returns the condition for stopping the simulation.
-   *
-   * @return the condition for stopping the simulation
-   */
-  public Predicate<SimulationContext> getStopCondition() {
-    return stopCondition;
-  }
-
-  /**
    * Sets the condition for stopping the simulation.
    *
    * @param stopCondition the condition for stopping the simulation
    */
-  public void setStopCondition(Predicate<SimulationContext> stopCondition) {
+  public void defineStopCondition(Predicate<SimulationContext> stopCondition) {
     this.stopCondition = stopCondition;
   }
 

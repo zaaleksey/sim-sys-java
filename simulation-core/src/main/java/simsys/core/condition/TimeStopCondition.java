@@ -1,5 +1,6 @@
 package simsys.core.condition;
 
+import java.util.Objects;
 import java.util.function.Predicate;
 import simsys.core.context.SimulationContext;
 
@@ -14,6 +15,9 @@ public class TimeStopCondition implements Predicate<SimulationContext> {
    */
   private final double simulationDuration;
 
+  /**
+   * @param simulationDuration simulationDuration
+   */
   public TimeStopCondition(double simulationDuration) {
     this.simulationDuration = simulationDuration;
   }
@@ -28,6 +32,7 @@ public class TimeStopCondition implements Predicate<SimulationContext> {
    */
   @Override
   public boolean test(SimulationContext context) {
+    Objects.requireNonNull(context);
     return context.getCurrentTime() > simulationDuration;
   }
 

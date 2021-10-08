@@ -6,18 +6,18 @@ package simsys.core.clock;
 public interface Clock {
 
   /**
-   * Returns the time at which the previous event occurred. (for calculating the delta).
-   *
-   * @return the time of the previous event
-   */
-  double previousTime();
-
-  /**
    * Returns the current time value of the simulation model.
    *
    * @return the current time value of the simulation model
    */
   double currentTime();
+
+  /**
+   * Returns the time delta. Delta calculation is defined in subclasses.
+   *
+   * @return the time delta
+   */
+  double deltaTime();
 
   /**
    * Sets the current time of the simulation model at a given time.

@@ -4,7 +4,7 @@ import simsys.core.parcel.Parcel;
 
 public abstract class Demand implements Parcel {
 
-  private static long COUNTER = 0;
+  private static long counter = 0;
 
   protected long id;
   protected double creationTime;
@@ -13,9 +13,9 @@ public abstract class Demand implements Parcel {
   protected double leavingTime;
   protected double networkTime;
 
-  public Demand() {
-    COUNTER++;
-    id = COUNTER;
+  protected Demand() {
+    counter++;
+    id = counter;
     this.serviceStartTime = Double.POSITIVE_INFINITY;
     this.leavingTime = Double.POSITIVE_INFINITY;
   }
@@ -54,7 +54,7 @@ public abstract class Demand implements Parcel {
   }
 
   public double getNetworkTime() {
-    return this.networkTime;
+    return networkTime;
   }
 
   public void setNetworkTime(double networkTime) {

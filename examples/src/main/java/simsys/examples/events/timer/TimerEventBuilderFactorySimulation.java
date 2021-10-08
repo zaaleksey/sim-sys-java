@@ -1,7 +1,6 @@
 package simsys.examples.events.timer;
 
 
-import simsys.core.condition.TimeStopCondition;
 import simsys.core.context.SimulationContext;
 import simsys.core.context.SimulationContextImpl;
 import simsys.core.event.HandledEvent;
@@ -41,8 +40,8 @@ public class TimerEventBuilderFactorySimulation {
     context.getEventProvider().add(randomPeriodic);
     context.getEventProvider().add(constPeriodic);
 
-    SimulationModelImpl model = new SimulationModelImpl(context);
-    model.setStopCondition(new TimeStopCondition(1_000));
+    double simulationDuration = 10_000_000;
+    SimulationModelImpl model = new SimulationModelImpl(simulationDuration, context);
     model.run();
   }
 

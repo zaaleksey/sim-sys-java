@@ -1,11 +1,13 @@
 package simsys.core.model;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 import simsys.core.agent.Agent;
 import simsys.core.context.SimulationContext;
-import simsys.core.exception.AgentsCollision;
+import simsys.core.exception.AgentsCollisionException;
 
 /**
  * Implementation of the simulation model by agents. Inherits the abstract class {@code
@@ -18,17 +20,23 @@ public class AgentBasedSimulationModel extends AbstractSimulationModel {
    */
   protected List<Agent> agents;
 
-  public AgentBasedSimulationModel(SimulationContext simulationContext) {
+  /**
+   * @param simulationContext simulation context
+   */
+  public AgentBasedSimulationModel(double simulationDuration, SimulationContext simulationContext) {
+    super(simulationDuration);
     this.simulationContext = simulationContext;
     this.agents = new ArrayList<>();
   }
 
   /**
-   * Adding a collection of agents.
+   * Adding a collection of agents. To add a collection, an iterative method call is used {@code
+   * addAgent}.
    *
    * @param agents collection of agents to add
    */
-  public void addAgents(List<Agent> agents) {
+  public void addAgents(Collection<Agent> agents) {
+    Objects.requireNonNull(agents);
     for (Agent agent : agents) {
       addAgent(agent);
     }
@@ -40,19 +48,24 @@ public class AgentBasedSimulationModel extends AbstractSimulationModel {
    * @param agent agent to add to the list
    */
   public void addAgent(Agent agent) {
+    Objects.requireNonNull(agent);
     if (possibleAgentName(agent.getName())) {
-      this.agents.add(agent);
+      agents.add(agent);
     } else {
-      throw new AgentsCollision(agent.getName());
+      throw new AgentsCollisionException(agent.getName());
     }
   }
 
+  /**
+   * Checks for the existence of an agent with the same name. If the agent is unique, everything is
+   * fine.
+   *
+   * @param agentName agent name
+   * @return true or false
+   */
   private boolean possibleAgentName(String agentName) {
-    if (agentName == null) {
-      throw new NullPointerException("The agent name must be defined");
-    }
-
-    for (Agent agent : this.agents) {
+    Objects.requireNonNull(agentName);
+    for (Agent agent : agents) {
       if (agentName.equals(agent.getName())) {
         return false;
       }
@@ -71,7 +84,7 @@ public class AgentBasedSimulationModel extends AbstractSimulationModel {
    */
   public List<Agent> getAgentsByClass(Class<?> clazz) {
     List<Agent> agentsList = new ArrayList<>();
-    for (Agent agent : this.agents) {
+    for (Agent agent : agents) {
       if (agent.getClass() == clazz) {
         agentsList.add(agent);
       }
@@ -83,12 +96,12 @@ public class AgentBasedSimulationModel extends AbstractSimulationModel {
   }
 
   /**
-   * Returns a list with all agents.
+   * Returns a list of all agents in the given model.
    *
    * @return a list with agents
    */
   public List<Agent> getAgents() {
-    return this.agents;
+    return agents;
   }
 
 }

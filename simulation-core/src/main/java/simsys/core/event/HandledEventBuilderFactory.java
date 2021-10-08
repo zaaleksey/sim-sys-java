@@ -23,6 +23,11 @@ public class HandledEventBuilderFactory implements Factory<HandledEvent.HandledE
   private EventHandler<HandledEvent> afterHandler;
 
 
+  /**
+   * @param simulationContext simulation context
+   * @param beforeHandler before handler
+   * @param afterHandler after handler
+   */
   public HandledEventBuilderFactory(
       SimulationContext simulationContext,
       EventHandler<HandledEvent> beforeHandler,
@@ -42,7 +47,8 @@ public class HandledEventBuilderFactory implements Factory<HandledEvent.HandledE
   public HandledEvent.HandledEventBuilder create() {
     HandledEvent.HandledEventBuilder builder = new HandledEvent.HandledEventBuilder(
         simulationContext);
-    builder.addAfterHandler(afterHandler)
+    builder
+        .addAfterHandler(afterHandler)
         .addBeforeHandler(beforeHandler);
     return builder;
   }

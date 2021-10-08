@@ -17,7 +17,9 @@ public class EventProviderImpl implements EventProvider {
    */
   private final List<Event> events;
 
-
+  /**
+   * @param events collection events
+   */
   public EventProviderImpl(Collection<? extends Event> events) {
     this.events = new ArrayList<>();
     this.events.addAll(events);
@@ -30,7 +32,7 @@ public class EventProviderImpl implements EventProvider {
    */
   @Override
   public int count() {
-    return this.events.size();
+    return events.size();
   }
 
   /**
@@ -40,7 +42,7 @@ public class EventProviderImpl implements EventProvider {
    */
   @Override
   public void add(Event event) {
-    this.events.add(event);
+    events.add(event);
   }
 
   /**
@@ -61,7 +63,7 @@ public class EventProviderImpl implements EventProvider {
    */
   @Override
   public Event peek() {
-    return Collections.min(this.events);
+    return Collections.min(events);
   }
 
   /**

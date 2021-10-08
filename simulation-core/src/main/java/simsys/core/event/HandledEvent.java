@@ -6,7 +6,6 @@ import java.util.function.Supplier;
 import simsys.core.context.SimulationContext;
 import simsys.core.event.handler.EventHandler;
 import simsys.core.event.handler.TimeoutHandler;
-import simsys.core.exception.ImpossibleEventTime;
 import simsys.random.RandomVariable;
 
 /**
@@ -46,12 +45,8 @@ public class HandledEvent extends AbstractEvent {
    */
   @Override
   public final void activate() {
-    for (EventHandler<HandledEvent> handler : this.handlers) {
-      try {
-        handler.handle(this);
-      } catch (ImpossibleEventTime exception) {
-        exception.printStackTrace();
-      }
+    for (EventHandler<HandledEvent> handler : handlers) {
+      handler.handle(this);
     }
   }
 
@@ -64,12 +59,10 @@ public class HandledEvent extends AbstractEvent {
      * The context of the simulation model with the objects necessary for simulation.
      */
     private final SimulationContext simulationContext;
-
     /**
      * List of handlers for this event.
      */
     private final ArrayList<EventHandler<HandledEvent>> handlers;
-
     /**
      * List of handlers that will be activated before the event itself is activated.
      */
@@ -78,17 +71,18 @@ public class HandledEvent extends AbstractEvent {
      * List of handlers that will be activated after the activation of the event itself.
      */
     private final ArrayList<EventHandler<HandledEvent>> afterHandlers;
-
+    /**
+     * Time of the very first activation of the event.
+     */
+    private Double startTime;
     /**
      * Timeout handler for the frequency of event activation.
      */
     private TimeoutHandler timeoutHandler;
 
     /**
-     * Time of the very first activation of the event.
+     * @param simulationContext simulation context
      */
-    private Double startTime;
-
     public HandledEventBuilder(SimulationContext simulationContext) {
       this.simulationContext = simulationContext;
       this.handlers = new ArrayList<>();

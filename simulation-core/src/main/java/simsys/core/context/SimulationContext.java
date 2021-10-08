@@ -4,7 +4,7 @@ import java.util.Map;
 import simsys.core.clock.Clock;
 import simsys.core.environment.Environment;
 import simsys.core.provider.EventProvider;
-import symsys.statistic.StatisticAccumulator;
+import simsys.statistic.StatisticAccumulator;
 
 /**
  * An interface for implementing the context of the simulation model. Contains basic objects for
@@ -60,7 +60,7 @@ public interface SimulationContext {
    * Function to update the time value between the last two events.
    */
   default void updateDeltaTimeLastTwoEvents() {
-    setDeltaTimeLastTwoEvents(getCurrentTime() - getClock().previousTime());
+    setDeltaTimeLastTwoEvents(getClock().deltaTime());
   }
 
   // TODO: Можно логировать не только double, а любые абстрактные сущности

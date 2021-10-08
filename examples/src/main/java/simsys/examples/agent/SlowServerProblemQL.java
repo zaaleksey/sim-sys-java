@@ -6,7 +6,6 @@ import java.io.PrintWriter;
 import java.util.Arrays;
 import simsys.component.source.SourceAgent;
 import simsys.component.system.QueueingSystemWithTwoServerQL;
-import simsys.core.condition.TimeStopCondition;
 import simsys.core.context.SimulationContext;
 import simsys.core.context.SimulationContextImpl;
 import simsys.core.model.AgentBasedSimulationModel;
@@ -17,8 +16,8 @@ import simsys.random.ExponentialRandomVariable;
 public class SlowServerProblemQL {
 
   public static void main(String[] args) {
+    double simulationDuration = 10_000_000;
     SimulationContext context = SimulationContextImpl.getContext();
-    double simulationDuration = 1000000;
     double warmUpDuration = simulationDuration * 0;
 
     double lambda = 3;
@@ -37,8 +36,7 @@ public class SlowServerProblemQL {
             "QueueingSystemWithTwoServer", learningRate, rewardDecay, eGreedy, warmUpDuration);
 
     source.setReceiver(queueing);
-    var model = new AgentBasedSimulationModel(context);
-    model.setStopCondition(new TimeStopCondition(simulationDuration));
+    var model = new AgentBasedSimulationModel(simulationDuration, context);
     model.addAgents(Arrays.asList(source, queueing));
     source.sendDemand();
 

@@ -85,14 +85,14 @@ public class SimpleQueueingSystem {
   }
 
   public static void simpleQueueingSystems() {
+    double simulationDuration = 10_000_000;
     SimulationContext context = SimulationContextImpl.getContext();
-    SimulationModelImpl model = new SimulationModelImpl(context);
+    SimulationModelImpl model = new SimulationModelImpl(simulationDuration, context);
     double lambda = 2;
 
     Queue queue = new QueueFIFO();
     Event event = createDemandEvent(lambda, queue, context);
     context.getEventProvider().add(event);
-    model.setStopCondition(new TimeStopCondition(10_000_000));
     model.run();
   }
 
@@ -104,7 +104,7 @@ public class SimpleQueueingSystem {
     // correct answer  = 1/(mu - lambda) = 0.5
     System.out.println("Average service time is " + averageServiceTime / countOfDemands);
 
-    double timeElapsed = endTime - startTime;
+    long timeElapsed = endTime - startTime;
     System.out.println("Elapsed time = " + timeElapsed / 1_000_000_000);
   }
 

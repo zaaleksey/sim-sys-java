@@ -3,7 +3,6 @@ package simsys.examples.agent;
 import java.util.Arrays;
 import simsys.component.source.SourceAgent;
 import simsys.component.system.QueueingSystemWithTwoServer;
-import simsys.core.condition.TimeStopCondition;
 import simsys.core.context.SimulationContext;
 import simsys.core.context.SimulationContextImpl;
 import simsys.core.model.AgentBasedSimulationModel;
@@ -14,6 +13,7 @@ import simsys.random.ExponentialRandomVariable;
 public class SlowServerProblem {
 
   public static void main(String[] args) {
+    double simulationDuration = 10_000_000;
     SimulationContext context = SimulationContextImpl.getContext();
     double lambda = 3;
     SourceAgent source = new SourceAgent(context,
@@ -27,8 +27,8 @@ public class SlowServerProblem {
 
     source.setReceiver(queueing);
 
-    AgentBasedSimulationModel agentSimulationMM1 = new AgentBasedSimulationModel(context);
-    agentSimulationMM1.setStopCondition(new TimeStopCondition(10_000_000));
+    AgentBasedSimulationModel agentSimulationMM1 = new AgentBasedSimulationModel(simulationDuration,
+        context);
     agentSimulationMM1.addAgents(Arrays.asList(source, queueing));
     source.sendDemand();
 
@@ -44,5 +44,6 @@ public class SlowServerProblem {
         "Average service time on a SLOW server is " + queueing.getServerStatistic("SOJOURN_TIME")
             .get(1).mean());
   }
+
 
 }

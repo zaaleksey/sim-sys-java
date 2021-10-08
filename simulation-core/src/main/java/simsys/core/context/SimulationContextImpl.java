@@ -3,13 +3,14 @@ package simsys.core.context;
 
 import java.util.HashMap;
 import java.util.Map;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import simsys.core.CoreConfig;
 import simsys.core.clock.Clock;
 import simsys.core.environment.Environment;
 import simsys.core.provider.EventProvider;
-import symsys.statistic.StatisticAccumulator;
+import simsys.statistic.StatisticAccumulator;
 
 /**
  * Basic interface implementation SimulationContext. All basic methods implemented
@@ -40,6 +41,9 @@ public class SimulationContextImpl implements SimulationContext {
    * Collection for storing variable observers.
    */
   protected Map<String, VariableObserver> observers;
+  /**
+   *
+   */
   protected Map<String, Double> observedVariablesMean;
 
   /**
@@ -47,6 +51,9 @@ public class SimulationContextImpl implements SimulationContext {
    */
   private double deltaTimeLastTwoEvents;
 
+  /**
+   *
+   */
   public SimulationContextImpl() {
     deltaTimeLastTwoEvents = 0;
     logMap = new HashMap<>();
@@ -58,7 +65,7 @@ public class SimulationContextImpl implements SimulationContext {
    *
    * @return the context of the simulation model
    */
-  public static SimulationContext getContext() {
+  public static @NotNull SimulationContext getContext() {
     return new AnnotationConfigApplicationContext(CoreConfig.class)
         .getBean(SimulationContext.class);
   }
@@ -121,9 +128,7 @@ public class SimulationContextImpl implements SimulationContext {
    */
   @Override
   public void logVariable(String name, double value) {
-    if (!logMap.containsKey(name)) {
-      logMap.put(name, new StatisticAccumulator());
-    }
+    logMap.computeIfAbsent(name, key -> new StatisticAccumulator());
     logMap.get(name).add(value);
   }
 

@@ -14,7 +14,7 @@ public abstract class AbstractQueueingSystem extends AbstractAgent implements Qu
   protected final Queue queue;
   protected final RandomVariable serviceTimeRV;
 
-  public AbstractQueueingSystem(SimulationContext context, Queue queue,
+  protected AbstractQueueingSystem(SimulationContext context, Queue queue,
       RandomVariable randomVariable, String agentName) {
     super(agentName);
     this.context = context;

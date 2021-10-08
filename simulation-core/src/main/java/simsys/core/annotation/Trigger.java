@@ -12,10 +12,18 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Trigger {
 
-  // can trigger method more than one class (the main thing is that the methods have the same name)
+  /**
+   * @return class
+   */
   Class<?> clazz();
 
+  /**
+   * @return name
+   */
   String methodName();
 
+  /**
+   * @return args
+   */
   Class<?>[] args() default {};
 }
